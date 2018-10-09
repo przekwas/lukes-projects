@@ -1,8 +1,7 @@
 import * as express from 'express';
 import * as passport from 'passport';
 
-import usersRouter from './users';
-import blogsRouter from './blogs';
+import questionsRouter  from './questions';
 import queriesRouter from './queries';
 
 const router = express.Router();
@@ -17,8 +16,7 @@ router.use((req, res, next) => {
     })(req, res, next);
 });
 
-router.use('/users', usersRouter);
-router.use('/blogs', blogsRouter);
+router.use('/questions', questionsRouter);
 router.use('/q', queriesRouter);
 
 export default router;

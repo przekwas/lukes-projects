@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/questionswithcategory', async (req, res, next) => {
 
     try {
-        res.json(await Queries.());
+        res.json(await Queries.GetQuestionsWithCategory());
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
