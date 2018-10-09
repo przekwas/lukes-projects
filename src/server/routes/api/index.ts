@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as passport from 'passport';
 
 import questionsRouter  from './questions';
+import categoriesRouter from './categories';
 import queriesRouter from './queries';
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.use((req, res, next) => {
 });
 
 router.use('/questions', questionsRouter);
+router.use('/categories', categoriesRouter);
 router.use('/q', queriesRouter);
 
 export default router;

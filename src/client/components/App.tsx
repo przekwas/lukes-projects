@@ -9,6 +9,7 @@ import DatabaseScreen from './public/DatabaseScreen';
 import AdvancedScreen from './public/AdvancedScreen';
 import Navbar from './shared/Navbar';
 import Footer from './shared/Footer';
+import ComposeQuestionScreen from './public/ComposeQuestionScreen';
 
 export default class App extends React.Component {
     render() {
@@ -22,6 +23,7 @@ export default class App extends React.Component {
                     <Route exact path="/node" component={NodeScreen} />
                     <Route exact path="/database" component={DatabaseScreen} />
                     <Route exact path="/advanced" component={AdvancedScreen} />
+                    <Route exact path="/compose" component={ComposeQuestionScreen} />
                     <Footer></Footer>
                 </>
             </Router>

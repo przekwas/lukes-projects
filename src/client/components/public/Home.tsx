@@ -6,7 +6,7 @@ export default class Home extends React.Component<any, any>{
             <main className="py-5">
                 <div className="container py-5">
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col">
                             <div className="card shadow-lg">
                                 <div className="card-body">
                                     <p>Select which category you wish to add your question to in the top right of your navbar!</p>
