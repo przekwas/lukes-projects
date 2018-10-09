@@ -1,39 +1,22 @@
 import * as React from 'react';
-import json from '../../utils/api';
 
-import BlogListItem from '../shared/BlogListItem';
-
-export default class Home extends React.Component<any, IHomeState>{
-
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            blogs: []
-        };
-    }
-
-    async componentWillMount() {
-        let blogs = await json('/api/q/blogsauthors');
-        this.setState({
-            blogs
-        });
-    }
-
+export default class Home extends React.Component<any, any>{
     render() {
         return (
             <main className="py-5">
                 <div className="container py-5">
                     <div className="row">
-                        {this.state.blogs.map((blog, i) => {
-                            return <BlogListItem blogid={blog.id} date={blog.publishedts} title={blog.title} author={`${blog.firstname} ${blog.lastname}` } key={i}></BlogListItem>
-                        })}
+                        <div className="col-md-12">
+                            <div className="card shadow-lg">
+                                <div className="card-body">
+                                    <p>Select which category you wish to add your question to in the top right of your navbar!</p>
+                                    <p>Add it to the list and I'll make sure to check it everyday as I finish building out this webapp.  :)</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
         );
     }
-}
-
-interface IHomeState {
-    blogs: { id: number, title: string, publishedts: Date, firstname: string, lastname: string }[]
 }

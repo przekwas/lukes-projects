@@ -4,7 +4,7 @@ var nodeExternals = require('webpack-node-externals');
 const serverConfig = (env, argv) => {
 
   return {
-    mode: argv.mode || 'development',
+    mode: process.env.NODE_ENV || 'development',
     entry: './src/server/server.ts',
     module: {
       rules: [
