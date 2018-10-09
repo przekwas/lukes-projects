@@ -3,10 +3,10 @@ import { Queries } from '../../db';
 
 const router = express.Router();
 
-router.get('/blogsauthors', async (req, res, next) => {
+router.get('/questionswithcategory', async (req, res, next) => {
 
     try {
-        res.json(await Queries.GetBlogsAuthors());
+        res.json(await Queries.());
     } catch(e) {
         console.log(e);
         res.sendStatus(500);
