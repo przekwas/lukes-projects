@@ -15,16 +15,16 @@ export default class Navbar extends React.Component {
                             <Link to="/frontend" className="nav-link">Frontend</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">React</Link>
+                            <Link to="/react" className="nav-link">React</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Node</Link>
+                            <Link to="/node" className="nav-link">Node</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Database</Link>
+                            <Link to="/database" className="nav-link">Database</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Advanced Topics</Link>
+                            <Link to="/advanced" className="nav-link">Advanced Topics</Link>
                         </li>
                     </ul>
                 </div>
