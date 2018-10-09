@@ -7,7 +7,7 @@ export default class ComposeForm extends React.Component<any, IComposeFormState>
         super(props);
         this.state = {
             categories: [],
-            selectedCategory: '',
+            selectedCategory: '0',
             question: ''
         };
 
@@ -54,7 +54,7 @@ export default class ComposeForm extends React.Component<any, IComposeFormState>
 
         this.setState({
             question: '',
-            selectedCategory: ''
+            selectedCategory: '0'
         });
     }
 

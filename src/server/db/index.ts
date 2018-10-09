@@ -34,3 +34,41 @@ export interface ICategories {
     _created: Date;
 };
 
+export const Users = new Table<IUser>(pool, 'users', {
+    id: mysql.Types.INT24,
+    email: mysql.Types.VARCHAR,
+    password: mysql.Types.VARCHAR,
+    firstname: mysql.Types.VARCHAR,
+    lastname: mysql.Types.VARCHAR,
+    role: mysql.Types.VARCHAR,
+    __created: mysql.Types.DATETIME
+});
+
+export interface IUser {
+    id?: number;
+    email?: string;
+    password?: string;
+    firstname?: string;
+    lastname?: string;
+    role?: string;
+    __created?: Date;
+}
+
+//auth stuff below this ---- \/
+
+export const AccessTokens = new Table<IAccessToken>(pool, 'accesstokens', {
+    id: mysql.Types.INT24,
+    userid: mysql.Types.INT24,
+    token: mysql.Types.VARCHAR,
+    expires: mysql.Types.DATETIME,
+    __created: mysql.Types.DATETIME
+});
+
+export interface IAccessToken {
+    id?: number;
+    userid?: number;
+    token?: string;
+    expires?: Date;
+    __created?: Date;
+}
+
