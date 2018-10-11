@@ -2,4 +2,4 @@ node_modules
 dist
 src/server/config/development.ts
 .vscode
-public/js/app.js
+public/js/
