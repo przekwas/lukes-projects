@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import ComposeForm from '../shared/ComposeForm';
 
-export default class ComposeQuestionScreen extends React.Component<any, any>{
+export default class ComposeQuestionScreen extends React.Component<IComposeQuestionScreen, any>{
 
     render() {
         return (
@@ -20,4 +21,7 @@ export default class ComposeQuestionScreen extends React.Component<any, any>{
             </main>
         );
     }
+}
+
+interface IComposeQuestionScreen {
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import json from '../../utils/api';
 
-export default class ComposeForm extends React.Component<any, IComposeFormState> {
+export default class ComposeForm extends React.Component<IComposeFormProps, IComposeFormState> {
 
     constructor(props: any) {
         super(props);
@@ -46,16 +46,15 @@ export default class ComposeForm extends React.Component<any, IComposeFormState>
                 question,
                 category_id
             });
-
         } catch (error) {
             console.log(error);
             alert(`Uh oh, there was an error!  Contact Luke! :(`);
+        } finally {
+            this.setState({
+                question: '',
+                selectedCategory: '0'
+            });
         }
-
-        this.setState({
-            question: '',
-            selectedCategory: '0'
-        });
     }
 
     renderCategories() {
@@ -70,6 +69,7 @@ export default class ComposeForm extends React.Component<any, IComposeFormState>
                 <div className="form-group">
                     <label htmlFor="categorySelect">Category?</label>
                     <select value={this.state.selectedCategory} onChange={this.handleSelectChange} className="form-control" id="categorySelect">
+                        <option selected>Select a category ...</option>
                         {this.renderCategories()}
                     </select>
                 </div>
@@ -82,6 +82,10 @@ export default class ComposeForm extends React.Component<any, IComposeFormState>
         );
     }
 };
+
+interface IComposeFormProps {
+
+ }
 
 interface IComposeFormState {
     categories: { id: number, name: string, _created: Date }[];
