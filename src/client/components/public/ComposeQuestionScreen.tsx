@@ -8,7 +8,8 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
         this.state = {
             categories: [],
             selectedCategory: '0',
-            question: ''
+            question: '',
+            feedbackMessage: ''
         };
 
         this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -31,24 +32,37 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
     async handleSubmitQuestion(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        let category_id: number = parseInt(this.state.selectedCategory);
-        let question: string = this.state.question;
+        if (this.state.question === '' && this.state.selectedCategory === '0') {
+            this.setState({ feedbackMessage: 'Are you even trying? Select something and ask a question, fam.' });
+            return;
+        } else if (this.state.selectedCategory === '0') {
+            this.setState({ feedbackMessage: 'Select a category plz! :\\' });
+            return;
+        } else if (this.state.question === '') {
+            this.setState({ feedbackMessage: 'Type a question plz! :\\' });
+            return;
+        } else {
 
-        try {
-            let result = await json(`/api/questions/`, 'POST', {
-                question,
-                category_id
-            });
-        } catch (error) {
-            console.log(error);
-            alert(`Uh oh, there was an error!  Contact Luke! :(`);
-        } finally {
-            this.props.history.push(`/${this.state.selectedCategory}`);
-            this.setState({
-                question: '',
-                selectedCategory: '0'
-            });
-        }
+            let category_id: number = parseInt(this.state.selectedCategory);
+            let question: string = this.state.question;
+
+            try {
+                let result = await json(`/api/questions/`, 'POST', {
+                    question,
+                    category_id
+                });
+            } catch (error) {
+                console.log(error);
+                alert(`Uh oh, there was an error!  Contact Luke! :(`);
+            } finally {
+                this.props.history.push(`/${this.state.selectedCategory}`);
+                this.setState({
+                    question: '',
+                    selectedCategory: '0'
+                });
+            };
+
+        };
     }
 
     handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -77,7 +91,7 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                                         <div className="form-group">
                                             <label htmlFor="categorySelect">Category?</label>
                                             <select value={this.state.selectedCategory} onChange={this.handleSelectChange} className="form-control" id="categorySelect">
-                                                <option selected>Select a category ...</option>
+                                                <option selected value={'0'}>Select a category ...</option>
                                                 {this.renderCategories()}
                                             </select>
                                         </div>
@@ -86,6 +100,7 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                                             <textarea value={this.state.question} onChange={this.handleInputChange} className="form-control" id="exampleFormControlTextarea1" rows={5} />
                                         </div>
                                         <button type="submit" className="btn btn-info btn-lg">Ask Away!</button>
+                                        <p className="text-center text-danger">{this.state.feedbackMessage}</p>
                                     </form>
                                 </div>
                             </div>
@@ -105,4 +120,5 @@ interface IComposeQuestionScreenState {
     categories: { id: number, name: string, _created: Date }[];
     selectedCategory: string;
     question: string;
+    feedbackMessage: string;
 }
