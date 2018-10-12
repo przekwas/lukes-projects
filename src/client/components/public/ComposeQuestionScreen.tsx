@@ -100,7 +100,7 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                                             <label htmlFor="exampleFormControlTextarea1">Question</label>
                                             <textarea value={this.state.question} onChange={this.handleInputChange} className="form-control" id="exampleFormControlTextarea1" rows={5} />
                                         </div>
-                                        <button type="submit" className="btn btn-info btn-lg">Ask Away!</button>
+                                        <button type="submit" className="btn-lg btn btn-info shadow-lg">Ask Away!</button>
                                         <p className="text-center text-danger">{this.state.feedbackMessage}</p>
                                     </form>
                                 </div>
