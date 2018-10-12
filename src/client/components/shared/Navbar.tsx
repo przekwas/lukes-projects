@@ -26,7 +26,7 @@ export default class Navbar extends React.Component {
                         <li className="nav-item active">
                             <Link to="/5" className="nav-link">Advanced Topics</Link>
                         </li>
-                        <li className="nav-item ml-2 active">
+                        <li className="nav-item active">
                             <Link to="/6" className="nav-link">I am Bham</Link>
                         </li>
                         <li className="nav-item ml-2 active">
