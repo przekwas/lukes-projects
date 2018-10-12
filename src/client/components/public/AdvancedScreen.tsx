@@ -8,7 +8,7 @@ export default class AdvancedScreen extends React.Component<any, IAdvancedScreen
         super(props);
         this.state = {
             questions: [],
-            errorMessage: 'No current questions here, ask one!'
+            errorMessage: ''
         };
     }
 
@@ -18,6 +18,9 @@ export default class AdvancedScreen extends React.Component<any, IAdvancedScreen
             this.setState({
                 questions
             });
+            if (questions.length === 0) {
+                this.setState({ errorMessage: 'No current questions here, ask one!' });
+            }
         } catch (error) {
             this.setState({ errorMessage: 'Error with the API! Contact Luke :(' });
             console.log(error);
@@ -25,7 +28,7 @@ export default class AdvancedScreen extends React.Component<any, IAdvancedScreen
     }
 
     renderError() {
-        if (this.state.questions.length === 0) {
+        if (this.state.errorMessage.length > 0) {
             return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }

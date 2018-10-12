@@ -8,7 +8,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
         super(props);
         this.state = {
             questions: [],
-            errorMessage: 'No current questions here, ask one!'
+            errorMessage: ''
         };
     }
 
@@ -18,6 +18,9 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
             this.setState({
                 questions
             });
+            if (questions.length === 0) {
+                this.setState({ errorMessage: 'No current questions here, ask one!' });
+            }
         } catch (error) {
             this.setState({ errorMessage: 'Error with the API! Contact Luke :('});
             console.log(error);
@@ -25,7 +28,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
     }
 
     renderError() {
-        if (this.state.questions.length === 0) {
+        if (this.state.errorMessage.length > 0) {
             return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }
