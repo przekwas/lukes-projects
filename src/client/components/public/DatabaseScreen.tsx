@@ -7,7 +7,8 @@ export default class DatabaseScreen extends React.Component<any, IDatabaseScreen
     constructor(props: any) {
         super(props);
         this.state = {
-            questions: []
+            questions: [],
+            errorMessage: 'No current questions here, ask one!'
         };
     }
 
@@ -18,13 +19,14 @@ export default class DatabaseScreen extends React.Component<any, IDatabaseScreen
                 questions
             });
         } catch (error) {
+            this.setState({ errorMessage: 'Error with the API! Contact Luke :('});
             console.log(error);
         }
     }
 
     renderError() {
         if (this.state.questions.length === 0) {
-            return <p className="text-danger">Error getting Database questions, contact Luke! :(</p>
+            return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }
 
@@ -47,4 +49,5 @@ export default class DatabaseScreen extends React.Component<any, IDatabaseScreen
 
 interface IDatabaseScreenState {
     questions: { id: number; question: string; category: string; _created: Date }[];
+    errorMessage: string;
 };

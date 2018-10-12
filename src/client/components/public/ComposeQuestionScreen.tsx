@@ -58,7 +58,8 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                 this.props.history.push(`/${this.state.selectedCategory}`);
                 this.setState({
                     question: '',
-                    selectedCategory: '0'
+                    selectedCategory: '0',
+                    feedbackMessage: ''
                 });
             };
 

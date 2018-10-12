@@ -7,7 +7,8 @@ export default class ReactScreen extends React.Component<any, IReactScreenState>
     constructor(props: any) {
         super(props);
         this.state = {
-            questions: []
+            questions: [],
+            errorMessage: 'No current questions here, ask one!'
         };
     }
 
@@ -18,13 +19,14 @@ export default class ReactScreen extends React.Component<any, IReactScreenState>
                 questions
             });
         } catch (error) {
+            this.setState({ errorMessage: 'Error with the API! Contact Luke :('});
             console.log(error);
         }
     }
 
     renderError() {
         if (this.state.questions.length === 0) {
-            return <p className="text-danger">Error getting React questions, contact Luke! :(</p>
+            return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }
 
@@ -47,4 +49,5 @@ export default class ReactScreen extends React.Component<any, IReactScreenState>
 
 interface IReactScreenState {
     questions: { id: number; question: string; category: string; _created: Date }[];
+    errorMessage: string;
 };

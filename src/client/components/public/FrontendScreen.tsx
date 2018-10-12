@@ -8,6 +8,7 @@ export default class FrontendScreen extends React.Component<any, IFrontendScreen
         super(props);
         this.state = {
             questions: [],
+            errorMessage: 'No current questions here, ask one!'
         };
     }
 
@@ -18,13 +19,14 @@ export default class FrontendScreen extends React.Component<any, IFrontendScreen
                 questions
             });
         } catch (error) {
+            this.setState({ errorMessage: 'Error with the API! Contact Luke :('});
             console.log(error);
         }
     }
 
     renderError() {
         if (this.state.questions.length === 0) {
-            return <p className="text-danger">Error getting Frontend questions, contact Luke! :(</p>
+            return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }
 
@@ -47,4 +49,5 @@ export default class FrontendScreen extends React.Component<any, IFrontendScreen
 
 interface IFrontendScreenState {
     questions: { id: number; question: string; category: string; _created: Date }[];
+    errorMessage: string;
 };

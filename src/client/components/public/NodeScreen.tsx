@@ -8,7 +8,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
         super(props);
         this.state = {
             questions: [],
-            feedbackMessage: ''
+            errorMessage: 'No current questions here, ask one!'
         };
     }
 
@@ -19,13 +19,14 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
                 questions
             });
         } catch (error) {
+            this.setState({ errorMessage: 'Error with the API! Contact Luke :('});
             console.log(error);
         }
     }
 
     renderError() {
         if (this.state.questions.length === 0) {
-            return <p className="text-danger">Error getting Node questions, contact Luke! :(</p>
+            return <p className="text-danger">{this.state.errorMessage}</p>
         }
     }
 
@@ -48,5 +49,5 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
 
 interface INodeScreenState {
     questions: { id: number; question: string; category: string; _created: Date }[];
-    feedbackMessage: string;
+    errorMessage: string;
 };
