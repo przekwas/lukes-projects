@@ -3,15 +3,18 @@ import Table from 'tablecrud';
 
 import pool from './pool';
 import GetQuestionsWithCategory from './queries/GetQuestionsWithCategory';
+import GetQuestionsAdmin from './queries/GetQuestionsAdmin';
 
 export const Queries = {
-    GetQuestionsWithCategory
+    GetQuestionsWithCategory,
+    GetQuestionsAdmin
 }
 
 export const Questions = new Table<IQuestions>(pool, 'questions', {
     id: mysql.Types.INT24,
     question: mysql.Types.VARCHAR,
     category_id: mysql.Types.INT24,
+    answered: mysql.Types.TINY,
     _created: mysql.Types.TIMESTAMP
 });
 
@@ -19,6 +22,7 @@ export interface IQuestions {
     id: number;
     question: string;
     category_id: number;
+    answered: number;
     _created: Date;
 };
 
