@@ -26,14 +26,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         }
     }
 
-    async saveQuestionEdit() {
-        try {
-
-        } catch (e) {
-            this.setState({ feedback: 'Error saving questions, contact Luke!' });
-        }
-    }
-
     async handleCheckboxToggle(e: React.ChangeEvent<HTMLInputElement>) {
 
         let questions = this.state.questions;
@@ -50,15 +42,12 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
             let res = await json(`/api/questions/${id}`, 'PUT', {
                 id,
                 answered: questions[key].answered
-            })
+            });
+            this.setState({ questions });
         } catch (e) {
             this.setState({ feedback: 'Error saving questions, contact Luke!' });
-        } finally {
-            this.setState({ questions });
         }
 
-
-        
     }
 
     render() {
@@ -68,8 +57,8 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                     <div className="row">
                         <div className="col">
                             <div className="d-flex justify-content-between align-items-center mb-1">
-                                <h3 className="mb-2">All Questions</h3>
-                                <button type="submit" className="btn btn-info">Save</button>
+                                <h3 className="mb-2">Admin</h3>
+                                <span className="text-danger">{this.state.feedback}</span>
                             </div>
                             <table className="table table-striped table-bordered shadow-lg">
                                 <thead>
