@@ -16,7 +16,7 @@ export default class App extends React.Component {
         return (
             <Router>
                 <>
-                    <Navbar></Navbar>
+                    <Navbar />
                     <Route exact path="/" component={Home} />
                     <Route exact path="/frontend" component={FrontendScreen} />
                     <Route exact path="/react" component={ReactScreen} />
@@ -24,7 +24,7 @@ export default class App extends React.Component {
                     <Route exact path="/database" component={DatabaseScreen} />
                     <Route exact path="/advanced" component={AdvancedScreen} />
                     <Route exact path="/compose" component={ComposeQuestionScreen} />
-                    <Footer></Footer>
+                    <Footer />
                 </>
             </Router>
         );
