@@ -1,11 +1,24 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
-export default class Portal extends React.Component<any, IPortalState> {
+import json, { User } from '../../utils/api';
+
+export default class Portal extends React.Component<IPortalProps, IPortalState> {
     constructor(props: any) {
         super(props);
         this.state = {
             isAnswered: false
         };
+    }
+
+    async componentWillMount() {
+        try {
+            if(!User || User.role !== "admin") {
+                this.props.history.replace('/');
+            }
+        } catch (e) {
+            throw e;
+        }
     }
 
     handleCheckboxToggle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -56,6 +69,7 @@ export default class Portal extends React.Component<any, IPortalState> {
     }
 };
 
+interface IPortalProps extends RouteComponentProps { }
 interface IPortalState {
     isAnswered: boolean;
 }
