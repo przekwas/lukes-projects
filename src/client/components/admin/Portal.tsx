@@ -8,7 +8,8 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
     constructor(props: any) {
         super(props);
         this.state = {
-            questions: []
+            questions: [],
+            feedback: ''
         };
     }
 
@@ -25,18 +26,39 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         }
     }
 
-    handleCheckboxToggle(e: React.ChangeEvent<HTMLInputElement>) {
+    async saveQuestionEdit() {
+        try {
+
+        } catch (e) {
+            this.setState({ feedback: 'Error saving questions, contact Luke!' });
+        }
+    }
+
+    async handleCheckboxToggle(e: React.ChangeEvent<HTMLInputElement>) {
 
         let questions = this.state.questions;
         let key = Number(e.target.name);
+        let id = questions[key].id;
 
         if (questions[key].answered === 0) {
             questions[key].answered = 1;
         } else {
             questions[key].answered = 0;
         }
-        this.setState({ questions });
 
+        try {
+            let res = await json(`/api/questions/${id}`, 'PUT', {
+                id,
+                answered: questions[key].answered
+            })
+        } catch (e) {
+            this.setState({ feedback: 'Error saving questions, contact Luke!' });
+        } finally {
+            this.setState({ questions });
+        }
+
+
+        
     }
 
     render() {
@@ -92,6 +114,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
 interface IPortalProps extends RouteComponentProps { }
 interface IPortalState {
+    feedback: string;
     questions: {
         id: number;
         question: string;
