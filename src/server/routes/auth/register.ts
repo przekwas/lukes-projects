@@ -6,7 +6,7 @@ import { CreateToken } from '../../utils/security/tokens';
 
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/derp', async (req, res, next) => {
 
     try {
         let user = req.body;
