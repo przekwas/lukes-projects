@@ -6,7 +6,7 @@ export default (id: number) => {
         `
             select q.id, q.question, q._created, c.name as category from questions q
             join categories c on c.id = q.category_id
-            where category_id = ${id};
+            where category_id = ${id} AND answered = 0;
         `
             , (err, results) => {
                 if (err) {
