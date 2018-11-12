@@ -50,10 +50,10 @@ export default class TableRowAdmin extends React.Component<ITableRowAdminProps, 
                 <th scope="row">{id}</th>
                 <td>{question}</td>
                 <td>
-                    <div className="btn-group">
+                    <div>
                         {
                             answered === 0 ?
-                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-danger">Unanswered</button>
+                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-danger">Not Yet</button>
                                 :
                                 <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-success">Answered</button>
                         }
