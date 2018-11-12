@@ -113,8 +113,7 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
     }
 }
 
-interface IComposeQuestionScreenProps extends RouteComponentProps { 
-    history: any;
+interface IComposeQuestionScreenProps extends RouteComponentProps {
 }
 
 interface IComposeQuestionScreenState {
