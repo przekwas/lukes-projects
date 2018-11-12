@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import Alert, { MessageTypes } from '../shared/Alert';
-import json, { SetAccessToken } from '../../utils/api';
+import json, { SetAccessToken, User } from '../../utils/api';
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
 
@@ -12,6 +12,12 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             email: '',
             password: '',
             loginFailed: false
+        }
+    }
+
+    componentWillMount() {
+        if(User && User.role === "admin") {
+            this.props.history.push('/admin');
         }
     }
 
