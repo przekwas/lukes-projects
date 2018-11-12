@@ -4,9 +4,10 @@ export default (id: number) => {
     return new Promise<IQueryQuestionsWithCategory>((resolve, reject) => {
         pool.query(
         `
-            select q.id, q.question, q._created, c.name as category from questions q
-            join categories c on c.id = q.category_id
-            where category_id = ${id};
+        SELECT q.id, q.question, q._created, c.name AS category FROM questions q
+        JOIN categories c ON c.id = q.category_id
+        WHERE category_id = ${id}
+        AND q._created > DATE_SUB(NOW(), INTERVAL 24 HOUR);
         `
             , (err, results) => {
                 if (err) {

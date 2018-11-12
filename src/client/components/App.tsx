@@ -7,9 +7,11 @@ import ReactScreen from './public/ReactScreen';
 import NodeScreen from './public/NodeScreen';
 import DatabaseScreen from './public/DatabaseScreen';
 import AdvancedScreen from './public/AdvancedScreen';
+import BhamScreen from './public/BhamScreen';
 import Navbar from './shared/Navbar';
 import Footer from './shared/Footer';
 import ComposeQuestionScreen from './public/ComposeQuestionScreen';
+
 
 export default class App extends React.Component {
     render() {
@@ -18,11 +20,12 @@ export default class App extends React.Component {
                 <>
                     <Navbar></Navbar>
                     <Route exact path="/" component={Home} />
-                    <Route exact path="/frontend" component={FrontendScreen} />
-                    <Route exact path="/react" component={ReactScreen} />
-                    <Route exact path="/node" component={NodeScreen} />
-                    <Route exact path="/database" component={DatabaseScreen} />
-                    <Route exact path="/advanced" component={AdvancedScreen} />
+                    <Route exact path="/1" component={FrontendScreen} />
+                    <Route exact path="/2" component={ReactScreen} />
+                    <Route exact path="/3" component={NodeScreen} />
+                    <Route exact path="/4" component={DatabaseScreen} />
+                    <Route exact path="/5" component={AdvancedScreen} />
+                    <Route exact path="/6" component={BhamScreen} />
                     <Route exact path="/compose" component={ComposeQuestionScreen} />
                     <Footer></Footer>
                 </>

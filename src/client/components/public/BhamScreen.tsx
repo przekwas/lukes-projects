@@ -2,7 +2,7 @@ import * as React from 'react';
 import QuestionTable from '../shared/QuestionTable';
 import json from '../../utils/api';
 
-export default class NodeScreen extends React.Component<any, INodeScreenState>{
+export default class BhamScreen extends React.Component<any, IBhamScreenState>{
 
     constructor(props: any) {
         super(props);
@@ -14,7 +14,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
 
     async componentWillMount() {
         try {
-            let questions = await json(`api/q/questionswithcategory/3`);
+            let questions = await json(`api/q/questionswithcategory/6`);
             this.setState({
                 questions
             });
@@ -39,7 +39,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
                 <div className="container py-5">
                     <div className="row">
                         <div className="col">
-                            <h3 className="mb-2">Node Questions</h3>
+                            <h3 className="mb-2">I am Bham Questions</h3>
                             {this.renderError()}
                             <QuestionTable questions={this.state.questions} />
                         </div>
@@ -50,7 +50,7 @@ export default class NodeScreen extends React.Component<any, INodeScreenState>{
     }
 }
 
-interface INodeScreenState {
+interface IBhamScreenState {
     questions: { id: number; question: string; category: string; _created: Date }[];
     errorMessage: string;
 };
