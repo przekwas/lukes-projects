@@ -12,22 +12,25 @@ export default class Navbar extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item active">
-                            <Link to="/frontend" className="nav-link">Frontend</Link>
+                            <Link to="/1" className="nav-link">Frontend</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link to="/react" className="nav-link">React</Link>
+                            <Link to="/2" className="nav-link">React</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link to="/node" className="nav-link">Node</Link>
+                            <Link to="/3" className="nav-link">Node</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link to="/database" className="nav-link">Database</Link>
+                            <Link to="/4" className="nav-link">Database</Link>
                         </li>
                         <li className="nav-item active">
-                            <Link to="/advanced" className="nav-link">Advanced Topics</Link>
+                            <Link to="/5" className="nav-link">Advanced Topics</Link>
+                        </li>
+                        <li className="nav-item active">
+                            <Link to="/6" className="nav-link">I am Bham</Link>
                         </li>
                         <li className="nav-item ml-2 active">
-                            <Link to="/compose" className="nav-link btn btn-info shadow-md">Ask A Question</Link>
+                            <Link to="/compose" className="nav-link btn btn-info shadow-lg">Ask A Question</Link>
                         </li>
                     </ul>
                 </div>

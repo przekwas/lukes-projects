@@ -5,7 +5,6 @@ import { Users } from '../db';
 import { ValidateToken } from '../utils/security/tokens';
 
 passport.use(new BearerStrategy.Strategy(async (token, done) => {
-
     try {
         let payload = await ValidateToken(token);
         let user = await Users.one(payload.userid);
@@ -17,5 +16,4 @@ passport.use(new BearerStrategy.Strategy(async (token, done) => {
     } catch(e) {
         done(e);
     }
-
 }));

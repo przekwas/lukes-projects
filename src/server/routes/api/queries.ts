@@ -1,7 +1,7 @@
-import * as express from 'express';
+import { Router, RequestHandler } from 'express';
 import { Queries } from '../../db';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/questionswithcategory/:id', async (req, res, next) => {
 
