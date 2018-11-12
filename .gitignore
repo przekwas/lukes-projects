@@ -2,5 +2,5 @@ node_modules
 dist
 src/server/config/development.ts
 .vscode
-public/css
-public/js
+public/css/*
+public/js/*
