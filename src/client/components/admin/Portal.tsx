@@ -10,6 +10,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         super(props);
         this.state = {
             questions: [],
+            offset: 0
         };
     }
 
@@ -26,6 +27,26 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         }
     }
 
+    async prevTen() {
+        let offset = this.state.offset - 5;
+        try {
+            let questions = await json(`/api/q/questionsadmin/${offset}`);
+            this.setState({ questions, offset });
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async nextTen() {
+        let offset = this.state.offset + 5;
+        try {
+            let questions = await json(`/api/q/questionsadmin/${offset}`);
+            this.setState({ questions, offset });
+        } catch (e) {
+            throw e;
+        }
+    }
+
     render() {
         return (
             <main className="py-5">
@@ -35,8 +56,8 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                             <div className="mb-2 d-flex justify-content-between">
                                 <h3 >Admin</h3>
                                 <div className="btn-group">
-                                    <button className="btn btn-info mr-1 shadow">Previous 10</button>
-                                    <button className="btn btn-info ml-1 shadow">Next 10</button>
+                                    <button className="btn btn-info mr-1 shadow" onClick={() => this.prevTen()}>Previous 10</button>
+                                    <button className="btn btn-info ml-1 shadow" onClick={() => this.nextTen()}>Next 10</button>
                                 </div>
                             </div>
                             <table className="table table-striped table-hover table-bordered shadow-lg">
@@ -67,6 +88,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
 interface IPortalProps extends RouteComponentProps { }
 interface IPortalState {
+    offset: number;
     questions: {
         id: number;
         question: string;

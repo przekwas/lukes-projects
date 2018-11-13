@@ -15,7 +15,7 @@ router.get('/questionswithcategory/:id', async (req, res, next) => {
 });
 
 router.get('/questionsadmin/:offset?', async (req, res, next) => {
-
+    
     if (req.params.offset) {
         try {
             res.json(await Queries.GetQuestionsAdmin(req.params.offset));
