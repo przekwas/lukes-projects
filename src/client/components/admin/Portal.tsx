@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import json, { User } from '../../utils/api';
-import * as moment from 'moment';
 
 import TableRowAdmin from './TableRowAdmin';
 
@@ -10,7 +9,10 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         super(props);
         this.state = {
             questions: [],
-            offset: 0
+            offset: 0,
+            feedback: '',
+            prevDisabled: false,
+            nextDisabled: false
         };
     }
 
@@ -32,12 +34,23 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         offset -= 10;
         if (offset >= 0) {
             try {
-                let prevQuestions = await json(`/api/q/questionsadmin/${offset}`);
-                this.setState({ questions: prevQuestions, offset });
+                let questions = await json(`/api/q/questionsadmin/${offset}`);
+                this.setState({
+                    questions,
+                    offset,
+                    feedback: '',
+                    prevDisabled: false,
+                    nextDisabled: false
+                });
             } catch (e) {
                 throw e;
             }
         } else {
+            this.setState({
+                feedback: 'No previous questions!',
+                prevDisabled: true,
+                nextDisabled: false
+            });
         }
     }
 
@@ -45,8 +58,24 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         let offset = this.state.offset;
         offset += 10;
         try {
-            let nextQuestions = await json(`/api/q/questionsadmin/${offset}`);
-            this.setState({ questions: nextQuestions, offset });
+            let questions = await json(`/api/q/questionsadmin/${offset}`);
+            if (questions.length === 0) {
+                offset -= 10;
+                this.setState({
+                    offset,
+                    feedback: 'There are no more questions!',
+                    nextDisabled: true,
+                    prevDisabled: false
+                });
+            } else {
+                this.setState({
+                    questions,
+                    offset,
+                    feedback: '',
+                    nextDisabled: false,
+                    prevDisabled: false
+                });
+            }
         } catch (e) {
             console.log(e);
         }
@@ -59,10 +88,11 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                     <div className="row">
                         <div className="col">
                             <div className="mb-2 d-flex justify-content-between">
-                                <h3 >Admin</h3>
+                                <h3>Admin</h3>
+                                <p className="text-danger">{this.state.feedback}</p>
                                 <div className="btn-group">
-                                    <button className="btn btn-info mr-1 shadow" onClick={() => this.prevTen()}>Previous 10</button>
-                                    <button className="btn btn-info ml-1 shadow" onClick={() => this.nextTen()}>Next 10</button>
+                                    <button className="btn btn-info mr-1 shadow" disabled={this.state.prevDisabled} onClick={() => this.prevTen()}>Previous 10</button>
+                                    <button className="btn btn-info ml-1 shadow" disabled={this.state.nextDisabled} onClick={() => this.nextTen()}>Next 10</button>
                                 </div>
                             </div>
                             <table className="table table-striped table-hover table-bordered shadow-lg">
@@ -75,7 +105,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                 </thead>
                                 <tbody>
 
-                                    {this.state.questions.map((question, index) => {
+                                    {this.state.questions.map(question => {
                                         return (
                                             <TableRowAdmin question={question} key={question.id} />
                                         );
@@ -93,7 +123,10 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
 interface IPortalProps extends RouteComponentProps { }
 interface IPortalState {
+    feedback: string;
     offset: number;
+    prevDisabled: boolean;
+    nextDisabled: boolean;
     questions: {
         id: number;
         question: string;
