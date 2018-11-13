@@ -6,7 +6,7 @@ export default (offset: number) => {
         `
         SELECT * FROM questions q
         ORDER BY _created DESC
-        LIMIT 5 OFFSET ${offset};
+        LIMIT 10 OFFSET ${offset};
         `
             , (err, results) => {
                 if (err) {

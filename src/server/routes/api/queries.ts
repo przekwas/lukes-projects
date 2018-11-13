@@ -18,7 +18,7 @@ router.get('/questionsadmin/:offset?', async (req, res, next) => {
     let offset = Number(req.params.offset);
     if (offset && offset > 0) {
         try {
-            res.json(await Queries.GetQuestionsAdmin(offset));
+            res.json(await Queries.GetQuestionsAdmin(req.params.offset));
         } catch (e) {
             console.log(e);
             res.sendStatus(500);

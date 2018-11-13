@@ -14,7 +14,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         try {
             if (!User || User.role !== "admin") {
                 this.props.history.replace('/');
@@ -28,22 +28,27 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
     }
 
     async prevTen() {
-        let offset = this.state.offset - 5;
-        try {
-            let questions = await json(`/api/q/questionsadmin/${offset}`);
-            this.setState({ questions, offset });
-        } catch (e) {
-            throw e;
+        let offset = this.state.offset;
+        offset -= 10;
+        if (offset >= 0) {
+            try {
+                let prevQuestions = await json(`/api/q/questionsadmin/${offset}`);
+                this.setState({ questions: prevQuestions, offset });
+            } catch (e) {
+                throw e;
+            }
+        } else {
         }
     }
 
     async nextTen() {
-        let offset = this.state.offset + 5;
+        let offset = this.state.offset;
+        offset += 10;
         try {
-            let questions = await json(`/api/q/questionsadmin/${offset}`);
-            this.setState({ questions, offset });
+            let nextQuestions = await json(`/api/q/questionsadmin/${offset}`);
+            this.setState({ questions: nextQuestions, offset });
         } catch (e) {
-            throw e;
+            console.log(e);
         }
     }
 
@@ -72,7 +77,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
                                     {this.state.questions.map((question, index) => {
                                         return (
-                                            <TableRowAdmin question={question} key={index} />
+                                            <TableRowAdmin question={question} key={question.id} />
                                         );
                                     })}
 
