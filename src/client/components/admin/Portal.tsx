@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import json, { User } from '../../utils/api';
+import * as moment from 'moment';
 
 import TableRowAdmin from './TableRowAdmin';
 
@@ -31,8 +32,12 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 <div className="container py-5">
                     <div className="row">
                         <div className="col">
-                            <div className="mb-1">
-                                <h3 className="mb-2">Admin</h3>
+                            <div className="mb-2 d-flex justify-content-between">
+                                <h3 >Admin</h3>
+                                <div className="btn-group">
+                                    <button className="btn btn-info mr-1 shadow">Previous 10</button>
+                                    <button className="btn btn-info ml-1 shadow">Next 10</button>
+                                </div>
                             </div>
                             <table className="table table-striped table-hover table-bordered shadow-lg">
                                 <thead>

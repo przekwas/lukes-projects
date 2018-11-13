@@ -1,10 +1,12 @@
 import pool from '../pool';
 
-export default () => {
+export default (offset: number) => {
     return new Promise<IQueryQuestionsAdmin>((resolve, reject) => {
         pool.query(
         `
-            select * from questions q
+        SELECT * FROM questions q
+        ORDER BY _created DESC
+        LIMIT 5 OFFSET ${offset};
         `
             , (err, results) => {
                 if (err) {

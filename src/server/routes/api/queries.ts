@@ -11,16 +11,25 @@ router.get('/questionswithcategory/:id', async (req, res, next) => {
         console.log(e);
         res.sendStatus(500);
     }
-    
+
 });
 
-router.get('/questionsadmin', async (req, res, next) => {
+router.get('/questionsadmin/:offset?', async (req, res, next) => {
 
-    try {
-        res.json(await Queries.GetQuestionsAdmin());
-    } catch (e) {
-        console.log(e);
-        res.sendStatus(500);
+    if (req.params.offset) {
+        try {
+            res.json(await Queries.GetQuestionsAdmin(req.params.offset));
+        } catch (e) {
+            console.log(e);
+            res.sendStatus(500);
+        }
+    } else {
+        try {
+            res.json(await Queries.GetQuestionsAdmin(0));
+        } catch (e) {
+            console.log(e);
+            res.sendStatus(500);
+        }
     }
 
 });

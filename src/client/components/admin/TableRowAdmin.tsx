@@ -53,9 +53,9 @@ export default class TableRowAdmin extends React.Component<ITableRowAdminProps, 
                     <div>
                         {
                             answered === 0 ?
-                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-danger">Not Yet</button>
+                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-danger shadow">Not Yet</button>
                                 :
-                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-success">Answered</button>
+                                <button onClick={(e) => this.handleButtonClick(e)} className="btn btn-sm btn-success shadow">Answered</button>
                         }
                     </div>
                 </td>
