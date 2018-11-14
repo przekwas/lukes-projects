@@ -10,7 +10,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         this.state = {
             questions: [],
             offset: 0,
-            feedback: '',
             prevDisabled: false,
             nextDisabled: false
         };
@@ -38,7 +37,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 this.setState({
                     questions,
                     offset,
-                    feedback: '',
                     prevDisabled: false,
                     nextDisabled: false
                 });
@@ -47,7 +45,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
             }
         } else {
             this.setState({
-                feedback: 'No previous questions!',
                 prevDisabled: true,
                 nextDisabled: false
             });
@@ -63,7 +60,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 offset -= 10;
                 this.setState({
                     offset,
-                    feedback: 'There are no more questions!',
                     nextDisabled: true,
                     prevDisabled: false
                 });
@@ -71,7 +67,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 this.setState({
                     questions,
                     offset,
-                    feedback: '',
                     nextDisabled: false,
                     prevDisabled: false
                 });
@@ -82,38 +77,36 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
     }
 
     render() {
+
         return (
             <main className="py-5">
                 <div className="container py-5">
                     <div className="row">
-                        <div className="col">
-                            <div className="mb-2 d-flex justify-content-between">
-                                <h3>Admin</h3>
-                                <p className="text-danger">{this.state.feedback}</p>
-                                <div className="btn-group">
-                                    <button className="btn btn-info mr-1 shadow" disabled={this.state.prevDisabled} onClick={() => this.prevTen()}>Previous 10</button>
-                                    <button className="btn btn-info ml-1 shadow" disabled={this.state.nextDisabled} onClick={() => this.nextTen()}>Next 10</button>
-                                </div>
+                        <div className="col-md-12 mb-2 d-flex justify-content-between align-items-center">
+                            <h4>Admin</h4>
+                            <div className="btn-group">
+                                <button className="btn btn-info btn-sm mr-1 shadow" disabled={this.state.prevDisabled} onClick={() => this.prevTen()}>Previous 10</button>
+                                <button className="btn btn-info btn-sm ml-1 shadow" disabled={this.state.nextDisabled} onClick={() => this.nextTen()}>Next 10</button>
                             </div>
-                            <table className="table table-striped table-hover table-bordered shadow-lg">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">id</th>
-                                        <th scope="col">Question</th>
-                                        <th scope="col">Answered?</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {this.state.questions.map(question => {
-                                        return (
-                                            <TableRowAdmin question={question} key={question.id} />
-                                        );
-                                    })}
-
-                                </tbody>
-                            </table>
                         </div>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover table-bordered shadow-lg">
+                            <thead>
+                                <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Question</th>
+                                    <th scope="col">Answered?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.questions.map(question => {
+                                    return (
+                                        <TableRowAdmin question={question} key={question.id} />
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </main >
@@ -123,7 +116,6 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
 interface IPortalProps extends RouteComponentProps { }
 interface IPortalState {
-    feedback: string;
     offset: number;
     prevDisabled: boolean;
     nextDisabled: boolean;
