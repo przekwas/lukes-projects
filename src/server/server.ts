@@ -3,9 +3,14 @@ import * as cors from 'cors';
 import * as path from 'path';
 import * as passport from 'passport';
 
+import config from './config';
+import bot from './utils/discord';
+
 import './middleware/bearerstrategy';
 import './middleware/localstrategy';
 import routes from './routes';
+
+bot.login(config.discord.token);
 
 const app = express();
 
