@@ -11,5 +11,9 @@ export default {
     },
     auth: {
         secret: process.env.SECRET
+    },
+    discord: {
+        token: process.env.DISCORD,
+        prefix: process.env.PREFIX
     }
 }
