@@ -8,7 +8,8 @@ export default class TableRowAdmin extends React.Component<ITableRowAdminProps, 
             question: {
                 id: 0,
                 question: '',
-                answered: 0
+                answered: 0,
+                discord_username: ''
             }
         };
     }
@@ -21,6 +22,7 @@ export default class TableRowAdmin extends React.Component<ITableRowAdminProps, 
 
         let question = this.state.question;
         let id = question.id;
+        let discord_username = question.discord_username;
         let answered = question.answered;
 
         if (answered === 0) {
@@ -34,7 +36,8 @@ export default class TableRowAdmin extends React.Component<ITableRowAdminProps, 
         try {
             let res = await json(`/api/questions/${id}`, 'PUT', {
                 id,
-                answered
+                answered,
+                discord_username
             });
 
             this.setState({ question });
@@ -69,6 +72,7 @@ interface ITableRowAdminProps {
         id: number;
         question: string;
         answered: number;
+        discord_username: string;
     };
 };
 
@@ -77,5 +81,6 @@ interface ITableRowAdminState {
         id: number;
         question: string;
         answered: number;
+        discord_username: string;
     };
 };

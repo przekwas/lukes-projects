@@ -4,11 +4,10 @@ import config from '../../config';
 const client = new Discord.Client();
 
 client.on('ready', () => {
-    console.log('Logged in and Ready, fam!');
+    console.log("Discord bot ready!");
 });
 
 client.on('message', message => {
-
     //prevent other bots from causing a botception
     if (message.author.bot) return;
 
@@ -22,11 +21,7 @@ client.on('message', message => {
     if (command === 'ping') {
         message.channel.send('Pong!');
     }
-
-    if(command === 'bot') {
-        message.channel.send('Fuck you');
-    }
-
 });
 
 export default client;
+

@@ -125,5 +125,6 @@ interface IPortalState {
         answered: number;
         _created: Date;
         category: string;
+        discord_username: string;
     }[];
 }
