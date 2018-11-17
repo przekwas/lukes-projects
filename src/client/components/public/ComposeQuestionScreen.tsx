@@ -9,12 +9,14 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
             categories: [],
             selectedCategory: '0',
             question: '',
-            feedbackMessage: ''
+            feedbackMessage: '',
+            discord_username: ''
         };
 
         this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleQuestionChange = this.handleQuestionChange.bind(this);
         this.handleSubmitQuestion = this.handleSubmitQuestion.bind(this);
+        this.handleDiscordNameChange = this.handleDiscordNameChange.bind(this);
 
     }
 
@@ -43,14 +45,26 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
             return;
         } else {
 
-            let category_id: number = parseInt(this.state.selectedCategory);
-            let question: string = this.state.question;
+            let category_id = parseInt(this.state.selectedCategory);
+            let question = this.state.question;
+            let discord_username = this.state.discord_username;
+            let body;
 
-            try {
-                let result = await json(`/api/questions/`, 'POST', {
+            if (discord_username) {
+                body = {
+                    question,
+                    category_id,
+                    discord_username
+                };
+            } else {
+                body = {
                     question,
                     category_id
-                });
+                };
+            }
+
+            try {
+                let result = await json(`/api/questions/`, 'POST', body);
             } catch (error) {
                 console.log(error);
                 alert(`Uh oh, there was an error!  Contact Luke! :(`);
@@ -59,6 +73,7 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                 this.setState({
                     question: '',
                     selectedCategory: '0',
+                    discord_username: '',
                     feedbackMessage: ''
                 });
             };
@@ -70,8 +85,12 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
         this.setState({ selectedCategory: e.target.value });
     }
 
-    handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    handleQuestionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
         this.setState({ question: e.target.value })
+    }
+
+    handleDiscordNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ discord_username: e.target.value });
     }
 
     renderCategories() {
@@ -90,18 +109,42 @@ export default class ComposeQuestionScreen extends React.Component<IComposeQuest
                                 <div className="card-body">
                                     <form onSubmit={this.handleSubmitQuestion}>
                                         <div className="form-group">
-                                            <label htmlFor="categorySelect">Category?</label>
-                                            <select value={this.state.selectedCategory} onChange={this.handleSelectChange} className="form-control" id="categorySelect">
+                                            <label htmlFor="categorySelect">Category</label>
+                                            <select
+                                                value={this.state.selectedCategory}
+                                                onChange={this.handleSelectChange}
+                                                className="form-control"
+                                                id="categorySelect">
                                                 <option selected value={'0'}>Select a category ...</option>
                                                 {this.renderCategories()}
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="exampleFormControlTextarea1">Question</label>
-                                            <textarea value={this.state.question} onChange={this.handleInputChange} className="form-control" id="exampleFormControlTextarea1" rows={5} />
+                                            <label htmlFor="question">Question</label>
+                                            <textarea
+                                                value={this.state.question}
+                                                onChange={this.handleQuestionChange}
+                                                className="form-control"
+                                                id="question"
+                                                placeholder="Ask your question .."
+                                                rows={5}
+                                            />
                                         </div>
-                                        <button type="submit" className="btn-lg btn btn-info shadow-lg">Ask Away!</button>
-                                        <p className="text-center text-danger">{this.state.feedbackMessage}</p>
+                                        <button type="submit" className="btn-lg btn btn-info shadow-lg mb-3 d-block">Ask Away!</button>
+                                        <label>Discord Username</label>
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">@</span>
+                                            </div>
+                                            <input
+                                                value={this.state.discord_username}
+                                                onChange={this.handleDiscordNameChange}
+                                                className="form-control"
+                                                placeholder="Your username .. not nickname!"
+                                            />
+                                        </div>
+                                        <small id="discordHelp" className="form-text text-muted">Optional: get a discord message when your question is answered. Your discord username will <i>not</i> be displayed!</small>
+                                        <p className="text-center text-danger mt-3">{this.state.feedbackMessage}</p>
                                     </form>
                                 </div>
                             </div>
@@ -121,4 +164,5 @@ interface IComposeQuestionScreenState {
     selectedCategory: string;
     question: string;
     feedbackMessage: string;
+    discord_username: string;
 }
