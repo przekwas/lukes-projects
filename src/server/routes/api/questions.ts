@@ -29,7 +29,7 @@ const questionBotInform: RequestHandler = (req, res, next) => {
 
             let date = new Date();
             bot.users.find((user: any) => user.username === `${req.body.discord_username}`).send(`
-            Your question \`{ "id": ${req.body.id} }\` has been answered at **${moment(date).format("dddd, MMM Do YYYY, h:mm a")}**, hope the webinar recording helps! :wink:
+            Your question \`{ "id": ${req.body.id} }\` has been answered at **${moment(date).utcOffset("-0600").format("dddd, MMM Do YYYY, h:mm a")}**, hope the webinar recording helps! :wink:
                 `);
             return next();
 
