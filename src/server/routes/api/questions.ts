@@ -19,7 +19,7 @@ const questionBotInform: RequestHandler = (req, res, next) => {
 
         let date = new Date();
         bot.users.find((user: any) => user.username === 'Stormshield').send(`
-        *A new question has been added!* \n **At**: ${moment(date).format("dddd, MMM Do YYYY, h:mm a")} \n **Question**: \`${req.body.question}\`
+        *A new question has been added!* \n **At**: ${moment(date).utcOffset("-0600").format("dddd, MMM Do YYYY, h:mm a")} \n **Question**: \`${req.body.question}\`
             `);
         return next();
 
