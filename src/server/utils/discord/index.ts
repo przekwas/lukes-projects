@@ -21,6 +21,15 @@ client.on('message', message => {
     if (command === 'ping') {
         message.channel.send('Pong!');
     }
+
+    if(command == 'bot') {
+        message.channel.send(`
+            Hello there :D\n
+            I'm a bot created by @Cool Hand Luke!\n
+            I'm attached to his anonymous question form for students at https://lukes-projects.herokuapp.com/\n
+            Ask a question and I'll let him know when it's posted, and *you* when he answers!
+        `);
+    }
 });
 
 export default client;
