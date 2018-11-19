@@ -24,10 +24,7 @@ client.on('message', message => {
 
     if(command == 'bot') {
         message.channel.send(`
-            Hello there :D\n
-            I'm a bot created by @Cool Hand Luke!\n
-            I'm attached to his anonymous question form for students at https://lukes-projects.herokuapp.com/\n
-            Ask a question and I'll let him know when it's posted, and *you* when he answers!
+            Hello there :D \nI'm a bot created by \`@Cool Hand Luke\`! \nI'm attached to his anonymous question form for students at https://lukes-projects.herokuapp.com/\nAsk a question and I'll let him know when it's posted, and *you* when he answers!
         `);
     }
 });
