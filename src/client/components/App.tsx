@@ -31,7 +31,6 @@ export default class App extends React.Component {
                     <Route exact path="/compose" component={ComposeQuestionScreen} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/admin" component={Portal} />
-                    <Footer />
                 </>
             </Router>
         );
