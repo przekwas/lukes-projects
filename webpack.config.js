@@ -34,28 +34,28 @@ const serverConfig = (env, argv) => {
 };
 
 const clientConfig = {
-  
-    entry: './src/client/index.tsx',
-    devtool: 'inline-source-map',
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          loader: 'ts-loader',
-          exclude: /node_modules/,
-          options: {
-            configFile: 'tsconfig.client.json'
-          }
+  mode: process.env.NODE_ENV || 'development',
+  entry: './src/client/index.tsx',
+  devtool: 'inline-source-map',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          configFile: 'tsconfig.client.json'
         }
-      ]
-    },
-    resolve: {
-      extensions: ['.tsx', '.ts', '.js']
-    },
-    output: {
-      filename: 'app.js',
-      path: path.resolve(__dirname, 'public/js')
-    }
-  };
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'public/js')
+  }
+};
 
 module.exports = [serverConfig, clientConfig];
