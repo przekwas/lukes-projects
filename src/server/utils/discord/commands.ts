@@ -12,7 +12,7 @@ const info = async (message: Discord.Message) => {
         .addField('Bot Purpose', 'Allow Molecular and Catalyst Students to get their available resources')
         .addField('Bot Commands', '!help')
         .addField('Created On', client.user.createdAt)
-    message.channel.send(botembed);
+    message.author.send(botembed);
 }
 
 const playlist = async (message: Discord.Message) => {
