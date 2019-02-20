@@ -9,13 +9,10 @@ client.on('ready', () => {
 });
 
 client.on('message', (message: Discord.Message) => {
-    //prevent other bots from causing a botception
     if (message.author.bot) return;
 
-    //needs prefix to respond "!"
     if (message.content.indexOf(config.discord.prefix) !== 0) return;
 
-    //set up args and the command prefix
     const args = message.content.slice(config.discord.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
@@ -39,10 +36,10 @@ client.on('message', (message: Discord.Message) => {
         bot.help(message);
     }
 
-    // if (command == 'test') {
-    //     let user = client.user.username;
-    //     message.channel.send(user);
-    // }
+    if (command == 'test') {
+        let res = message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin');
+        message.channel.send(res);
+    }
 
 });
 

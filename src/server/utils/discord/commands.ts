@@ -5,7 +5,7 @@ const info = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
         lazySolution(message);
     } else {
-        if (checkRole(message)) {
+        if (message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin')) {
             let bicon = client.user.displayAvatarURL;
             let botembed = new Discord.RichEmbed()
                 .setDescription('Bot Information')
@@ -27,7 +27,7 @@ const playlist = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
         lazySolution(message);
     } else {
-        if (checkRole(message)) {
+        if (message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin')) {
             let bicon = client.user.displayAvatarURL;
             let botembed = new Discord.RichEmbed()
                 .setColor('#0091ea')
@@ -44,7 +44,7 @@ const schedule = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
         lazySolution(message);
     } else {
-        if (checkRole(message)) {
+        if (message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin')) {
             let bicon = client.user.displayAvatarURL;
             let botembed = new Discord.RichEmbed()
                 .setDescription('Zoom Webinar Schedule')
@@ -67,7 +67,7 @@ const question = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
         lazySolution(message);
     } else {
-        if (checkRole(message)) {
+        if (message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin')) {
             let bicon = client.user.displayAvatarURL;
             let botembed = new Discord.RichEmbed()
                 .setDescription('Got a Question for Webinar?')
@@ -86,7 +86,7 @@ const help = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
         lazySolution(message);
     } else {
-        if (checkRole(message)) {
+        if (message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin')) {
             let bicon = client.user.displayAvatarURL;
             let botembed = new Discord.RichEmbed()
                 .setDescription('Available Commands')
@@ -109,10 +109,6 @@ const lazySolution = async (message: Discord.Message) => {
 
 const soSorry = async (message: Discord.Message) => {
     message.author.send(`Sorry my friend, but I'm only available to **Molecular** and **Catalyst** students! :wink:`);
-}
-
-const checkRole = async (message: Discord.Message) => {
-    return message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin');
 }
 
 export {
