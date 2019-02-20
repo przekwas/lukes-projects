@@ -1,13 +1,14 @@
 import * as Discord from 'discord.js';
 import config from '../../config';
+import * as bot from './commands';
 
-const client = new Discord.Client();
+export const client = new Discord.Client();
 
 client.on('ready', () => {
     console.log("Discord bot ready!");
 });
 
-client.on('message', message => {
+client.on('message', (message: Discord.Message) => {
     //prevent other bots from causing a botception
     if (message.author.bot) return;
 
@@ -18,16 +19,31 @@ client.on('message', message => {
     const args = message.content.slice(config.discord.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    if (command === 'ping') {
-        message.channel.send('Pong!');
+    if (command == 'bot' || command == 'botinfo' || command == 'info') {
+        bot.info(message);
     }
 
-    if(command == 'bot') {
-        message.channel.send(`
-            Hello there :D \nI'm a bot created by \`@Cool Hand Luke\`! \nI'm attached to his anonymous question form for students at https://lukes-projects.herokuapp.com/\nAsk a question and I'll let him know when it's posted, and *you* when he answers!
-        `);
+    if (command == 'schedule' || command == 'zoom' || command == 'webinars') {
+        bot.schedule(message);
     }
+
+    if (command == 'playlist' || command == 'playlists' || command == 'youtube' || command == 'Youtube' || command == 'YouTube') {
+        bot.playlist(message);
+    }
+
+    if (command == 'ask' && args.includes('question' || 'a question')) {
+        bot.question(message);
+    }
+
+    if (command == 'help' || command == 'commands') {
+        bot.help(message);
+    }
+
+    // if (command == 'test') {
+    //     let user = client.user.username;
+    //     message.channel.send(user);
+    // }
+
 });
 
 export default client;
-
