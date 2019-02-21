@@ -1,6 +1,7 @@
 import * as Discord from 'discord.js';
 import config from '../../config';
 import * as bot from './commands';
+import { object } from '../../../../../../../../Users/Mustang/AppData/Local/Microsoft/TypeScript/3.3/node_modules/@types/prop-types';
 
 export const client = new Discord.Client();
 
@@ -34,11 +35,6 @@ client.on('message', (message: Discord.Message) => {
 
     if (command == 'help' || command == 'commands') {
         bot.help(message);
-    }
-
-    if (command == 'test') {
-        let res = message.member.roles.some(role => role.name === 'catalyst' || role.name === 'molecular' || role.name === 'admin');
-        message.channel.send(res);
     }
 
 });
