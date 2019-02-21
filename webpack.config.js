@@ -33,7 +33,6 @@ const serverConfig = {
 }
 
 const clientConfig = {
-  mode,
   entry: './src/client/index.tsx',
   devtool: 'inline-source-map',
   module: {
