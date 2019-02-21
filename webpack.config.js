@@ -1,35 +1,35 @@
 const path = require('path');
 var nodeExternals = require('webpack-node-externals');
 
-var mode = process.env.NODE_ENV || 'development',
-
-const serverConfig = {
-  mode,
-  entry: './src/server/server.ts',
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-        options: {
-          configFile: 'tsconfig.server.json'
+const serverConfig = (argv, mode) => {
+  return {
+    mode: process.env.NODE_ENV || 'development',
+    entry: './src/server/server.ts',
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
+          options: {
+            configFile: 'tsconfig.server.json'
+          }
         }
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js']
-  },
-  output: {
-    filename: 'server.js',
-    path: path.resolve(__dirname, 'dist')
-  },
-  target: 'node',
-  node: {
-    __dirname: false
-  },
-  externals: [nodeExternals()]
+      ]
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js']
+    },
+    output: {
+      filename: 'server.js',
+      path: path.resolve(__dirname, 'dist')
+    },
+    target: 'node',
+    node: {
+      __dirname: false
+    },
+    externals: [nodeExternals()]
+  }
 }
 
 const clientConfig = {
