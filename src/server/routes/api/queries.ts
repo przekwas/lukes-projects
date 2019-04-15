@@ -4,7 +4,6 @@ import { Queries } from '../../db';
 const router = Router();
 
 router.get('/questionswithcategory/:id', async (req, res, next) => {
-
     try {
         res.json(await Queries.GetQuestionsWithCategory(req.params.id));
     } catch (e) {

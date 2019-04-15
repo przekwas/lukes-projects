@@ -1,5 +1,6 @@
 import * as Discord from 'discord.js';
 import { client } from './index';
+import { knexPool as DB } from '../../db/pool';
 
 const info = async (message: Discord.Message) => {
     if (message.channel.type === 'dm') {
@@ -103,6 +104,28 @@ const help = async (message: Discord.Message) => {
     }
 }
 
+const tip = async (message: Discord.Message) => {
+    let mentionUserId = message.mentions.members.first().id;
+
+    if (message.author.id === mentionUserId) {
+        message.channel.send('You can\'t tip *yourself*, asshole.');
+    } else {
+        let [result] = await DB('discord_tips').select().where('id', mentionUserId);
+        console.log(result);
+        if (result !== undefined) {
+            await DB('discord_tips').where('id', mentionUserId).increment('tips', 1);
+            let [data] = await DB('discord_tips').select('tips').where('id', mentionUserId);
+            message.channel.send(`Time to celebrate!!  <@${message.mentions.members.first().id}> has been tipped +1 by ${message.author.username}. Giving you a total of: ${data.tips} :wink:`);
+        } else {
+            console.log("\n\nELSE");
+            await DB('discord_tips').insert({ id: mentionUserId });
+            await DB('discord_tips').where('id', mentionUserId).increment('tips', 1);
+            let [data] = await DB('discord_tips').select('tips').where('id', mentionUserId);
+            message.channel.send(`Time to celebrate!!  <@${message.mentions.members.first().id}> has been tipped +1 by ${message.author.username}. Giving you a total of: ${data.tips} :wink:`);
+        }
+    }
+}
+
 const lazySolution = async (message: Discord.Message) => {
     message.author.send(`Don't DM me directly! I unfortunately need to check your Covalence Role first from a channel.  :sweat:\n\n... or until my so called *developer* figures out how to check channel roles from a DM!! :angry:`);
 }
@@ -116,5 +139,6 @@ export {
     playlist,
     schedule,
     question,
-    help
+    help,
+    tip
 }

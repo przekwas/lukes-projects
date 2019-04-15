@@ -1,7 +1,7 @@
 import * as Discord from 'discord.js';
 import config from '../../config';
 import * as bot from './commands';
-import { object } from '../../../../../../../../Users/Mustang/AppData/Local/Microsoft/TypeScript/3.3/node_modules/@types/prop-types';
+import { knexPool as DB } from '../../db/pool';
 
 export const client = new Discord.Client();
 
@@ -35,6 +35,14 @@ client.on('message', (message: Discord.Message) => {
 
     if (command == 'help' || command == 'commands') {
         bot.help(message);
+    }
+
+    if (command == 'tip') {
+        bot.tip(message);
+    }
+
+    if (command == 'highfive') {
+        message.channel.send(':hand_splayed: GODDAMN, you rule ' + message.author.username +'!');
     }
 
 });

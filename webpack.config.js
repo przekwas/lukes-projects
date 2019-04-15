@@ -1,8 +1,7 @@
 const path = require('path');
 var nodeExternals = require('webpack-node-externals');
 
-const serverConfig = (argv, mode) => {
-  return {
+const serverConfig = {
     mode: process.env.NODE_ENV || 'development',
     entry: './src/server/server.ts',
     module: {
@@ -28,11 +27,16 @@ const serverConfig = (argv, mode) => {
     node: {
       __dirname: false
     },
-    externals: [nodeExternals()]
-  }
+    externals: [
+      nodeExternals(),
+      {
+        knex: 'commonjs knex'
+      }
+    ]
 }
 
 const clientConfig = {
+  mode: process.env.NODE_ENV || 'development',
   entry: './src/client/index.tsx',
   devtool: 'inline-source-map',
   module: {

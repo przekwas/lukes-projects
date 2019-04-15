@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-
-import Alert, { MessageTypes } from '../shared/Alert';
+import { RouteComponentProps } from 'react-router-dom';
 import json, { SetAccessToken, User } from '../../utils/api';
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
@@ -58,21 +56,9 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
     render() {
 
-        let alert;
-        if (this.state.loginFailed) {
-            alert = <Alert message="Login Failed" messageType={MessageTypes.Error}></Alert>;
-        } else {
-            alert = null;
-        }
-
         return (
             <main className="py-5">
                 <div className="container py-5">
-                    <div className="row">
-                        <div className="col-md-4 offset-md-4">
-                            {alert}
-                        </div>
-                    </div>
                     <div className="row">
                         <form className="col-md-4 offset-md-4" onSubmit={this.Login}>
                             <div className="form-row">
