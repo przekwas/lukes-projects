@@ -14,7 +14,7 @@ export interface Questions {
 
 const QuestionsScreen: React.SFC<QuestionsScreenProps> = props => {
 
-    const [questions, setQuestions] = useState<Array<Questions>>([]);
+    const [questions, setQuestions] = useState<Questions[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
 
     const getQuestions = async () => {
