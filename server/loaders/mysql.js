@@ -1,7 +1,14 @@
 const mysql = require('mysql');
 const config = require('../config');
 
-module.exports = async () => {
-    const connection = mysql.createPool(config.mysql);
-    return connection;
-}
+const state = {
+	pool: null
+};
+
+exports.connect = async () => {
+	state.pool = mysql.createPool(config.mysql);
+};
+
+exports.get = () => {
+	return state.pool;
+};

@@ -3,7 +3,7 @@ const mysqlLoader = require('./mysql');
 const Logger = require('./logger');
 
 module.exports = async ({ expressApp }) => {
-	const mysqlConnection = await mysqlLoader();
+	await mysqlLoader.connect();
 	Logger.info('✌️ DB loaded and connected!');
 
 	await expressLoader({ app: expressApp });
