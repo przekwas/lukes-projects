@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const passport = require('passport');
 const routes = require('../api');
 const config = require('../config');
+const logger = require('./logger');
 
 module.exports = ({ app }) => {
 	// health endpoints
@@ -15,7 +16,13 @@ module.exports = ({ app }) => {
 	// shows the real origin IP in the heroku
 	app.enable('trust proxy');
 
-	app.use(morgan('combined'));
+	const morganStream = {
+		write: text => {
+			logger.info(text);
+		}
+	};
+
+	app.use(morgan('combined', { stream: morganStream }));
 	app.use(helmet());
 	app.use(cors());
 	app.use(compression());
