@@ -4,10 +4,10 @@ const { randomBytes } = require('crypto');
 const config = require('../config');
 
 class UserService {
-	constructor(userModel, tokenModel, logger) {
+	constructor(logger, userModel, tokenModel = {}) {
+		this.logger = logger;
 		this.userModel = userModel;
 		this.tokenModel = tokenModel;
-		this.logger = logger;
 	}
 
 	async getUsers() {
@@ -17,7 +17,7 @@ class UserService {
 			return users;
 		} catch (error) {
 			this.logger.error(error);
-			throw error.sqlMessage;
+			throw error;
 		}
 	}
 
@@ -29,11 +29,28 @@ class UserService {
 				return { msg: "user doesn't exist" };
 			} else {
 				this.logger.silly(`Getting user ${id}`);
+				delete user.password;
 				return user;
 			}
 		} catch (error) {
 			this.logger.error(error);
-			throw error.sqlMessage;
+			throw error;
+		}
+	}
+
+	async getUserEmail(email) {
+		try {
+			const user = await this.userModel.getOne('email', email);
+			if (!user) {
+				this.logger.silly(`User ${email} doesn't exist`);
+				return { msg: "user doesn't exist" };
+			} else {
+				this.logger.silly(`Getting user ${email}`);
+				return user;
+			}
+		} catch (error) {
+			this.logger.error(error);
+			throw error;
 		}
 	}
 
@@ -48,40 +65,52 @@ class UserService {
 			const id = await this.userModel.insert(user);
 
 			this.logger.silly(`User ${id} created`);
+			delete user.password;
 			user.id = id;
 			const token = this.generateToken(user);
-			const refresh = await this.generateRefresh(user.id);
-			delete user.password;
-			return { user, token, refresh };
+			return { user, token };
 		} catch (error) {
 			this.logger.error(error);
-			throw error.sqlMessage;
+			throw error;
 		}
 	}
 
-	generateToken(user) {
-		this.logger.silly('Generating a JWT');
-		const payload = {
-			userid: user.userid,
-			username: user.username,
-			email: user.email,
-			role: user.role
-		};
-		const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' });
-		return token;
-	}
-
-	async generateRefresh(userid) {
+	async login(user) {
 		try {
-			this.logger.silly('Generating a Refresh Token');
-			const refresh = randomBytes(48).toString('hex');
-
-			this.logger.silly('Inserting Refresh Token');
-			await this.tokenModel.insert({ userid, token: refresh });
-			return refresh;
+			this.logger.silly('Logging user in');
+			const token = await this.generateToken(user);
+			return { token };
 		} catch (error) {
 			this.logger.error(error);
-			throw error.sqlMessage;
+			throw error;
+		}
+	}
+
+	async generateToken(user) {
+		try {
+			this.logger.silly('Inserting a token row');
+			const id = await this.tokenModel.insert({ userid: user.id });
+
+			this.logger.silly('Generating a jwt');
+			const payload = {
+				tokenid: id,
+				userid: user.id,
+				username: user.username,
+				email: user.email,
+				role: user.role
+			};
+			const token = jwt.sign(payload, config.jwtSecret, { expiresIn: '30 days' });
+
+			this.logger.silly('Updating token row after signing');
+			const result = await this.tokenModel.update(token, id);
+			if (result) {
+				return token;
+			} else {
+				throw new Error('Failed to update token row');
+			}
+		} catch (error) {
+			this.logger.error(error);
+			throw error;
 		}
 	}
 }

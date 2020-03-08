@@ -3,7 +3,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const compression = require('compression');
 const helmet = require('helmet');
-const passport = require('passport');
 const routes = require('../api');
 const config = require('../config');
 const logger = require('./logger');
@@ -26,7 +25,6 @@ module.exports = ({ app }) => {
 	app.use(helmet());
 	app.use(cors());
 	app.use(compression());
-	app.use(passport.initialize());
 	app.use(express.json());
 
 	//TODO: add routes with api prefix

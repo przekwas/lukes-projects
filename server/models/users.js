@@ -5,11 +5,12 @@ exports.getAll = () => {
 		const sql = `
 		SELECT 
 			id,
-            first_name,
-            last_name,
-            username,
-            email,
-            role
+			first_name,
+			last_name,
+			username,
+			email,
+			role,
+			created_at
         FROM users
         `;
 		db.get().query(sql, (err, results) => {
@@ -26,12 +27,7 @@ exports.getOne = (column, value) => {
 	return new Promise((resolve, reject) => {
 		const sql = `
 		SELECT
-			id,
-            first_name,
-            last_name,
-            username,
-            email,
-            role
+			*
         FROM users
         WHERE ?? = ?
         `;

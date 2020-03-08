@@ -13,3 +13,17 @@ exports.insert = info => {
 		});
 	});
 };
+
+exports.update = (token, id) => {
+	return new Promise((resolve, reject) => {
+		const sql = `UPDATE tokens SET token = ? WHERE id = ?`;
+		const values = [token, id];
+		db.get().query(sql, values, (err, results) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(results.affectedRows);
+			}
+		});
+	});
+};
