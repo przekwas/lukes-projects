@@ -6,10 +6,13 @@ const jwt = require('jsonwebtoken');
 const Logger = require('./logger');
 const usersModel = require('../models/users');
 const UserService = require('../services/users');
+const tokensModel = require('../models/tokens');
+const TokensSerive = require('../services/tokens');
 const config = require('../config');
 
 module.exports = ({ app }) => {
 	const UserServiceInstance = new UserService(Logger, usersModel);
+	const TokensServiceInstance = new TokensSerive(Logger, tokensModel);
 
 	passport.serializeUser((user, done) => done(null, user));
 	passport.deserializeUser((user, done) => done(null, user));
@@ -35,7 +38,16 @@ module.exports = ({ app }) => {
 			try {
 				const payload = jwt.verify(token, config.jwtSecret);
 				if (payload) {
-					done(null, payload);
+					const matched = await TokensServiceInstance.matchPayloadToken(payload.tokenid, payload.userid, token);
+					const user = await UserServiceInstance.getUser(matched.userid);
+					if (matched && user.id === payload.userid && user.id === matched.userid) {
+						Logger.silly('Bearer Sauce good!');
+						delete user.password;
+						done(null, user);
+					} else {
+						Logger.silly('Payload verified but userid failed');
+						throw new Error('JWT Failed');
+					}
 				}
 			} catch (error) {
 				Logger.error(error);
