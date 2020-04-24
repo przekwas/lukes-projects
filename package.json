@@ -62,5 +62,5 @@
 	"_moduleAliases": {
 		"@logger": "src/loaders/logger",
 		"@config": "src/config"
-	  }
+	}
 }
