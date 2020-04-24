@@ -6,7 +6,8 @@
 		"baseUrl": "src",
 		"paths": {
 			"@logger": ["loaders/logger"],
-			"@config": ["config"]
+			"@config": ["config"],
+			"@types": ["types"]
 		},
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,

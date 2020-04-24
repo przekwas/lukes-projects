@@ -61,6 +61,7 @@
 	},
 	"_moduleAliases": {
 		"@logger": "src/loaders/logger",
-		"@config": "src/config"
+		"@config": "src/config",
+		"@types": "src/types"
 	}
 }
