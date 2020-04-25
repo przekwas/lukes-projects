@@ -7,7 +7,8 @@
 		"paths": {
 			"@logger": ["loaders/logger"],
 			"@config": ["config"],
-			"@types": ["types"]
+			"@interfaces/*": ["interfaces/*"],
+			"@db": ["db"]
 		},
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
