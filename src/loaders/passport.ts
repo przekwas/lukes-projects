@@ -4,6 +4,7 @@ import passportJwt from 'passport-jwt';
 import config from '@config';
 import logger from '@logger';
 import db from '@db';
+import { comparePasswords } from '../utils/passwords';
 
 export default async ({ app }) => {
 	passport.serializeUser((user, done) => done(null, user));
@@ -11,17 +12,19 @@ export default async ({ app }) => {
 
 	passport.use(
 		new LocalStrategy.Strategy({ usernameField: 'email' }, async (email, password, done) => {
-			logger.silly('derp');
-			done(null, 'derp');
-			// 	try {
-			// 		const [user] = await db.users.find('email', email);
-			// 		logger.silly(user);
-			// 		done(null, user);
-			// 	} catch (error) {
-			// 		logger.silly('error in local strategy');
-			// 		logger.error(error);
-			// 		done(null, error);
-			// 	}
+				try {
+                    const [user] = await db.users.find('email', email);
+                    if (comparePasswords(password, user.salt)) {
+                        delete user.salt;
+                        done(null, user);
+                    } else {
+                        done(null, false);   
+                    }
+
+				} catch (error) {
+					logger.silly('error in local strategy ' + error);
+					done(error);
+				}
 		})
 	);
 

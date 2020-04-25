@@ -27,16 +27,16 @@ export default (app: Router) => {
 
 	route.post(
 		'/login',
-		// celebrate({
-		// 	body: Joi.object({
-		// 		email: Joi.string().required(),
-		// 		password: Joi.string().required()
-		// 	})
-        // }),
-        passport.authenticate('local'),
+		celebrate({
+			body: Joi.object({
+				email: Joi.string().required(),
+				password: Joi.string().required()
+			})
+		}),
+
+		passport.authenticate('local'),
 		async (req, res, next) => {
 			try {
-                logger.silly('route lol');
 				res.json({ msg: 'login' });
 			} catch (error) {
 				next(error);

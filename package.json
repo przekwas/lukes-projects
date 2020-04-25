@@ -63,7 +63,7 @@
 	"_moduleAliases": {
 		"@logger": "src/loaders/logger",
 		"@config": "src/config",
-		"@interfaces/*": "interfaces/*",
+		"@interfaces/*": "src/interfaces/*",
 		"@db": "src/db"
 	}
 }
