@@ -64,6 +64,9 @@
 		"@logger": "src/loaders/logger",
 		"@config": "src/config",
 		"@interfaces/*": "src/interfaces/*",
-		"@db": "src/db"
+		"@db": "src/db",
+		"@services/auth": "src/services/auth",
+		"@utils/tokens": "src/utils/tokens",
+		"@utils/passwords": "src/utils/passwords"
 	}
 }

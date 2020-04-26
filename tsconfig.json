@@ -8,7 +8,10 @@
 			"@logger": ["loaders/logger"],
 			"@config": ["config"],
 			"@interfaces/*": ["interfaces/*"],
-			"@db": ["db"]
+			"@db": ["db"],
+			"@services/auth": ["services/auth"],
+			"@utils/tokens": ["utils/tokens"],
+			"@utils/passwords": ["utils/passwords"]
 		},
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,

@@ -13,6 +13,7 @@ export interface IToken {
     id?: number;
     userid?: number;
     token?: string;
+    uniq?: string;
     created_at?: string;
 }
 

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
-import logger from '@logger';
+import { loginUser, registerUser } from '@services/auth';
 
 const route = Router();
 
@@ -13,12 +13,15 @@ export default (app: Router) => {
 		celebrate({
 			body: Joi.object({
 				email: Joi.string().required(),
-				password: Joi.string().required()
+				password: Joi.string().required(),
+				username: Joi.string().required()
 			})
 		}),
 		async (req, res, next) => {
+			const userDTO = req.body;
 			try {
-				res.json({ msg: 'register' });
+				const { token, role } = await registerUser(userDTO);
+				res.json({ token, role });
 			} catch (error) {
 				next(error);
 			}
@@ -36,11 +39,21 @@ export default (app: Router) => {
 
 		passport.authenticate('local'),
 		async (req, res, next) => {
+			const userDTO = req.user;
 			try {
-				res.json({ msg: 'login' });
+				const { token, role } = await loginUser(userDTO);
+				res.json({ token, role });
 			} catch (error) {
 				next(error);
 			}
 		}
 	);
+
+	route.get('/me', passport.authenticate('jwt'), async (req, res, next) => {
+		try {
+			res.json({ ...req.user });
+		} catch (error) {
+			next(error);
+		}
+	});
 };
