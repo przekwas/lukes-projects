@@ -21,3 +21,14 @@ export interface DBResponse {
     insertId: number;
     affectedRows: number;
 }
+
+export interface ICat_Find {
+    id?: number;
+    userid?: number;
+    cat_nickname?: string;
+    cat_name?: string;
+    cat_breed?: string;
+    lat?: number;
+    lng?: number;
+    created_at?: string;
+}

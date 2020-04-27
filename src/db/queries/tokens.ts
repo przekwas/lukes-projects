@@ -1,4 +1,4 @@
-import { Query } from '../';
+import { Query } from '@db';
 import type { IToken, DBResponse } from '@interfaces/models';
 
 const all = () => Query<IToken[]>(`SELECT * FROM tokens`);
@@ -16,7 +16,7 @@ const find = (column: string, value: string | number) =>
 	Query<IToken[]>(`SELECT * FROM tokens WHERE ?? = ?`, [column, value]);
 
 const search = (column: string, value: string | number) =>
-	Query<IToken[]>(`SELECT * FROM tokens WHERE ?? LIKE ?`, [column, value]);
+	Query<IToken[]>(`SELECT * FROM tokens WHERE ?? LIKE ?`, [column, `%${value}%`]);
 
 const match = (id: number, uniq: string) =>
 	Query(`SELECT * FROM tokens WHERE id = ? AND uniq = ?`, [id, uniq]);

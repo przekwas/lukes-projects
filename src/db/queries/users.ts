@@ -1,4 +1,4 @@
-import { Query } from '../';
+import { Query } from '@db';
 import type { IUser, DBResponse } from '@interfaces/models';
 
 const all = () => Query<IUser[]>(`SELECT * FROM users`);
@@ -15,14 +15,14 @@ const find = (column: string, value: string | number) =>
 	Query<IUser[]>(`SELECT * FROM users WHERE ?? = ?`, [column, value]);
 
 const search = (column: string, value: string | number) =>
-	Query<IUser[]>(`SELECT * FROM users WHERE ?? LIKE ?`, [column, value]);
+	Query<IUser[]>(`SELECT * FROM users WHERE ?? LIKE ?`, [column, `%${value}%`]);
 
 export default {
 	all,
 	one,
 	insert,
 	update,
-    destroy,
-    find,
-    search
+	destroy,
+	find,
+	search
 };
