@@ -29,7 +29,7 @@ export default (app: Router) => {
 		const cat = req.body;
 		try {
 			const { insertId } = await db.cats.finds.insert(cat);
-			res.json({ insertId, msg: 'new cat find inserted' });
+			res.json({ insertId, msg: 'new cat inserted' });
 		} catch (error) {
 			next(error);
 		}
@@ -40,7 +40,7 @@ export default (app: Router) => {
 		const cat = req.body;
 		try {
 			const { affectedRows } = await db.cats.finds.update(cat, id);
-			res.json({ affectedRows, msg: 'cat find edited' });
+			res.json({ affectedRows, msg: 'cat edited' });
 		} catch (error) {
 			next(error);
 		}
@@ -50,7 +50,7 @@ export default (app: Router) => {
 		const id = Number(req.params.id);
 		try {
 			const { affectedRows } = await db.cats.finds.destroy(id);
-			res.json({ affectedRows, msg: 'cat find deleted' });
+			res.json({ affectedRows, msg: 'cat deleted' });
 		} catch (error) {
 			next(error);
 		}
