@@ -61,12 +61,12 @@
 		"typescript": "^3.8.3"
 	},
 	"_moduleAliases": {
-		"@logger": "src/loaders/logger",
-		"@config": "src/config",
-		"@interfaces/*": "src/interfaces/*",
-		"@db": "src/db",
-		"@services/auth": "src/services/auth",
-		"@utils/tokens": "src/utils/tokens",
-		"@utils/passwords": "src/utils/passwords"
+		"@logger": "build/loaders/logger",
+		"@config": "build/config",
+		"@interfaces/*": "build/interfaces/*",
+		"@db": "build/db",
+		"@services/auth": "build/services/auth",
+		"@utils/tokens": "build/utils/tokens",
+		"@utils/passwords": "build/utils/passwords"
 	}
 }
