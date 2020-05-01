@@ -1,3 +1,5 @@
+/* General DB Auth Tables */
+
 export interface IUser {
     id?: number;
     first_name?: string;
@@ -17,10 +19,14 @@ export interface IToken {
     created_at?: string;
 }
 
+/* MySQL Node Insert/Update/Delete Response */
+
 export interface DBResponse {
     insertId: number;
     affectedRows: number;
 }
+
+/* Cats Project */
 
 export interface ICat_Find {
     id?: number;
@@ -30,5 +36,15 @@ export interface ICat_Find {
     cat_breed?: string;
     lat?: number;
     lng?: number;
+    created_at?: string;
+}
+
+/* Blogs Project */
+
+export interface IBlog {
+    id?: number;
+    userid?: number;
+    title?: string;
+    content?: string;
     created_at?: string;
 }
