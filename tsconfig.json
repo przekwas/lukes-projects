@@ -10,6 +10,7 @@
 			"@interfaces/*": ["interfaces/*"],
 			"@db": ["db"],
 			"@services/auth": ["services/auth"],
+			"@services/discord": ["services/discord"],
 			"@utils/tokens": ["utils/tokens"],
 			"@utils/passwords": ["utils/passwords"]
 		},

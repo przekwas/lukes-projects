@@ -31,6 +31,7 @@
 		"celebrate": "^12.1.0",
 		"compression": "^1.7.4",
 		"cors": "^2.8.5",
+		"discord.js": "^12.2.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"helmet": "^3.22.0",
@@ -61,12 +62,13 @@
 		"typescript": "^3.8.3"
 	},
 	"_moduleAliases": {
-		"@logger": "build/loaders/logger",
-		"@config": "build/config",
-		"@interfaces/*": "build/interfaces/*",
-		"@db": "build/db",
-		"@services/auth": "build/services/auth",
-		"@utils/tokens": "build/utils/tokens",
-		"@utils/passwords": "build/utils/passwords"
+		"@logger": "src/loaders/logger",
+		"@config": "src/config",
+		"@interfaces/*": "src/interfaces/*",
+		"@db": "src/db",
+		"@services/auth": "src/services/auth",
+		"@services/discord": "src/services/discord",
+		"@utils/tokens": "src/utils/tokens",
+		"@utils/passwords": "src/utils/passwords"
 	}
 }

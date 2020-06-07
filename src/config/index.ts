@@ -25,5 +25,9 @@ export default {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
 		database: process.env.DB_SCHEMA
+	},
+	discord: {
+		feragoBot: process.env.FERAGO_BOT,
+		feragoPrefix: process.env.FERAGO_PREFIX
 	}
 };

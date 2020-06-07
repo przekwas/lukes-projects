@@ -21,10 +21,12 @@ import users from './queries/users';
 import tokens from './queries/tokens';
 import cats from './queries/cats';
 import blogs from './queries/blogs';
+import enchanter from './queries/enchanter';
 
 export default {
     users,
 	tokens,
 	cats,
-	blogs
+	blogs,
+	enchanter
 }

@@ -1,6 +1,7 @@
 import dbLoader from './mysql';
 import passportLoader from './passport';
 import expressLoader from './express';
+import discordLoader from './discord';
 import logger from '@logger';
 
 export default async ({ expressApp }) => {
@@ -13,5 +14,8 @@ export default async ({ expressApp }) => {
 
     await expressLoader({ app: expressApp });
     logger.info('✌️ express loaded');
+
+    await discordLoader();
+    logger.info('✌️ discord bot loaded');
 
 }

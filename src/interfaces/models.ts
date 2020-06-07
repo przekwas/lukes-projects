@@ -48,3 +48,27 @@ export interface IBlog {
     content?: string;
     created_at?: string;
 }
+
+/* Ferago Enchant Bot Project */
+
+export interface IEnchant {
+    id?: number;
+    enchant?: string;
+    item?: string;
+    effect?: string;
+    stat?: string;
+    rod?: string;
+    created_at?: string;
+}
+
+export interface IReagent {
+    id?: number;
+    reagent?: string;
+    created_at?: string;
+}
+
+export interface IEnchantingReagent {
+    enchantid?: number;
+    reagentid?: number;
+    reagent_amount?: number;
+}

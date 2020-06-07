@@ -1,0 +1,10 @@
+POST http://localhost:3000/v1/enchanter/enchants/new
+content-type: application/json
+
+{
+    "enchant": "Enchant Weapon - Greater Striking",
+    "item": "1H Weapon",
+    "effect": "+4 Extra Damage",
+    "stat": "extra damage",
+    "rod": "Runed Truesilver Rod"
+}
