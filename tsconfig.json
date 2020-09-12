@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "es2017",
 		"lib": ["es2017", "esnext.asynciterable"],
-		"typeRoots": ["./node_modules/@types"],
+		"typeRoots": ["./node_modules/@types", "./src/types"],
 		"baseUrl": "src",
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
@@ -17,6 +17,6 @@
 		"noEmit": false,
 		"esModuleInterop": true
 	},
-	"include": ["./src/**/*"],
+	"include": ["./src/**/*", "src/types/express/index.d.ts"],
 	"exclude": ["node_modules", "tests"]
 }
