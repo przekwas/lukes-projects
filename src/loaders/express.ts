@@ -15,8 +15,11 @@ export default async function ({ app }: { app: express.Application }) {
 	//use this if you're behind a reverse proxy
 	app.enable('trust proxy');
 
+    app.use(helmet());
+    app.use(compression());
 	app.use(cors());
 	app.use(express.json());
+    app.use(morgan('dev'));
 
 	//handle 404 and forward
 	app.use((req, res, next) => {
