@@ -17,6 +17,6 @@
 		"noEmit": false,
 		"esModuleInterop": true
 	},
-	"include": ["./src/**/*", "src/types/express/index.d.ts"],
+	"include": ["./src/**/*"],
 	"exclude": ["node_modules", "tests"]
 }
