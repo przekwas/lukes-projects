@@ -18,8 +18,7 @@ export default async function ({ app }: { app: express.Application }) {
 		new LocalStrategy.Strategy({ usernameField: 'email' }, async (email, password, done) => {
 			try {
 				const [user] = await knex<UserModel>('users').select().where({ email });
-				const compared = await comparePasswords(password, user.hashed);
-				if (user && compared) {
+				if (user && (await comparePasswords(password, user.hashed))) {
 					delete user.hashed;
 					done(null, user);
 				} else {

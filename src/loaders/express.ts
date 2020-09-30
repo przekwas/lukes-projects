@@ -1,11 +1,14 @@
-import config from 'config';
+import config from '../config';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import morgan from 'morgan';
+import routes from '../routes';
 
-import type { ExpressError } from 'types/express';
+import { errors } from 'celebrate';
+
+import type { ExpressError } from '../types/express';
 
 export default async function ({ app }: { app: express.Application }) {
 	//status checkpoints
@@ -19,7 +22,12 @@ export default async function ({ app }: { app: express.Application }) {
     app.use(compression());
 	app.use(cors());
 	app.use(express.json());
-    app.use(morgan('dev'));
+	app.use(morgan('dev'));
+	
+	app.use(config.api.prefix, routes());
+
+	//celebrate errors
+	app.use(errors());
 
 	//handle 404 and forward
 	app.use((req, res, next) => {
@@ -41,7 +49,7 @@ export default async function ({ app }: { app: express.Application }) {
 			}
 
 			return next(error);
-		}
+		} 
 	);
 
 	//global error handler
