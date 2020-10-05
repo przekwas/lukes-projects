@@ -3,7 +3,7 @@ import { Request } from 'express';
 import type { UserModel } from './models';
 
 export interface ReqUser extends Request {
-	user: UserModel;
+	user: UserModel & { userid?: string; };
 }
 
 export type ExpressError = {

@@ -1,9 +1,8 @@
 import passport from 'passport';
-
+import * as services from '../../services'
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-
-import type { ReqUser } from 'types/express';
+import type { ReqUser } from '../../types/express';
 
 const loginRoute = Router();
 
@@ -21,7 +20,8 @@ export default function (authRouter: Router) {
 		passport.authenticate('local'),
 		async (req: ReqUser, res, next) => {
 			try {
-				res.json(req.user);
+				const result = await services.auth.login(req.user);
+				res.json(result);
 			} catch (error) {
 				next(error);
 			}

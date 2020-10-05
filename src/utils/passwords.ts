@@ -10,7 +10,7 @@ export async function generateHash(password: string) {
 	}
 }
 
-export async function comparePasswords(password: string, hash: string) {
+export async function compare(password: string, hash: string) {
 	try {
         const compared = await bcrypt.compare(password, hash);
         return compared;

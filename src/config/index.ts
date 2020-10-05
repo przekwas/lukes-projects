@@ -10,7 +10,8 @@ export default {
 	port: parseInt(process.env.PORT),
 	jwt: {
 		secret: process.env.JWT_SECRET,
-		issuer: process.env.JWT_ISSUER
+		issuer: process.env.JWT_ISSUER,
+		expires: process.env.JWT_EXPIRES
 	},
 	api: {
 		prefix: process.env.API_PREFIX

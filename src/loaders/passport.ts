@@ -4,9 +4,7 @@ import express from 'express';
 import knex from './knex';
 import LocalStrategy from 'passport-local';
 import JwtStrategy from 'passport-jwt';
-
-import { comparePasswords } from '../utils/passwords';
-
+import * as utils from '../utils';
 import type { Payload } from '../types/jwt';
 import type { UserModel } from '../types/models';
 
@@ -18,7 +16,7 @@ export default async function ({ app }: { app: express.Application }) {
 		new LocalStrategy.Strategy({ usernameField: 'email' }, async (email, password, done) => {
 			try {
 				const [user] = await knex<UserModel>('users').select().where({ email });
-				if (user && (await comparePasswords(password, user.hashed))) {
+				if (user && (await utils.passwords.compare(password, user.hashed))) {
 					delete user.hashed;
 					done(null, user);
 				} else {

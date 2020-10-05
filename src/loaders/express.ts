@@ -36,22 +36,6 @@ export default async function ({ app }: { app: express.Application }) {
 		next(error);
 	});
 
-	//handle 401 thrown by passport-jwt
-	app.use(
-		(
-			error: ExpressError,
-			req: express.Request,
-			res: express.Response,
-			next: express.NextFunction
-		) => {
-			if (error.name === 'UnauthorizedError') {
-				return res.status(error.status).send({ message: error.message }).end();
-			}
-
-			return next(error);
-		} 
-	);
-
 	//global error handler
 	app.use(
 		(
