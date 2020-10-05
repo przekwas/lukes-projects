@@ -4,6 +4,7 @@ export type UserModel = {
 	last_name?: string;
 	username?: string;
 	email?: string;
+	password?: string;
 	hashed?: string;
 	role?: number;
 	banned?: number;

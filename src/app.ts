@@ -7,7 +7,11 @@ async function startServer() {
 	(await import('./loaders')).default({ app });
 
 	app.listen(config.port, () => {
-		console.log('Server Running on Port ' + config.port);
+		console.log(`
+		###########################
+		Server Running on Port ${config.port}
+		###########################
+		`);
 	}).on('error', error => {
 		console.log(error);
 		process.exit(1);

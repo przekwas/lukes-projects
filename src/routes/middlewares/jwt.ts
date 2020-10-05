@@ -7,7 +7,6 @@ export function hasToken(req: express.Request, res: express.Response, next: expr
 		if (error || !user) {
 			next(new Error('access_token_failed'));
 		}
-
 		req.user = user;
 		next();
 	})(req, res, next);

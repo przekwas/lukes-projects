@@ -1,5 +1,5 @@
-import * as middlewares from '../middlewares';
-import * as services from '../../services';
+import { auth, blogs as checks } from '../middlewares';
+import { blogs } from '../../services';
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 import type { ReqUser } from '../../types/express';
@@ -16,10 +16,10 @@ export default function (apiRouter: Router) {
 				blogid: Joi.string().required()
 			})
 		}),
-		async (req: ReqUser, res, next) => {
+		async (req, res, next) => {
 			try {
 				const id = req.params.blogid;
-				const blog = await services.blogs.getOne(id);
+				const blog = await blogs.getOne(id);
 				res.json(blog);
 			} catch (error) {
 				next(error);
@@ -29,8 +29,8 @@ export default function (apiRouter: Router) {
 
 	blogsRouter.get('/', async (req, res, next) => {
 		try {
-			const blogs = await services.blogs.getAll();
-			res.json(blogs);
+			const blogPosts = await blogs.getAll();
+			res.json(blogPosts);
 		} catch (error) {
 			next(error);
 		}
@@ -44,11 +44,11 @@ export default function (apiRouter: Router) {
 				content: Joi.string().required()
 			})
 		}),
-		middlewares.auth.hasToken,
+		auth.hasToken,
 		async (req: ReqUser, res, next) => {
 			try {
 				const blogDTO = { ...req.body, userid: req.user.userid };
-				const id = await services.blogs.insert(blogDTO);
+				const id = await blogs.insert(blogDTO);
 				res.json({ id, message: 'inserted' });
 			} catch (error) {
 				next(error);
@@ -64,14 +64,16 @@ export default function (apiRouter: Router) {
 			}),
 			[Segments.BODY]: Joi.object().keys({
 				title: Joi.string().required(),
-				content: Joi.string().required()
+				content: Joi.string().required(),
+				userid: Joi.string().required()
 			})
 		}),
-		middlewares.auth.hasToken,
+		auth.hasToken,
+		checks.isOwner,
 		async (req: ReqUser, res, next) => {
 			try {
 				const blogDTO = { ...req.body, id: req.params.blogid, userid: req.user.userid };
-				const result = await services.blogs.edit(blogDTO);
+				const result = await blogs.edit(blogDTO);
 				res.json({ message: 'edited', result });
 			} catch (error) {
 				next(error);
@@ -84,13 +86,17 @@ export default function (apiRouter: Router) {
 		celebrate({
 			[Segments.PARAMS]: Joi.object().keys({
 				blogid: Joi.string().required()
+			}),
+			[Segments.BODY]: Joi.object().keys({
+				userid: Joi.string().required()
 			})
 		}),
-		middlewares.auth.hasToken,
+		auth.hasToken,
+		checks.isOwner,
 		async (req: ReqUser, res, next) => {
 			try {
 				const id = req.params.blogid;
-				const result = await services.blogs.destroy(id);
+				const result = await blogs.destroy(id);
 				res.json({ message: 'destroyed', result });
 			} catch (error) {
 				next(error);
