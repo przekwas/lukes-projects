@@ -27,6 +27,8 @@
 	},
 	"homepage": "https://github.com/przekwas/tiny-project-api#readme",
 	"dependencies": {
+		"@types/react-router": "^5.1.8",
+		"@types/react-router-dom": "^5.1.6",
 		"bcrypt": "^5.0.0",
 		"celebrate": "^13.0.3",
 		"compression": "^1.7.4",
@@ -41,6 +43,8 @@
 		"passport": "^0.4.1",
 		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
+		"react-router": "^5.2.0",
+		"react-router-dom": "^5.2.0",
 		"uuid": "^8.3.0",
 		"winston": "^3.3.3"
 	},
