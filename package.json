@@ -7,6 +7,7 @@
 		"start": "node build/app.js",
 		"build": "tsc",
 		"dev": "nodemon",
+		"deploy": "git push heroku main",
 		"inspect": "nodemon --inspect src/app.ts"
 	},
 	"repository": {
