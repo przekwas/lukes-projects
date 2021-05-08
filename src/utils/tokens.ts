@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import type { ReqPayload } from '../types/express';
 
-export function createToken(payload) {
+export function createToken(payload: ReqPayload) {
 	try {
 		const token = jwt.sign(payload, config.jwt.secret, {
 			expiresIn: config.jwt.expiresIn,

@@ -1,3 +1,6 @@
+export * from './chirps';
+export * from './bastion';
+
 export interface MySQLResponse {
 	insertId: number;
 	affectedRows: number;
@@ -12,12 +15,5 @@ export interface UsersTable {
 	hashed?: string;
 	role?: 1 | 9;
 	banned?: 0 | 1;
-	created_at?: string;
-}
-
-export interface ChirpsTable {
-	id?: string;
-	user_id?: string;
-	content?: string;
 	created_at?: string;
 }
