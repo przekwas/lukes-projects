@@ -5,6 +5,7 @@ import type { MySQLResponse } from '../types/mysql';
 export function Query<T = MySQLResponse>(query: string, values?: any) {
 	return new Promise<T>((resolve, reject) => {
 		const sql = mysql.format(query, values);
+		console.log(sql)
 		get().query(sql, (error, results) => {
 			if (error) {
 				return reject(error);

@@ -4,7 +4,7 @@ import config from '../config';
 import PassportJWT, { ExtractJwt } from 'passport-jwt';
 import { Application } from 'express';
 import { comparePasswords } from '../utils/bcrypt';
-import * as users from '../services/users';
+import * as users from '../services/auth/users';
 
 export default async function ({ app }: { app: Application }) {
 	passport.serializeUser((user, done) => done(null, user));

@@ -1,6 +1,6 @@
-import { Query } from '../db';
+import { Query } from '../../db';
 import { v4 as uuidv4 } from 'uuid';
-import type { ChirpsTable, UsersTable } from '../types/mysql';
+import type { ChirpsTable, UsersTable } from '../../types/mysql';
 
 async function create(newChirp: ChirpsTable) {
 	try {
