@@ -1,5 +1,6 @@
 import { Query } from '../../db';
 import { v4 as uuidv4 } from 'uuid';
+import { getFormattedDate } from '../../utils/date-formatter';
 import type { BastionCharactersTable, UsersTable } from '../../types/mysql';
 
 async function create(newCharacter: BastionCharactersTable) {
@@ -55,6 +56,7 @@ async function getOne(character_id: string) {
 
 async function editOne(editedContent: BastionCharactersTable, character_id: string) {
 	try {
+		editedContent.modified_at = getFormattedDate();
 		const result = await Query(
 			`
             UPDATE bastion_characters SET ?

@@ -11,7 +11,8 @@ chirpsRouter
 		checkToken,
 		celebrate({
 			[Segments.BODY]: Joi.object().keys({
-				content: Joi.string().required()
+				content: Joi.string().required(),
+				location: Joi.string().optional()
 			})
 		})
 	)
@@ -19,7 +20,8 @@ chirpsRouter
 		checkToken,
 		celebrate({
 			[Segments.BODY]: Joi.object().keys({
-				content: Joi.string().required()
+				content: Joi.string().required(),
+				location: Joi.string().optional()
 			})
 		})
 	)
