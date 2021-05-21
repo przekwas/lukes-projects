@@ -16,4 +16,5 @@ export interface UsersTable {
 	role?: 1 | 9;
 	banned?: 0 | 1;
 	created_at?: string;
+	modified_at?: string;
 }

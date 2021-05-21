@@ -1,6 +1,5 @@
 import { Query } from '../../db';
 import { v4 as uuidv4 } from 'uuid';
-import { getFormattedDate } from '../../utils/date-formatter';
 import type { BastionCharactersTable, UsersTable } from '../../types/mysql';
 
 async function create(newCharacter: BastionCharactersTable) {
@@ -20,11 +19,15 @@ async function getAll() {
 	try {
 		const characters = await Query<(BastionCharactersTable & UsersTable)[]>(`
 		SELECT 
-			bc.*, users.username
+    		bc.*, 
+    		u1.username,
+    		u2.username as modified_by_username
 		FROM
-			bastion_characters bc
-				JOIN
-			users ON users.id = bc.user_id
+    		bastion_characters bc
+        		JOIN
+    		users u1 ON u1.id = bc.user_id
+        		LEFT JOIN
+    		users u2 ON u2.id = bc.modified_by
 		ORDER BY bc.created_at DESC;
         `);
 		return characters;
@@ -56,7 +59,6 @@ async function getOne(character_id: string) {
 
 async function editOne(editedContent: BastionCharactersTable, character_id: string) {
 	try {
-		editedContent.modified_at = getFormattedDate();
 		const result = await Query(
 			`
             UPDATE bastion_characters SET ?

@@ -67,6 +67,7 @@ characterRouter.put('/:character_id', async (req, res, next) => {
 	try {
 		const characterDTO = req.body;
 		const character_id = req.params.character_id;
+		characterDTO.modified_by = req.payload.id;
 		const result = await characters.editOne(characterDTO, character_id);
 		res.json(result);
 	} catch (error) {

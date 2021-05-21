@@ -19,7 +19,7 @@ export default async function ({ app }: { app: Application }) {
 	app.use(helmet());
 	app.use(compression());
 	app.use(express.json());
-	app.use(morgan('dev'));
+	app.use(morgan(config.logs.morgan));
 	app.use(config.api.prefix, routes);
 
     app.use(errors());

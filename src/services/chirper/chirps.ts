@@ -1,6 +1,5 @@
 import { Query } from '../../db';
 import { v4 as uuidv4 } from 'uuid';
-import { getFormattedDate } from '../../utils/date-formatter';
 import type { ChirperChirpsTable, UsersTable } from '../../types/mysql';
 
 async function create(newChirp: ChirperChirpsTable) {
@@ -51,7 +50,6 @@ async function getOne(chirp_id: string) {
 
 async function editOne(editedContent: ChirperChirpsTable, chirp_id: string, user_id: string) {
 	try {
-		editedContent.modified_at = getFormattedDate();
 		const result = await Query(
 			`
             UPDATE chirper_chirps SET ?

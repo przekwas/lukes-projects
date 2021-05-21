@@ -8,4 +8,5 @@ export interface BastionCharactersTable {
 	content?: string;
 	created_at?: string;
 	modified_at?: string;
+	modified_by?: string;
 }
