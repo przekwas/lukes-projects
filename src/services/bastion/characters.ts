@@ -41,11 +41,13 @@ async function getOne(character_id: string) {
 		const [character] = await Query<(BastionCharactersTable & UsersTable)[]>(
 			`
             SELECT 
-    			bc.*, users.username
+    			bc.*, users.username, u2.username as modified_by_username
 			FROM
     			bastion_characters bc
         			JOIN
     			users ON users.id = bc.user_id
+					LEFT JOIN
+    			users u2 ON u2.id = bc.modified_by
 			WHERE
     			bc.id = ?;
         `,

@@ -6,6 +6,7 @@ export interface BastionCharactersTable {
 	class?: string;
 	misc?: string;
 	content?: string;
+	avatar_url?: string;
 	created_at?: string;
 	modified_at?: string;
 	modified_by?: string;
