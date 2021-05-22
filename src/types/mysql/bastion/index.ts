@@ -4,7 +4,7 @@ export interface BastionCharactersTable {
 	name?: string;
 	race?: string;
 	class?: string;
-	misc?: string;
+	specialty?: string;
 	content?: string;
 	avatar_url?: string;
 	created_at?: string;
