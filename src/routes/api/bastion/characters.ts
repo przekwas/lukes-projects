@@ -13,9 +13,10 @@ characterRouter
 			[Segments.BODY]: Joi.object().keys({
 				name: Joi.string().required(),
 				content: Joi.string().required(),
-				race: Joi.string().optional(),
+				race: Joi.string().required(),
 				class: Joi.string().optional(),
-				misc: Joi.string().optional()
+				avatar_url: Joi.string().optional(),
+				specialty: Joi.string().optional()
 			})
 		})
 	)
@@ -27,7 +28,8 @@ characterRouter
 				content: Joi.string().optional(),
 				race: Joi.string().optional(),
 				class: Joi.string().optional(),
-				misc: Joi.string().optional()
+				avatar_url: Joi.string().optional(),
+				specialty: Joi.string().optional()
 			})
 		})
 	)
