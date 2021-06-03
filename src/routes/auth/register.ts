@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createToken } from '../../utils/tokens';
 import { celebrate, Joi, Segments } from 'celebrate';
-import * as users from '../../services/auth/users';
+import * as users from '../../services/auth';
 
 const registerRouter = Router();
 
