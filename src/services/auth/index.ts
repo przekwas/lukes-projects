@@ -16,7 +16,7 @@ async function register(newUser: UsersTable & { password?: string }) {
 			throw new Error('username or email already exist');
 		}
 
-		const validName = /^[a-z0-9_]{3,25}$/.test(newUser.username);
+		const validName = /^(?i)[a-z0-9_]{3,25}$/.test(newUser.username);
 		if (newUser.username && !validName) {
 			throw new Error(
 				'username must be alphanumeric string that may include _ having a length of 3 to 25 characters'
