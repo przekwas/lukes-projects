@@ -11,3 +11,8 @@ export interface BastionCharactersTable {
 	modified_at?: string;
 	modified_by?: string;
 }
+
+export interface BastionRegisterTable {
+	user_id: string;
+	random_code: number;
+}

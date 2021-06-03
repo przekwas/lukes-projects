@@ -1,32 +1,41 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
-import { bot } from '../../loaders/discord';
+import * as botServices from '../../services/auth/bot';
 
 const botRouter = Router();
 
 botRouter.post(
-	'/',
+	'/generate',
 	celebrate({
 		[Segments.BODY]: Joi.object().keys({
-			discordName: Joi.string().required()
+			discord_name: Joi.string().required(),
+			user_id: Joi.string().required()
 		})
 	}),
 	async (req, res, next) => {
 		try {
-			const discordName = req.body.discordName;
-			// const channel = bot.channels.cache.get('850038528032243712');
-			const guild = bot.guilds.cache.get('734521934594703442');
+			const { discord_name, user_id } = req.body;
+            const result = await botServices.registerRandomCode(discord_name, user_id)
+			res.json(result);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
 
-			const member = guild.member(discordName);
-
-			// const username = bot.users.cache.find(user => {
-			//     console.log(user);
-			//     return user.tag === discordName;
-			// }).id;
-			// if (channel.isText()) {
-			// 	channel.send(`registration test with discord name: ${discordName}`);
-			// }
-			res.json(member);
+botRouter.post(
+	'/validate',
+	celebrate({
+		[Segments.BODY]: Joi.object().keys({
+			random_code: Joi.number().required(),
+			user_id: Joi.string().required()
+		})
+	}),
+	async (req, res, next) => {
+		try {
+			const { user_id, random_code } = req.body;
+            const result = await botServices.validateRandomCode(user_id, random_code)
+			res.json(result);
 		} catch (error) {
 			next(error);
 		}

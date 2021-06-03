@@ -16,10 +16,10 @@ async function register(newUser: UsersTable & { password?: string }) {
 			throw new Error('username or email already exist');
 		}
 
-		const validName = /^(?i)[a-z0-9_]{3,25}$/.test(newUser.username);
+		const validName = isUserNameValid(newUser.username);
 		if (newUser.username && !validName) {
 			throw new Error(
-				'username must be alphanumeric string that may include _ having a length of 3 to 25 characters'
+				'username must be alphanumeric string that may include _ and . having a length of 3 to 25 characters'
 			);
 		}
 
@@ -32,10 +32,26 @@ async function register(newUser: UsersTable & { password?: string }) {
 		return {
 			id: newUser.id,
 			username: newUser.username
-		}
+		};
 	} catch (error) {
 		throw error;
 	}
+}
+
+function isUserNameValid(username: string) {
+	/* 
+	  Usernames can only have: 
+	  - Lowercase Letters (a-z) 
+	  - Numbers (0-9)
+	  - Dots (.)
+	  - Underscores (_)
+	*/
+	console.log(username)
+	const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
+	console.log(res)
+	const valid = !!res;
+	console.log(valid)
+	return valid;
 }
 
 export { find, register };
