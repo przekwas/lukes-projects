@@ -22,5 +22,11 @@ export default {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
 		database: process.env.DB_SCHEMA
+	},
+	discordBot: {
+		appId: process.env.DISCORD_APP_ID,
+		publicKey: process.env.DISCORD_PUBLIC_KEY,
+		prefix: process.env.DISCORD_PREFIX,
+		token: process.env.DISCORD_TOKEN
 	}
 };
