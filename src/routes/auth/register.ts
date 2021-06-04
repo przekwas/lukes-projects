@@ -28,7 +28,7 @@ registerRouter.post(
 			const { id, username } = await users.register(userDTO);
 
 			if (website === 'the-bastion-wiki') {
-				res.json({ user_id: id });
+				return res.json({ user_id: id });
 			}
 
 			const token = createToken({ id, username, role: 1, banned: 0 });

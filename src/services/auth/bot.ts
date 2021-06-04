@@ -14,7 +14,7 @@ async function registerRandomCode({
 	email: string;
 }) {
 	try {
-		const random = Math.floor(Math.random() * 10000);
+		const random = Math.floor(1000 + Math.random() * 9000);
 		await Query('INSERT INTO bastion_register (user_id, random_code) VALUE (?, ?)', [
 			user_id,
 			random
