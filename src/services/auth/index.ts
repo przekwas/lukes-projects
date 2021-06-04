@@ -41,16 +41,14 @@ async function register(newUser: UsersTable & { password?: string }) {
 function isUserNameValid(username: string) {
 	/* 
 	  Usernames can only have: 
-	  - Lowercase Letters (a-z) 
+	  - Lowercase Letters (a-z)
+	  - Uppercase Letters (a-z)
 	  - Numbers (0-9)
 	  - Dots (.)
 	  - Underscores (_)
 	*/
-	console.log(username)
 	const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
-	console.log(res)
 	const valid = !!res;
-	console.log(valid)
 	return valid;
 }
 

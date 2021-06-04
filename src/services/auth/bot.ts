@@ -4,7 +4,15 @@ import { MessageEmbed } from 'discord.js';
 import { BastionRegisterTable, UsersTable } from '../../types/mysql';
 import { createToken } from '../../utils/tokens';
 
-async function registerRandomCode(discord_name: string, user_id: string) {
+async function registerRandomCode({
+	discord_name,
+	user_id,
+	email
+}: {
+	discord_name: string;
+	user_id: string;
+	email: string;
+}) {
 	try {
 		const random = Math.floor(Math.random() * 10000);
 		await Query('INSERT INTO bastion_register (user_id, random_code) VALUE (?, ?)', [
@@ -25,7 +33,7 @@ async function registerRandomCode(discord_name: string, user_id: string) {
 				'Instructions',
 				'Copy the 4 digit number or enter it manually on the "Enter 4 Digit Code" page during the registration process.'
 			)
-			.addField('Registration Email', 'luke@covalence.io')
+			.addField('Registration Email', email)
 			.addField('Random 4 Digit Code', random);
 		userfound.send(embed);
 
@@ -47,6 +55,13 @@ async function validateRandomCode(user_id: string, random_code: number) {
 		if (!match || match.random_code !== random_code || match.user_id !== user_id) {
 			throw new Error('something did not match in the validation process');
 		}
+
+		await Query('DELETE FROM bastion_register WHERE user_id = ? AND random_code = ?', [
+			user_id,
+			random_code
+		]);
+
+		await Query('UPDATE users SET validated = 1 WHERE id = ?', [user_id]);
 
 		const { id, username, role, banned } = match;
 		const token = createToken({ id, username, role, banned });

@@ -9,13 +9,14 @@ botRouter.post(
 	celebrate({
 		[Segments.BODY]: Joi.object().keys({
 			discord_name: Joi.string().required(),
-			user_id: Joi.string().required()
+			user_id: Joi.string().required(),
+			email: Joi.string().required()
 		})
 	}),
 	async (req, res, next) => {
 		try {
-			const { discord_name, user_id } = req.body;
-            const result = await botServices.registerRandomCode(discord_name, user_id)
+			const { discord_name, user_id, email } = req.body;
+            const result = await botServices.registerRandomCode({ discord_name, user_id, email })
 			res.json(result);
 		} catch (error) {
 			next(error);

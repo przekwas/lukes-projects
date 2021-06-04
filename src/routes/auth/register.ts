@@ -8,13 +8,17 @@ const registerRouter = Router();
 registerRouter.post(
 	'/:id?',
 	celebrate({
+		[Segments.PARAMS]: Joi.object().keys({
+			id: Joi.string().optional()
+		}),
 		[Segments.BODY]: Joi.object().keys({
 			first_name: Joi.string().required(),
 			last_name: Joi.string().required(),
 			username: Joi.string().required(),
 			email: Joi.string().required(),
 			password: Joi.string().required(),
-			website: Joi.string().optional()
+			discord_name: Joi.string().optional(),
+			validated: Joi.string().optional()
 		})
 	}),
 	async (req, res, next) => {
