@@ -3,10 +3,10 @@ import chirperRouter from './chirper';
 import bastionRouter from './bastion';
 import usersRouter from './users';
 
-const authRouter = Router();
+const apiRouter = Router();
 
-authRouter.use('/chirper', chirperRouter);
-authRouter.use('/bastion', bastionRouter);
-authRouter.use('/users', usersRouter);
+apiRouter.use('/chirper', chirperRouter);
+apiRouter.use('/bastion', bastionRouter);
+apiRouter.use('/users', usersRouter);
 
-export default authRouter;
+export default apiRouter;

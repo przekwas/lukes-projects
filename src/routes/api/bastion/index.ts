@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import charactersRouter from './characters';
+import locationsRouter from './locations';
 
-const authRouter = Router();
+const bastionRouter = Router();
 
-authRouter.use('/characters', charactersRouter);
+bastionRouter.use('/characters', charactersRouter);
+bastionRouter.use('/locations', locationsRouter);
 
-export default authRouter;
+export default bastionRouter;
