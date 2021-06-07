@@ -40,10 +40,10 @@ locationsRouter.get('/', async (req, res, next) => {
 	}
 });
 
-locationsRouter.get('/:character_id', async (req, res, next) => {
+locationsRouter.get('/:location_id', async (req, res, next) => {
 	try {
-		const character_id = req.params.character_id;
-		const result = await locations.getOne(character_id);
+		const location_id = req.params.location_id;
+		const result = await locations.getOne(location_id);
 		res.json(result);
 	} catch (error) {
 		next(error);
@@ -52,31 +52,31 @@ locationsRouter.get('/:character_id', async (req, res, next) => {
 
 locationsRouter.post('/', async (req, res, next) => {
 	try {
-		const characterDTO = req.body;
-		characterDTO.user_id = req.payload.id;
-		const result = await locations.create(characterDTO);
+		const eventDTO = req.body;
+		eventDTO.user_id = req.payload.id;
+		const result = await locations.create(eventDTO);
 		res.json(result);
 	} catch (error) {
 		next(error);
 	}
 });
 
-locationsRouter.put('/:character_id', async (req, res, next) => {
+locationsRouter.put('/:location_id', async (req, res, next) => {
 	try {
-		const characterDTO = req.body;
-		const character_id = req.params.character_id;
-		characterDTO.modified_by = req.payload.id;
-		const result = await locations.editOne(characterDTO, character_id);
+		const eventDTO = req.body;
+		const location_id = req.params.location_id;
+		eventDTO.modified_by = req.payload.id;
+		const result = await locations.editOne(eventDTO, location_id);
 		res.json(result);
 	} catch (error) {
 		next(error);
 	}
 });
 
-locationsRouter.delete('/:character_id', async (req, res, next) => {
+locationsRouter.delete('/:location_id', async (req, res, next) => {
 	try {
-		const character_id = req.params.character_id;
-		const result = await locations.deleteOne(character_id);
+		const location_id = req.params.location_id;
+		const result = await locations.deleteOne(location_id);
 		res.json(result);
 	} catch (error) {
 		next(error);
