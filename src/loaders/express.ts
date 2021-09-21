@@ -22,7 +22,7 @@ export default async function ({ app }: { app: Application }) {
 	app.use(morgan(config.logs.morgan));
 	app.use(config.api.prefix, routes);
 
-    app.use(errors());
+	app.use(errors());
 
 	app.use(notFoundHandler);
 	app.use(globalErrorHandler);
