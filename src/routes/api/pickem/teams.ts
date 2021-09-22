@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as teams from '../../../services/pickem/teams';
 
-const teamsRouter = Router();
+export const teamsRouter = Router();
 
 teamsRouter.get('/', async (req, res, next) => {
 	try {
@@ -21,5 +21,3 @@ teamsRouter.get('/:team_id', async (req, res, next) => {
 		next(error);
 	}
 });
-
-export default teamsRouter;

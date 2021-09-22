@@ -14,6 +14,7 @@ export default async function ({ app }: { app: Application }) {
 		new PassportLocal.Strategy({ usernameField: 'email' }, async (email, password, done) => {
 			try {
 				const [user] = await users.find('email', email);
+				console.log(user)
 				if (
 					user &&
 					user.validated === 1 &&

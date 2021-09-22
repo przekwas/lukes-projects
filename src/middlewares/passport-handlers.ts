@@ -1,8 +1,8 @@
-import { authenticate } from 'passport';
+import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
 
 export function handleLogin(req: Request, res: Response, next: NextFunction) {
-	authenticate('local', { session: false }, (error, user, info) => {
+	passport.authenticate('local', { session: false }, (error, user, info) => {
 		if (error) {
 			return next(error);
 		}
@@ -21,7 +21,7 @@ export function handleLogin(req: Request, res: Response, next: NextFunction) {
 }
 
 export function checkToken(req: Request, res: Response, next: NextFunction) {
-	authenticate('jwt', { session: false }, (error, user, info) => {
+	passport.authenticate('jwt', { session: false }, (error, user, info) => {
 		if (error) {
 			return next(error);
 		}

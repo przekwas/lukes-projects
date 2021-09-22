@@ -5,7 +5,7 @@ export interface ReqUser extends UsersTable {}
 export interface ReqPayload {
 	id?: string;
 	username?: string;
-	role?: 1 | 9;
+	role?: 1 | 3 | 9;
 	banned?: 0 | 1;
 	iat?: number;
 	exp?: number;

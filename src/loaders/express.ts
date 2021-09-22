@@ -47,9 +47,7 @@ export default async function ({ app }: { app: Application }) {
 	app.enable('trust proxy');
 
 	app.use(cors());
-	app.use(
-		helmet({ contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false })
-	);
+	app.use(helmet());
 	app.use(compression());
 	app.use(express.json());
 	app.use(morgan(config.logs.morgan));

@@ -15,7 +15,7 @@ export interface UsersTable {
 	email?: string;
 	discord_name?: string;
 	hashed?: string;
-	role?: 1 | 9;
+	role?: 1 | 3 | 9;
 	banned?: 0 | 1;
 	validated?: 0 | 1;
 	created_at?: string;
