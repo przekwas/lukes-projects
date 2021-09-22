@@ -30,15 +30,13 @@ const schema = buildSchema(`
 
   type Query {
     hello: String,
-	getTeams: [Team]
+	Teams: [Team]
   }
 `);
 
-const root = {
-	hello: () => {
-		return 'suck it bitch';
-	},
-	getTeams: () => Query('SELECT * FROM pickem_teams').then(data => data)
+const rootValue = {
+	hello: () => 'suck it bitch',
+	Teams: () => Query('SELECT * FROM pickem_teams').then(data => data)
 };
 
 export default async function ({ app }: { app: Application }) {
@@ -49,7 +47,9 @@ export default async function ({ app }: { app: Application }) {
 	app.enable('trust proxy');
 
 	app.use(cors());
-	app.use(helmet());
+	app.use(
+		helmet({ contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false })
+	);
 	app.use(compression());
 	app.use(express.json());
 	app.use(morgan(config.logs.morgan));
@@ -57,8 +57,8 @@ export default async function ({ app }: { app: Application }) {
 	app.use(
 		'/graphql',
 		graphqlHTTP({
-			schema: schema,
-			rootValue: root,
+			schema,
+			rootValue,
 			graphiql: true
 		})
 	);

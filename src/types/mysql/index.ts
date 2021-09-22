@@ -1,5 +1,6 @@
 export * from './chirps';
 export * from './bastion';
+export * from './pickem';
 
 export interface MySQLResponse {
 	insertId: number;
