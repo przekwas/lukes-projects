@@ -1,5 +1,10 @@
 # Tiny Project API
 
+## Todos
+
+* Transfer all Bastion Tables
+* Transfer all Pickem Tables
+
 ## Adding feature in MySQL Process
 
 1. Add table in MySQL Workbench
