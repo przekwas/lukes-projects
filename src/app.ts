@@ -16,8 +16,6 @@ async function startServer() {
 		console.log(error);
 		process.exit(1);
 	});
-
-	
 }
 
 startServer();
