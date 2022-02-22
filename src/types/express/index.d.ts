@@ -1,4 +1,4 @@
-import type { UsersTable } from '../../db/queries/users';
+import type { UsersTable } from '@/db/queries/users';
 
 export interface ReqUser extends UsersTable {}
 

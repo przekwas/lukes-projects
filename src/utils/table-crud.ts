@@ -8,7 +8,7 @@ export class Table<T> {
 		return Query(`SELECT * FROM ${this.tableName} ${orderBy ? 'ORDER BY ' + orderBy : ''}`);
 	}
 
-	one(id: number): Promise<T[]> {
+	one(id: number | string): Promise<T[]> {
 		return Query(`SELECT * FROM ${this.tableName} WHERE id = ?`, [id]);
 	}
 

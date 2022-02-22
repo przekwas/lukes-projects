@@ -3,9 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
-import { indexRouter } from '../routes';
-import { globalErrorHandler, notFoundHandler } from '../middlewares';
-import { config } from '../config';
+import { indexRouter } from '@/routes';
+import { globalErrorHandler, notFoundHandler } from '@/middlewares';
+import { config } from '@/config';
+import { logger } from '@/logger';
 import type { Application } from 'express';
 
 export async function expressLoader({ app }: { app: Application }) {
@@ -26,7 +27,7 @@ export async function expressLoader({ app }: { app: Application }) {
 	app.use(compression());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
-	app.use(morgan(config.logs.morgan));
+	app.use(morgan(config.logs.morgan, { stream: { write: (text: string) => logger.http(text) } }));
 
 	// routes
 	app.use(config.api.prefix, indexRouter);

@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { db } from '@/db';
-import { isAdmin } from '@/middlewares';
-import { logger } from '@/logger';
+import { checkToken, isAdmin } from '@/middlewares';
 
 export const hipHopRouter = Router();
 
-hipHopRouter.route('*').post(isAdmin).put(isAdmin).delete(isAdmin);
+hipHopRouter
+	.route('*')
+	.post(checkToken, isAdmin)
+	.put(checkToken, isAdmin)
+	.delete(checkToken, isAdmin);
 
 hipHopRouter.get('/search', async (req, res, next) => {
 	try {

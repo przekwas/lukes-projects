@@ -8,7 +8,7 @@ export function notFoundHandler(req: Request, res: Response, next: NextFunction)
 }
 
 export function globalErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
-	logger.error('[errors]', error);
+	logger.error(error);
 	res.status(error['status'] || 500);
 	res.json({ error: { message: error.message } });
 }

@@ -4,13 +4,22 @@
 
 * Transfer all Bastion Tables
 * Transfer all Pickem Tables
+* Transfer all Chirper Tables
+* Create Blog Tables
 
-## Adding feature in MySQL Process
+## Router Template
 
-1. Add table in MySQL Workbench
-2. Add interface model in `src/types/mysql/*`
-3. Add route in `src/routes/api/*`
-4. Index added route in `src/routes/api/index.ts`
-5. Add service in `src/services/*`
-6. Add CRUD routes in Postman
-7. Test
+```js
+import { Router } from 'express';
+import { db } from '@/db';
+import { isAdmin } from '@/middlewares';
+
+export const namedRouter = Router();
+
+namedRouter.route('*').post(isAdmin).put(isAdmin).delete(isAdmin);
+
+namedRouter.get('/', async (req, res, next) => {});
+namedRouter.post('/', async (req, res, next) => {});
+namedRouter.put('/', async (req, res, next) => {});
+namedRouter.delete('/', async (req, res, next) => {});
+```
