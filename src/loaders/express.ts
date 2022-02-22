@@ -17,10 +17,15 @@ export async function expressLoader({ app }: { app: Application }) {
 	app.enable('trust proxy');
 
 	// middlewares
+	app.use(
+		helmet({
+			contentSecurityPolicy: false
+		})
+	);
 	app.use(cors());
-	app.use(helmet());
 	app.use(compression());
 	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
 	app.use(morgan(config.logs.morgan));
 
 	// routes

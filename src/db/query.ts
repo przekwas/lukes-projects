@@ -1,6 +1,10 @@
 import { format } from 'mysql';
 import { get } from '../loaders/mysql';
-import type { MySQLResponse } from '../types';
+
+interface MySQLResponse {
+	insertId: number;
+	affectedRows: number;
+}
 
 export function Query<T = MySQLResponse>(query: string, values?: any) {
 	return new Promise<T>((resolve, reject) => {
@@ -14,5 +18,3 @@ export function Query<T = MySQLResponse>(query: string, values?: any) {
 		});
 	});
 }
-
-

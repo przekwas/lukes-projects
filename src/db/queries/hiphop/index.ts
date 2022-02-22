@@ -1,6 +1,6 @@
-import { Table } from '../../../utils';
+import { Table } from '@/utils';
 
-export interface HipHopTable {
+interface HipHopTable {
 	id?: number;
 	title?: string;
 	artist?: string;

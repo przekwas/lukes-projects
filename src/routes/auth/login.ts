@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createToken } from '../../utils';
-import { handleLogin } from '../../middlewares';
+import { createToken } from '@/utils';
+import { handleLogin } from '@/middlewares';
 
 export const loginRouter = Router();
 

@@ -1,5 +1,5 @@
 import winston from 'winston';
-import { config } from '../config';
+import { config } from './config';
 
 const transports = [];
 if (process.env.NODE_ENV !== 'development') {
@@ -21,7 +21,7 @@ export const logger = winston.createLogger({
 		}),
 		winston.format.errors({ stack: true }),
 		winston.format.splat(),
-		winston.format.json()
+		winston.format.simple()
 	),
 	transports
 });

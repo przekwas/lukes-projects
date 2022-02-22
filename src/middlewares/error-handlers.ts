@@ -1,4 +1,4 @@
-import { logger } from '../loaders/logger';
+import { logger } from '../logger';
 import type { Request, Response, NextFunction } from 'express';
 
 export function notFoundHandler(req: Request, res: Response, next: NextFunction) {

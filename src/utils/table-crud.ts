@@ -42,7 +42,7 @@ export class Table<T> {
 		);
 	}
 
-	raw(sql: string, values?: any): Promise<any> {
+	raw<K = any>(sql: string, values?: any): Promise<K> {
 		return Query(sql, [values]);
 	}
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkToken } from '../../middlewares';
+import { checkToken } from '@/middlewares';
 
 export const validateRouter = Router();
 

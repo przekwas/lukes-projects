@@ -17,6 +17,7 @@ export async function passportLoader({ app }: { app: Application }) {
 				if (
 					user &&
 					user.validated === 1 &&
+					user.banned === 0 &&
 					(await comparePasswords(password, user.hashed))
 				) {
 					delete user.hashed;
