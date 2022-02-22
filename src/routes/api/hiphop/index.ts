@@ -1,10 +1,21 @@
 import { Router } from 'express';
 import { db } from '@/db';
 import { isAdmin } from '@/middlewares';
+import { logger } from '@/logger';
 
 export const hipHopRouter = Router();
 
 hipHopRouter.route('*').post(isAdmin).put(isAdmin).delete(isAdmin);
+
+hipHopRouter.get('/search', async (req, res, next) => {
+	try {
+		const [[search, term]] = Object.entries(req.query);
+		const results = await db.hiphop.search(search as string, term as string);
+		res.json(results);
+	} catch (error) {
+		next(error);
+	}
+});
 
 hipHopRouter.get('/find', async (req, res, next) => {
 	try {
@@ -20,6 +31,9 @@ hipHopRouter.get('/find', async (req, res, next) => {
 hipHopRouter.get('/:id', async (req, res, next) => {
 	try {
 		const id = Number(req.params.id);
+		if (!id) {
+			throw new Error('invalid id');
+		}
 		const [results] = await db.hiphop.one(id);
 		res.json(results);
 	} catch (error) {

@@ -12,15 +12,15 @@ export class Table<T> {
 		return Query(`SELECT * FROM ${this.tableName} WHERE id = ?`, [id]);
 	}
 
-	insert(row: T): Promise<{ insertId: number, affectedRows: number }> {
+	insert(row: T): Promise<{ insertId: number; affectedRows: number }> {
 		return Query(`INSERT INTO ${this.tableName} SET ?`, row);
 	}
 
-	update(id: number, row: T): Promise<{ insertId: number, affectedRows: number }> {
+	update(id: number, row: T): Promise<{ insertId: number; affectedRows: number }> {
 		return Query(`UPDATE ${this.tableName} SET ? WHERE id = ?`, [row, id]);
 	}
 
-	destroy(id: number): Promise<{ insertId: number, affectedRows: number }> {
+	destroy(id: number): Promise<{ insertId: number; affectedRows: number }> {
 		return Query(`DELETE FROM ${this.tableName} WHERE id = ?`, [id]);
 	}
 
@@ -39,6 +39,13 @@ export class Table<T> {
 				.map(col => `${mysql.escapeId(col)} = ?`)
 				.join(' AND ')} LIMIT 1`,
 			Object.keys(row).map(col => row[col])
+		);
+	}
+
+	search(col: string, val: string | number): Promise<T[]> {
+		return Query(
+			`SELECT * FROM ${this.tableName} WHERE ${mysql.escapeId(col as string)} LIKE ?`,
+			[`%${val}%`]
 		);
 	}
 
