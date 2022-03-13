@@ -1,5 +1,5 @@
 import { createPool, PoolConnection } from 'mysql';
-import { config } from '../config';
+import { config } from '@/config';
 
 const state = {
 	pool: null

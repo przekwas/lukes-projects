@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { apiRouter } from './api';
 import { authRouter } from './auth';
+import { tokensRouter } from './tokens';
 
-export const indexRouter = Router();
+export function indexRouter() {
+	const app = Router();
+	authRouter(app);
+	tokensRouter(app);
 
-indexRouter.use('/api', apiRouter);
-indexRouter.use('/auth', authRouter);
+    return app;
+}

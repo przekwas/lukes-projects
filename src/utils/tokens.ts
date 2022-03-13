@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { config } from '../config';
-import type { ReqPayload } from '../types/express';
+import { config } from '@/config';
+import type { ReqPayload } from '@/types/express';
 
 export function createToken(payload: ReqPayload) {
 	try {

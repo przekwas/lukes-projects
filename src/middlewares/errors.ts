@@ -1,4 +1,4 @@
-import { logger } from '../logger';
+import { logger } from '@/utils';
 import type { Request, Response, NextFunction } from 'express';
 
 export function notFoundHandler(req: Request, res: Response, next: NextFunction) {

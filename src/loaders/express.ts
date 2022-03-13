@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import { indexRouter } from '@/routes';
 import { globalErrorHandler, notFoundHandler } from '@/middlewares';
 import { config } from '@/config';
-import { logger } from '@/logger';
+import { logger } from '@/utils';
 import type { Application } from 'express';
 
 export async function expressLoader({ app }: { app: Application }) {
@@ -30,7 +30,7 @@ export async function expressLoader({ app }: { app: Application }) {
 	app.use(morgan(config.logs.morgan, { stream: { write: (text: string) => logger.http(text) } }));
 
 	// routes
-	app.use(config.api.prefix, indexRouter);
+	app.use(config.api.prefix, indexRouter());
 
 	// error handler middlewares
 	app.use(notFoundHandler);

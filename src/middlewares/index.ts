@@ -1,3 +1,3 @@
-export * from './error-handlers';
-export * from './passport-handlers';
-export * from './auth-handlers';
+export * from './auths';
+export * from './errors';
+export * from './passports';

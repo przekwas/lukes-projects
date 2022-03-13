@@ -1,6 +1,6 @@
-import { Query } from '../query';
+import { Query } from '@/db/query';
 import { v4 as uuidv4 } from 'uuid';
-import { createHash } from '../../utils';
+import { createHash } from '@/utils';
 
 export interface UsersTable {
 	id?: string;
@@ -8,9 +8,9 @@ export interface UsersTable {
 	last_name?: string;
 	username?: string;
 	email?: string;
+	password?: string;
 	discord_name?: string;
-	hashed?: string;
-	role?: 1 | 3 | 9;
+	role?: 0 | 9;
 	banned?: 0 | 1;
 	validated?: 0 | 1;
 	created_at?: string;
@@ -18,11 +18,12 @@ export interface UsersTable {
 }
 
 export function find(col: string, val: string | number) {
-    return Query<UsersTable[]>('SELECT * FROM users WHERE ?? = ?', [col, val]);
+	return Query<UsersTable[]>('SELECT * FROM users WHERE ?? = ?', [col, val]);
 }
 
 export async function register(newUser: UsersTable & { password?: string }) {
 	try {
+		console.log(newUser);
 		const [usernameFound] = await find('username', newUser.username);
 		const [emailFound] = await find('email', newUser.email);
 
@@ -38,14 +39,13 @@ export async function register(newUser: UsersTable & { password?: string }) {
 		}
 
 		newUser.id = uuidv4();
-		newUser.hashed = await createHash(newUser.password);
-		delete newUser.password;
+		newUser.password = await createHash(newUser.password);
 
-		await Query('INSERT INTO users SET ?', [newUser]);
+		await Query('INSERT INTO users SET ?', newUser);
 
 		return {
 			id: newUser.id,
-			username: newUser.username
+			email: newUser.email
 		};
 	} catch (error) {
 		throw error;
