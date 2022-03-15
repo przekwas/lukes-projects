@@ -10,7 +10,7 @@ export function authRouter(app: Router) {
 
 	route.post('/register', async (req, res, next) => {
 		try {
-			const dto = req.body;
+			const dto = { ...req.body };
 			const { id, email } = await users.register(dto);
 			const token = createToken({ id, email, role: 0, banned: 0 });
 			res.json({ message: 'register success', token });

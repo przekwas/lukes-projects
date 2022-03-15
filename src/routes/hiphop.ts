@@ -25,22 +25,3 @@ export function hipHopRouter(app: Router) {
 		}
 	});
 }
-
-// PUT /api/events/:matchid/:eventid
-// function matchesEventId(req, res, next) {
-
-//     if (req.payload.event_ID === req.params.eventid) {
-
-//         const matched = await db.events.one(req.payload.event_ID);
-        
-//         if (!matched) {
-//             res.status(401).json({ msg: 'lols' })
-//         } else {
-//             next();
-//         }
-
-//     } else {
-//         res.status(401).json({ msg: 'lols' })
-//     }
-
-// }
