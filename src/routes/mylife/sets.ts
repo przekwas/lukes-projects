@@ -22,8 +22,8 @@ export function setsRouter(app: Router) {
 	// all sets for a user and one session from jwt
 	route.get(
 		'/user/session',
-		validators.sessionId(),
-		validators.validatesessionId,
+		validators.uuidValidator('session_id'),
+		validators.validateRequest,
 		checkToken,
 		async (req, res, next) => {
 			try {

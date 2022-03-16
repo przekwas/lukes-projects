@@ -1,4 +1,4 @@
-import { Query } from '@/db/query';
+import { Table } from '@/db/table-crud';
 
 export interface MyLife_Exercises {
 	id?: string;
@@ -12,3 +12,5 @@ export interface MyLife_Exercises {
 	created_at?: string;
 	modified_at?: string;
 }
+
+export const exercises = new Table<MyLife_Exercises>('mylife_exercises');
