@@ -22,13 +22,13 @@ export function exercisesRouter(app: Router) {
 	// all exercises for a user and one set from jwt
 	route.get(
 		'/user/set',
-		validators.uuidValidator('set_id'),
+		validators.uuidValidator('id'),
 		validators.validateRequest,
 		checkToken,
 		async (req, res, next) => {
 			try {
 				const user_id = req.payload.id;
-				const set_id = req.body.set_id;
+				const set_id = req.query.id.toString();
 				const result = await mylife.exercises.find({ user_id, set_id });
 				res.json(result);
 			} catch (error) {
@@ -40,13 +40,13 @@ export function exercisesRouter(app: Router) {
 	// all exercises for a user and one session from jwt
 	route.get(
 		'/user/session',
-		validators.uuidValidator('session_id'),
+		validators.uuidValidator('id'),
 		validators.validateRequest,
 		checkToken,
 		async (req, res, next) => {
 			try {
 				const user_id = req.payload.id;
-				const session_id = req.body.session_id;
+				const session_id = req.query.id.toString();
 				const result = await mylife.exercises.find({ user_id, session_id });
 				res.json(result);
 			} catch (error) {

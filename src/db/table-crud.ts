@@ -28,7 +28,7 @@ export class Table<T> {
 		return Query(
 			`SELECT * FROM ${this.tableName} WHERE ${Object.keys(row)
 				.map(col => `${mysql.escapeId(col)} = ?`)
-				.join(' AND ')}${orderBy && ` ORDER BY ${orderBy} DESC`}`,
+				.join(' AND ')}${orderBy ? ` ORDER BY ${orderBy} DESC` : ''}`,
 			Object.keys(row).map(col => row[col])
 		);
 	}

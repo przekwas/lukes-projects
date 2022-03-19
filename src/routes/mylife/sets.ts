@@ -22,14 +22,14 @@ export function setsRouter(app: Router) {
 	// all sets for a user and one session from jwt
 	route.get(
 		'/user/session',
-		validators.uuidValidator('session_id'),
-		validators.validateRequest,
 		checkToken,
+		validators.uuidValidator('id'),
+		validators.validateRequest,
 		async (req, res, next) => {
 			try {
 				const user_id = req.payload.id;
-				const session_id = req.body.session_id;
-				const result = await mylife.sets.find({ user_id, session_id });
+				const session_id = req.query.id.toString();
+				const result = await mylife.sets.find({ user_id, session_id }, 'created_at');
 				res.json(result);
 			} catch (error) {
 				next(error);

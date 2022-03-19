@@ -1,8 +1,8 @@
-import { body, validationResult } from 'express-validator';
+import { query, validationResult } from 'express-validator';
 import type { Request, Response, NextFunction } from 'express';
 
 export function uuidValidator(type: string) {
-	return body(type).isUUID(4)
+	return query(type).isUUID(4)
 }
 
 export function validateRequest(req: Request, res: Response, next: NextFunction) {

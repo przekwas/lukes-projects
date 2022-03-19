@@ -22,13 +22,13 @@ export function cardiosRouter(app: Router) {
 	// all cardios for a user and one session from jwt
 	route.get(
 		'/user/session',
-		validators.uuidValidator('session_id'),
+		validators.uuidValidator('id'),
 		validators.validateRequest,
 		checkToken,
 		async (req, res, next) => {
 			try {
 				const user_id = req.payload.id;
-				const session_id = req.body.session_id;
+				const session_id = req.query.id.toString();
 				const result = await mylife.cardios.find({ user_id, session_id });
 				res.json(result);
 			} catch (error) {
