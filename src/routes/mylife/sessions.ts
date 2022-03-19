@@ -12,7 +12,7 @@ export function sessionsRouter(app: Router) {
 	route.get('/user', checkToken, async (req, res, next) => {
 		try {
 			const user_id = req.payload.id;
-			const result = await mylife.sessions.find({ user_id });
+			const result = await mylife.sessions.find({ user_id }, 'created_at');
 			res.json(result);
 		} catch (error) {
 			next(error);

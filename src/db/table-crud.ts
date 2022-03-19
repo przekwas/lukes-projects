@@ -24,11 +24,11 @@ export class Table<T> {
 		return Query(`DELETE FROM ${this.tableName} WHERE id = ?`, [id]);
 	}
 
-	find(row: T): Promise<T[]> {
+	find(row: T, orderBy?: string): Promise<T[]> {
 		return Query(
 			`SELECT * FROM ${this.tableName} WHERE ${Object.keys(row)
 				.map(col => `${mysql.escapeId(col)} = ?`)
-				.join(' AND ')}`,
+				.join(' AND ')}${orderBy && ` ORDER BY ${orderBy} DESC`}`,
 			Object.keys(row).map(col => row[col])
 		);
 	}
