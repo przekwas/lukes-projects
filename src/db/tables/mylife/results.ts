@@ -1,7 +1,7 @@
 import { Query } from '../../query';
 
 export function dailyWeights(user_id: string) {
-	return Query(
+	return Query<any>(
 		`
     SELECT 
         ex.*, st.name
@@ -20,7 +20,7 @@ export function dailyWeights(user_id: string) {
 }
 
 export function dailyCardio(user_id: string) {
-	return Query(
+	return Query<any>(
 		`
     SELECT 
         *
