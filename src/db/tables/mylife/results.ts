@@ -1,7 +1,10 @@
 import { Query } from '../../query';
+import type { MyLife_Exercises } from './exercises';
+import type { MyLife_Sets } from './sets';
+import type { MyLife_Cardios } from './cardios';
 
 export function dailyWeights(user_id: string) {
-	return Query<any>(
+	return Query<(MyLife_Exercises & MyLife_Sets)[]>(
 		`
     SELECT 
         ex.*, st.name
@@ -20,7 +23,7 @@ export function dailyWeights(user_id: string) {
 }
 
 export function dailyCardio(user_id: string) {
-	return Query<any>(
+	return Query<MyLife_Cardios[]>(
 		`
     SELECT 
         *
@@ -34,4 +37,34 @@ export function dailyCardio(user_id: string) {
     `,
 		[user_id]
 	);
+}
+
+export function totalCardioStats() {
+	return Query<{ total_miles: number; total_calories: number; total_time: number }[]>(`
+    SELECT
+        SUM(estimated_distance) as total_miles,
+        SUM(estimated_calories) as total_calories,
+        SUM(time) as total_time
+    FROM
+        mylife_cardios;
+    `);
+}
+
+export function totalExerciseStats() {
+	return Query<{ total_weight_moved: number; total_reps: number }[]>(`
+    SELECT 
+        SUM(weight) as total_weight_moved,
+        SUM(reps) as total_reps
+    FROM
+        mylife_exercises;
+    `);
+}
+
+export function totalSetsStats() {
+	return Query<{ total_sets: number }[]>(`
+    SELECT 
+        COUNT(id) AS total_sets
+    FROM
+        mylife_sets;
+    `);
 }

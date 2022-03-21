@@ -21,4 +21,19 @@ export function resultsRouter(app: Router) {
 			next(error);
 		}
 	});
+
+	// all cardio and exercise stats for home page
+	route.get('/totals', async (req, res, next) => {
+		try {
+			const [cardio] = await mylife.results.totalCardioStats();
+			const [exercise] = await mylife.results.totalExerciseStats();
+			const [total_sets] = await mylife.results.totalSetsStats();
+			res.json({
+				cardio,
+				exercise: { ...exercise, ...total_sets }
+			});
+		} catch (error) {
+			next(error);
+		}
+	});
 }
