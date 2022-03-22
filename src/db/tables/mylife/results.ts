@@ -4,10 +4,15 @@ import type { MyLife_Sets } from './sets';
 import type { MyLife_Cardios } from './cardios';
 
 export function dailyWeights(user_id: string) {
-	return Query<(MyLife_Exercises & MyLife_Sets)[]>(
+	return Query<(MyLife_Exercises & MyLife_Sets & { set_reps: string; set_weights: string })[]>(
 		`
     SELECT 
-        ex.*, st.name
+        ex.*,
+        st.name,
+        GROUP_CONCAT(ex.reps
+            SEPARATOR ';;') AS set_reps,
+        GROUP_CONCAT(ex.weight
+            SEPARATOR ';;') AS set_weights
     FROM
         mylife_exercises ex
             JOIN
@@ -16,6 +21,7 @@ export function dailyWeights(user_id: string) {
         ex.created_at >= CURDATE()
             AND ex.created_at < CURDATE() + INTERVAL 1 DAY
             AND ex.user_id = ?
+    GROUP BY set_id
     ORDER BY ex.created_at;
     `,
 		[user_id]

@@ -5,7 +5,6 @@ export interface MyLife_Exercises {
 	name?: string;
 	reps?: number;
 	weight?: number;
-	body_weight?: 0 | 1;
 	set_id?: string;
 	user_id?: string;
 	session_id?: string;
