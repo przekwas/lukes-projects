@@ -23,12 +23,16 @@ export function find(col: string, val: string | number) {
 
 export async function register(newUser: UsersTable & { password?: string }) {
 	try {
-		console.log(newUser);
 		const [usernameFound] = await find('username', newUser.username);
 		const [emailFound] = await find('email', newUser.email);
 
 		if (usernameFound || emailFound) {
 			throw new Error('username or email already exist');
+		}
+
+		const validEmail = isValidEmail(newUser.email);
+		if (newUser.email && !validEmail) {
+			throw new Error('enter a valid email address');
 		}
 
 		const validName = isUserNameValid(newUser.username);
@@ -64,4 +68,10 @@ function isUserNameValid(username: string) {
 	const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
 	const valid = !!res;
 	return valid;
+}
+
+function isValidEmail(email: string) {
+	return email.match(
+		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	);
 }
