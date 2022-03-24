@@ -3,6 +3,17 @@ import type { MyLife_Exercises } from './exercises';
 import type { MyLife_Sets } from './sets';
 import type { MyLife_Cardios } from './cardios';
 
+/*
+    Table of Contents for Control+F lol
+    DAILIES
+    WEEKS
+    TOTALS
+*/
+
+/*
+    DAILIES Queries
+*/
+
 export function dailyWeights(user_id: string) {
 	return Query<(MyLife_Exercises & MyLife_Sets & { set_reps: string; set_weights: string })[]>(
 		`
@@ -44,6 +55,50 @@ export function dailyCardio(user_id: string) {
 		[user_id]
 	);
 }
+
+/*
+    WEEKS Queries
+*/
+export function weeklyWeights(user_id: string) {
+	return Query(
+		`
+    SELECT
+        ex.id,
+        ex.reps,
+        ex.weight,
+        st.name
+    FROM
+        mylife_exercises ex
+            JOIN
+        mylife_sets st ON st.id = ex.set_id
+    WHERE
+        YEARWEEK(ex.created_at, 1) = YEARWEEK(NOW(), 1)
+            AND ex.user_id = ?;`,
+		[user_id]
+	);
+}
+
+export function weeklyCardio(user_id: string) {
+	return Query(
+		`
+    SELECT 
+        id,
+        name,
+        time,
+        estimated_calories,
+        estimated_distance
+    FROM
+        mylife_cardios
+    WHERE
+        YEARWEEK(created_at, 1) = YEARWEEK(NOW(), 1)
+            AND user_id = ?;`,
+		[user_id]
+	);
+}
+
+/*
+    TOTALS Queries
+*/
 
 export function totalCardioStats() {
 	return Query<{ total_miles: number; total_calories: number; total_time: number }[]>(`

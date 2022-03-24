@@ -22,6 +22,21 @@ export function resultsRouter(app: Router) {
 		}
 	});
 
+	// all results for a user from jwt on a given week
+	route.get('/user/weekly', checkToken, async (req, res, next) => {
+		try {
+			const user_id = req.payload.id;
+			const weights = await mylife.results.weeklyWeights(user_id);
+			const cardio = await mylife.results.weeklyCardio(user_id);
+			res.json({
+				weights,
+				cardio
+			});
+		} catch (error) {
+			next(error);
+		}
+	});
+
 	// all cardio and exercise stats for home page
 	route.get('/totals', async (req, res, next) => {
 		try {
