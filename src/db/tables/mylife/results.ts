@@ -29,8 +29,8 @@ export function dailyWeights(user_id: string) {
             JOIN
         mylife_sets st ON st.id = ex.set_id
     WHERE
-        ex.created_at >= UTC_TIMESTAMP()
-            AND ex.created_at < UTC_TIMESTAMP() + INTERVAL 1 DAY
+        ex.created_at >= CONVERT_TZ(CURDATE(), 'UTC', 'America/Chicago')
+            AND ex.created_at < CONVERT_TZ(CURDATE(), 'UTC', 'America/Chicago') + INTERVAL 1 DAY
             AND ex.user_id = ?
     GROUP BY set_id
     ORDER BY ex.created_at;
@@ -47,8 +47,8 @@ export function dailyCardio(user_id: string) {
     FROM
         mylife_cardios
     WHERE
-        created_at >= UTC_TIMESTAMP()
-            AND created_at < UTC_TIMESTAMP() + INTERVAL 1 DAY
+        created_at >= CONVERT_TZ(CURDATE(), 'UTC', 'America/Chicago')
+            AND created_at < CONVERT_TZ(CURDATE(), 'UTC', 'America/Chicago') + INTERVAL 1 DAY
             AND user_id = ?
     ORDER BY created_at;
     `,
