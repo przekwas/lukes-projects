@@ -64,16 +64,22 @@ export function weeklyWeights(user_id: string) {
 		`
     SELECT
         ex.id,
-        ex.reps,
-        ex.weight,
-        st.name
+        st.name,
+        MAX(ex.weight) as max_weight,
+        MIN(ex.weight) as min_weight,
+        ROUND(AVG(ex.weight), 2) as avg_weight,
+        SUM(ex.weight) as total_weight,
+        SUM(ex.reps) as total_reps
     FROM
         mylife_exercises ex
             JOIN
         mylife_sets st ON st.id = ex.set_id
     WHERE
         YEARWEEK(ex.created_at, 1) = YEARWEEK(NOW(), 1)
-            AND ex.user_id = ?;`,
+            AND ex.user_id = ?
+    GROUP BY st.name
+    ORDER BY st.name;
+        `,
 		[user_id]
 	);
 }
