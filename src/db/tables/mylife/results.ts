@@ -75,7 +75,7 @@ export function weeklyWeights(user_id: string) {
             JOIN
         mylife_sets st ON st.id = ex.set_id
     WHERE
-        YEARWEEK(ex.created_at, 1) = YEARWEEK(NOW(), 1)
+        YEARWEEK(ex.created_at, 1) = YEARWEEK(UTC_TIMESTAMP(), 1)
             AND ex.user_id = ?
     GROUP BY st.name
     ORDER BY st.name;
@@ -96,7 +96,7 @@ export function weeklyCardio(user_id: string) {
     FROM
         mylife_cardios
     WHERE
-        YEARWEEK(created_at, 1) = YEARWEEK(NOW(), 1)
+        YEARWEEK(created_at, 1) = YEARWEEK(UTC_TIMESTAMP(), 1)
             AND user_id = ?;`,
 		[user_id]
 	);
