@@ -22,7 +22,7 @@ export const config = {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
 		database: process.env.DB_SCHEMA,
-		dateStrings: process.env.DB_DATESTRINGS,
+		dateStrings: process.env.DB_DATESTRINGS === 'true',
 		timezone: process.env.DB_TIMEZONE
 	},
 	discordBot: {
