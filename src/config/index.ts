@@ -21,7 +21,9 @@ export const config = {
 		host: process.env.DB_HOST,
 		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
-		database: process.env.DB_SCHEMA
+		database: process.env.DB_SCHEMA,
+		dateStrings: process.env.DB_DATESTRINGS,
+		timezone: process.env.DB_TIMEZONE
 	},
 	discordBot: {
 		appId: process.env.DISCORD_APP_ID,
