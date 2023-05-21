@@ -3,17 +3,15 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
-import { indexRouter } from '@/routes';
-import { globalErrorHandler, notFoundHandler } from '@/middlewares';
-import { config } from '@/config';
-import { logger } from '@/utils';
+import hpp from 'hpp';
+import rateLimit from 'express-rate-limit';
+import { indexRouter } from '../api/routes';
+import { globalErrorHandler, notFoundHandler } from '../middlewares';
+import { config } from '../config';
+import { stream } from '../utils';
 import type { Application } from 'express';
 
 export async function expressLoader({ app }: { app: Application }) {
-	// status checkpoints
-	app.get('/status', (req, res) => res.status(200).end());
-	app.head('/status', (req, res) => res.status(200).end());
-
 	// real ip origin if behind reverse proxy
 	app.enable('trust proxy');
 
@@ -27,7 +25,18 @@ export async function expressLoader({ app }: { app: Application }) {
 	app.use(compression());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
-	app.use(morgan(config.logs.morgan, { stream: { write: (text: string) => logger.http(text) } }));
+
+	// rate limiting
+	const limiter = rateLimit({
+		windowMs: 15 * 60 * 1000, // 15 minutes
+		max: 100 // limit each IP to 100 requests per windowMs
+	});
+	app.use(limiter);
+
+	// prevent http param pollution
+	app.use(hpp());
+
+	app.use(morgan('combined', { stream }));
 
 	// routes
 	app.use(config.api.prefix, indexRouter());

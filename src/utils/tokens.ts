@@ -1,15 +1,19 @@
 import jwt from 'jsonwebtoken';
-import { config } from '@/config';
-import type { ReqPayload } from '@/types/express';
+import { config } from '../config';
+import { logger } from './logger';
 
-export function createToken(payload: ReqPayload) {
+import type { ReqPayload, TokenType } from '../types';
+
+export function createToken(payload: ReqPayload, type: TokenType = 'access' as TokenType) {
 	try {
-		const token = jwt.sign(payload, config.jwt.secret, {
+		const token = jwt.sign({ ...payload, type }, config.jwt.secret, {
 			expiresIn: config.jwt.expiresIn,
 			issuer: config.jwt.issuer
 		});
+
 		return token;
 	} catch (error) {
-		throw error;
+		logger.error(`Error generating ${type} token:`, error);
+		throw new Error(`Error generating ${type} token`);
 	}
 }

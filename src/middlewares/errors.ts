@@ -1,14 +1,32 @@
-import { logger } from '@/utils';
+import httpStatus from 'http-status';
+import { logger } from '../utils';
 import type { Request, Response, NextFunction } from 'express';
 
-export function notFoundHandler(req: Request, res: Response, next: NextFunction) {
-	const error = new Error(`path ${req.originalUrl} not found`);
-	error['status'] = 404;
+interface CustomError extends Error {
+	status?: number;
+}
+
+export function notFoundHandler(req: Request, res: Response, next: NextFunction): void {
+	const error: CustomError = new Error(`Path ${req.originalUrl} not found`);
+	error.status = httpStatus.NOT_FOUND;
 	next(error);
 }
 
-export function globalErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
-	logger.error(error);
-	res.status(error['status'] || 500);
-	res.json({ error: { message: error.message } });
+export function globalErrorHandler(
+	err: CustomError,
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Response {
+	logger.error(err.message);
+
+	const status = err.status || httpStatus.INTERNAL_SERVER_ERROR;
+	const message = err.message || httpStatus[status];
+
+	return res.status(status).json({
+		error: {
+			message,
+			status
+		}
+	});
 }

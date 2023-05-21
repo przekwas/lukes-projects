@@ -1,28 +1,28 @@
-import { format } from 'mysql';
-import { get } from '@/loaders/mysql';
-import { logger } from '@/utils';
+import { format } from 'mysql2';
+import { getPool } from '../loaders/mysql';
+import { logger } from '../utils';
 
-interface MySQLResponse {
-	fieldCount: number;
-	affectedRows: number;
-	insertId: number;
-	serverStatus: number;
-	warningCount: number;
-	message: string;
-	protocol41: boolean;
-	changedRows: number;
-}
+import type { OkPacket, RowDataPacket, ResultSetHeader, FieldPacket } from 'mysql2';
 
-export function Query<T = MySQLResponse>(query: string, values?: any) {
-	return new Promise<T>((resolve, reject) => {
-		const sql = format(query, values);
-		logger.debug(sql);
-		get().query(sql, (error, results) => {
-			if (error) {
-				return reject(error);
-			}
+export async function Query(
+	query: string,
+	values?: any
+): Promise<
+	[OkPacket | RowDataPacket[] | RowDataPacket[][] | OkPacket[] | ResultSetHeader, FieldPacket[]]
+> {
+	const sql = format(query, values);
+	logger.debug(sql);
 
-			return resolve(results);
-		});
-	});
+	try {
+		const pool = getPool();
+
+		if (!pool) {
+			throw new Error('Database pool is not initialized.');
+		}
+
+		const results = await pool.query(sql);
+		return results;
+	} catch (error) {
+		throw error;
+	}
 }

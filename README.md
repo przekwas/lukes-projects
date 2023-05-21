@@ -1,25 +1,71 @@
-# Tiny Project API
+# Lukes Projects API
 
-## Todos
+Lukes Projects is a Node.js, TypeScript, Express, and MySQL REST API designed to serve as the central backbone for a variety of client-side projects.
 
-* Transfer all Bastion Tables
-* Transfer all Pickem Tables
-* Transfer all Chirper Tables
-* Create Blog Tables
+## Features
 
-## Router Template
+-   User authentication and authorization using JSON Web Tokens (JWT)
+-   Password hashing for secure storage
+-   SQL injection prevention
+-   Rate limiting to prevent abuse
+-   Data validation and sanitization
+-   Comprehensive logging
+-   Built-in error handling
 
-```js
-import { Router } from 'express';
-import { db } from '@/db';
-import { isAdmin } from '@/middlewares';
+## Prerequisites
 
-export const namedRouter = Router();
+-   Node.js v14.x or later
+-   MySQL v8.x or later
 
-namedRouter.route('*').post(isAdmin).put(isAdmin).delete(isAdmin);
+## Getting Started
 
-namedRouter.get('/', async (req, res, next) => {});
-namedRouter.post('/', async (req, res, next) => {});
-namedRouter.put('/', async (req, res, next) => {});
-namedRouter.delete('/', async (req, res, next) => {});
+### Clone the repository
+
+```bash
+git clone https://github.com/przekwas/lukes-projects.git
+cd lukes-projects
 ```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Configure environment variables
+
+Copy the .env.example file and update the values to match your environment configuration.
+
+```bash
+cp .env.example .env
+```
+
+### Build the application
+
+```bash
+npm run build
+```
+
+### Start the application
+
+```bash
+npm start
+```
+
+## Scripts
+
+Here are some useful NPM scripts provided in this project:
+
+-   `npm run start` - Start the application with PM2
+-   `npm run dev` - Start the application in development mode with ts-node-dev
+-   `npm run build` - Transpile TypeScript to JavaScript
+-   `npm run lint` - Run ESLint to check for code style issues
+-   `npm run prettify` - Run Prettier to automatically fix code style issues
+
+## Contributing
+
+Contributions are welcome. Please submit a PR with any enhancements.
+
+## License
+
+This project is licensed under the ISC License.
