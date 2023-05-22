@@ -8,7 +8,8 @@
 		"build": "tsc",
 		"dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/app.ts",
 		"lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
-		"prettify": "prettier --write \"**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx|css|html)\""
+		"prettify": "prettier --write \"**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx|css|html)\"",
+		"deploy": "git push heroku main"
 	},
 	"repository": {
 		"type": "git",
