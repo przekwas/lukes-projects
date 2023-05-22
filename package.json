@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"start": "pm2 start build/app.js --name 'lukes-projects'",
+		"start": "pm2-runtime start ecosystem.config.js --env production",
 		"build": "tsc",
 		"dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/app.ts",
 		"lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
