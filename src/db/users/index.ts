@@ -1,7 +1,7 @@
 import { Query } from '../query';
 import { v4 as uuidv4 } from 'uuid';
 import { createHash } from '../../utils';
-import { RowDataPacket } from 'mysql2';
+import type { RowDataPacket } from 'mysql2';
 
 export interface UsersTable {
 	id?: string; // char(36)

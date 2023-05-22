@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { registerController, loginController } from '../../controllers/auth';
-import { handleLogin } from '../../../middlewares';
+import { handleLogin, validateErrorHandler } from '../../../middlewares';
 
 function authRouter(app: Router) {
 	const router = Router();
@@ -19,6 +19,7 @@ function authRouter(app: Router) {
 			body('first_name').notEmpty().withMessage('First name cannot be empty'),
 			body('last_name').notEmpty().withMessage('Last name cannot be empty')
 		],
+		validateErrorHandler,
 		registerController
 	);
 
@@ -29,6 +30,7 @@ function authRouter(app: Router) {
 			body('email').isEmail().withMessage('Invalid email'),
 			body('password').notEmpty().withMessage('Password is required')
 		],
+		validateErrorHandler,
 		handleLogin,
 		loginController
 	);

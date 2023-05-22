@@ -1,14 +1,39 @@
 import { Router } from 'express';
-import { checkToken, isAuth } from '../../../middlewares';
-import { getAllSessionsForUserController } from '../../controllers/workout-buddy';
+import { param, body } from 'express-validator';
+import { checkToken, isAuth, validateErrorHandler } from '../../../middlewares';
+import {
+	getAllSessionsForUserController,
+	addSessionForUserController,
+	editOneSessionForUserController,
+	destroyOneSessionForUserController
+} from '../../controllers/workout-buddy';
 
 function workoutBuddyRouter(app: Router) {
 	const router = Router();
 	app.use('/workoutbuddy', router);
 
-	// gets all sessions for a user
-	// userid pulled from jwt
-	router.get('/sessions/user', checkToken, isAuth, getAllSessionsForUserController);
+	router.route('*').all(checkToken, isAuth);
+
+	// user id will be verified and pulled from jwt access
+	router.get('/sessions/user', getAllSessionsForUserController);
+
+	router.post(
+		'/sessions/user',
+		[body('name').notEmpty().withMessage('Name is required')],
+		validateErrorHandler,
+		addSessionForUserController
+	);
+
+	router.patch(
+		'/sessions/:id/user',
+		[
+			param('id').isUUID(4).withMessage('Invalid ID format'),
+			body('name').notEmpty().withMessage('Name is required')
+		],
+		validateErrorHandler,
+		editOneSessionForUserController
+	);
+	router.delete('/sessions/:id/user', destroyOneSessionForUserController);
 
 	return router;
 }
