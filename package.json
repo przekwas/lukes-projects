@@ -1,13 +1,13 @@
 {
 	"name": "lukes-projects",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "",
 	"main": "app.js",
 	"scripts": {
 		"start": "pm2-runtime start ecosystem.config.js --env production",
 		"build": "tsc",
 		"dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/app.ts",
-		"lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
+		"lint": "eslint src/**/*.ts --quiet --fix",
 		"prettify": "prettier --write \"**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx|css|html)\"",
 		"deploy": "git push heroku main"
 	},
