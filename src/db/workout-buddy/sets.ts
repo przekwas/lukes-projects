@@ -12,15 +12,11 @@ export interface SetsTable {
 }
 
 export async function getAllForUser(user_id: string) {
-	try {
-		const [result] = (await Query(
-			'SELECT id, name, created_at FROM wb_sets WHERE user_id = ? ORDER BY created_at DESC;',
-			[user_id]
-		)) as RowDataPacket[][];
-		return result;
-	} catch (error) {
-		throw error;
-	}
+	const [result] = (await Query(
+		'SELECT id, name, created_at FROM wb_sets WHERE user_id = ? ORDER BY created_at DESC;',
+		[user_id]
+	)) as RowDataPacket[][];
+	return result;
 }
 
 export async function getAllForUserAndSession({
@@ -30,25 +26,17 @@ export async function getAllForUserAndSession({
 	user_id: string;
 	session_id: string;
 }) {
-	try {
-		const [result] = (await Query(
-			'SELECT id, name, created_at FROM wb_sets WHERE user_id = ? AND session_id = ? ORDER BY created_at DESC;',
-			[user_id, session_id]
-		)) as RowDataPacket[][];
-		return result;
-	} catch (error) {
-		throw error;
-	}
+	const [result] = (await Query(
+		'SELECT id, name, created_at FROM wb_sets WHERE user_id = ? AND session_id = ? ORDER BY created_at DESC;',
+		[user_id, session_id]
+	)) as RowDataPacket[][];
+	return result;
 }
 
 export async function insertForUser(payload: SetsTable) {
-	try {
-		payload.id = uuidv4();
-		const [result] = (await Query('INSERT INTO wb_sets SET ?;', payload)) as OkPacket[];
-		return { id: payload.id, ...result };
-	} catch (error) {
-		throw error;
-	}
+	payload.id = uuidv4();
+	const [result] = (await Query('INSERT INTO wb_sets SET ?;', payload)) as OkPacket[];
+	return { id: payload.id, ...result };
 }
 
 export async function editOneForUser({
@@ -60,27 +48,19 @@ export async function editOneForUser({
 	name: string;
 	user_id: string;
 }) {
-	try {
-		const [result] = (await Query('UPDATE wb_sets SET name = ? WHERE id = ? AND user_id = ?', [
-			name,
-			id,
-			user_id
-		])) as OkPacket[];
-		return result;
-	} catch (error) {
-		throw error;
-	}
+	const [result] = (await Query('UPDATE wb_sets SET name = ? WHERE id = ? AND user_id = ?', [
+		name,
+		id,
+		user_id
+	])) as OkPacket[];
+	return result;
 }
 
 export async function destroyOneForUser({ id, user_id }: { id: string; user_id: string }) {
-	try {
-		console.log({ id, user_id });
-		const [result] = (await Query('DELETE FROM wb_sets WHERE id = ? AND user_id = ?', [
-			id,
-			user_id
-		])) as OkPacket[];
-		return result;
-	} catch (error) {
-		throw error;
-	}
+	console.log({ id, user_id });
+	const [result] = (await Query('DELETE FROM wb_sets WHERE id = ? AND user_id = ?', [
+		id,
+		user_id
+	])) as OkPacket[];
+	return result;
 }

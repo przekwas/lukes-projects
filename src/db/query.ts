@@ -13,16 +13,12 @@ export async function Query(
 	const sql = format(query, values);
 	logger.debug(sql);
 
-	try {
-		const pool = getPool();
+	const pool = getPool();
 
-		if (!pool) {
-			throw new Error('Database pool is not initialized.');
-		}
-
-		const results = await pool.query(sql);
-		return results;
-	} catch (error) {
-		throw error;
+	if (!pool) {
+		throw new Error('Database pool is not initialized.');
 	}
+
+	const results = await pool.query(sql);
+	return results;
 }

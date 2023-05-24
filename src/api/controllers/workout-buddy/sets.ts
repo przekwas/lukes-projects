@@ -42,7 +42,7 @@ async function editOneForUser(req: Request, res: Response, next: NextFunction) {
 		const result = await workoutBuddy.sets.editOneForUser(dto);
 		res.json({
 			status: 'success',
-			message: `Set edit successful`,
+			message: 'Set edit successful',
 			id: dto.id,
 			affectedRows: result.affectedRows
 		});
@@ -57,7 +57,7 @@ async function destroyOneForUser(req: Request, res: Response, next: NextFunction
 		const result = await workoutBuddy.sets.destroyOneForUser(dto);
 		res.json({
 			status: 'success',
-			message: `Set delete successful`,
+			message: 'Set delete successful',
 			id: dto.id,
 			affectedRows: result.affectedRows
 		});

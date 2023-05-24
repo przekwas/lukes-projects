@@ -27,38 +27,34 @@ export async function find(col: string, val: string | number) {
 }
 
 export async function register(newUser: Partial<UsersTable> & { password?: string }) {
-	try {
-		if (!newUser.username || !newUser.email || !newUser.password) {
-			throw new Error('Username, email and password are required');
-		}
-
-		if (!isValidEmail(newUser.email)) {
-			throw new Error('Enter a valid email address');
-		}
-
-		if (!isUserNameValid(newUser.username)) {
-			throw new Error(
-				'Username must be alphanumeric string that may include _ and . having a length of 3 to 25 characters'
-			);
-		}
-
-		const usernameFound = await find('username', newUser.username);
-		const emailFound = await find('email', newUser.email);
-
-		if (usernameFound || emailFound) {
-			throw new Error('Username or email already registered');
-		}
-
-		newUser.id = uuidv4();
-		newUser.password = await createHash(newUser.password);
-		await Query('INSERT INTO users SET ?', newUser);
-		return {
-			id: newUser.id,
-			email: newUser.email
-		};
-	} catch (error) {
-		throw error;
+	if (!newUser.username || !newUser.email || !newUser.password) {
+		throw new Error('Username, email and password are required');
 	}
+
+	if (!isValidEmail(newUser.email)) {
+		throw new Error('Enter a valid email address');
+	}
+
+	if (!isUserNameValid(newUser.username)) {
+		throw new Error(
+			'Username must be alphanumeric string that may include _ and . having a length of 3 to 25 characters'
+		);
+	}
+
+	const usernameFound = await find('username', newUser.username);
+	const emailFound = await find('email', newUser.email);
+
+	if (usernameFound || emailFound) {
+		throw new Error('Username or email already registered');
+	}
+
+	newUser.id = uuidv4();
+	newUser.password = await createHash(newUser.password);
+	await Query('INSERT INTO users SET ?', newUser);
+	return {
+		id: newUser.id,
+		email: newUser.email
+	};
 }
 
 function isUserNameValid(username: string) {
@@ -68,6 +64,6 @@ function isUserNameValid(username: string) {
 
 function isValidEmail(email: string) {
 	return !!email.match(
-		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 	);
 }

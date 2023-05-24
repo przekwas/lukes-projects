@@ -33,7 +33,7 @@ async function editOneForUserController(req: Request, res: Response, next: NextF
 		const result = await workoutBuddy.sessions.editOneForUser(dto);
 		res.json({
 			status: 'success',
-			message: `Session edit successful`,
+			message: 'Session edit successful',
 			id: dto.id,
 			affectedRows: result.affectedRows
 		});
@@ -51,7 +51,7 @@ async function destroyOneForUserController(req: Request, res: Response, next: Ne
 		const result = await workoutBuddy.sessions.destroyOneForUser(dto);
 		res.json({
 			status: 'success',
-			message: `Session delete successful`,
+			message: 'Session delete successful',
 			id: dto.id,
 			affectedRows: result.affectedRows
 		});
