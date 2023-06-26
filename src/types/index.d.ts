@@ -1,6 +1,6 @@
 import type { UsersTable } from '../db/users';
 
-export type ReqUser = UsersTable
+export type ReqUser = UsersTable;
 
 export enum UserRole {
 	USER = 0,
