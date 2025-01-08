@@ -1,9 +1,9 @@
 {
   "name": "lukes-projects",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "description": "A Web Server backbone for all my fun and goofy side projects",
+  "author": "Luke Przekwas",
+  "private": false,
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
