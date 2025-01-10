@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { WorkoutTrackerService } from './workout-tracker.service';
 import { CreateWorkoutDto } from './dto/create-workout.dto';
+import { HardcodedGuard } from 'src/auth/guards/hardcoded.guard';
 
 @Controller('workouts-tracker')
 export class WorkoutTrackerController {
@@ -17,6 +18,7 @@ export class WorkoutTrackerController {
 	}
 
 	@Post()
+	@UseGuards(HardcodedGuard)
 	createWorkout(@Body() dto: CreateWorkoutDto) {
 		return this.workoutService.create(dto);
 	}
