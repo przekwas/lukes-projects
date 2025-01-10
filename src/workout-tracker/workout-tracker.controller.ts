@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { WorkoutTrackerService } from './workout-tracker.service';
+import { CreateWorkoutDto } from './dto/create-workout.dto';
 
-@Controller('workouts')
+@Controller('workouts-tracker')
 export class WorkoutTrackerController {
 	constructor(private readonly workoutService: WorkoutTrackerService) {}
 
@@ -16,7 +17,7 @@ export class WorkoutTrackerController {
 	}
 
 	@Post()
-	createWorkout(@Body() body: { name: string; exercises: string[] }) {
-		return this.workoutService.create(body);
+	createWorkout(@Body() dto: CreateWorkoutDto) {
+		return this.workoutService.create(dto);
 	}
 }
