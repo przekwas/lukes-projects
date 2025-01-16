@@ -9,15 +9,14 @@ import { WorkoutTrackerModule } from './workout-tracker/workout-tracker.module';
 	imports: [
 		TypeOrmModule.forRoot({
 			type: 'postgres',
-			host: 'localhost', // or your IP if remote
-			port: 5432, // default PG port
-			username: 'postgres', // or your actual username
-			password: 'mysecretpass',
-			database: 'my_nest_db', // the DB you created
+			host: 'localhost',
+			port: 5432,
+			username: 'postgres',
+			password: 'password',
+			database: 'lukes_projects',
 			entities: [__dirname + '/**/*.entity{.ts,.js}'],
-			synchronize: true // auto-creates tables in dev
+			synchronize: true
 		}),
-		,
 		UsersModule,
 		WorkoutTrackerModule
 	],
