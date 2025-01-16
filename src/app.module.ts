@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
 import { WorkoutTrackerModule } from './workout-tracker/workout-tracker.module';
 
 @Module({
@@ -17,6 +18,7 @@ import { WorkoutTrackerModule } from './workout-tracker/workout-tracker.module';
 			synchronize: true // auto-creates tables in dev
 		}),
 		,
+		UsersModule,
 		WorkoutTrackerModule
 	],
 	controllers: [AppController],
