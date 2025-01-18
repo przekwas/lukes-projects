@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { WorkoutTrackerModule } from './workout-tracker/workout-tracker.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -18,6 +19,7 @@ import { WorkoutTrackerModule } from './workout-tracker/workout-tracker.module';
 			synchronize: true
 		}),
 		UsersModule,
+		AuthModule,
 		WorkoutTrackerModule
 	],
 	controllers: [AppController],
