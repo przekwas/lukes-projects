@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -12,26 +12,30 @@ export class UsersService {
 		private readonly usersRepo: Repository<User>
 	) {}
 
-    test(): string {
-        return 'test';
-    }
+	async findOneById(id: string): Promise<User> {
+		const user = await this.usersRepo.findOne({ where: { id } });
+		if (!user) {
+			throw new NotFoundException(`User with ${id} not found`);
+		}
+		return user;
+	}
 
-    async register(createUserDto: CreateUserDto): Promise<User> {
-        const { email, password, displayName } = createUserDto;
+	async register(createUserDto: CreateUserDto): Promise<User> {
+		const { email, password, displayName } = createUserDto;
 
-        const existing = await this.usersRepo.findOne({ where: { email }});
-        if (existing) {
-            throw new BadRequestException('Email is already in use');
-        }
+		const existing = await this.usersRepo.findOne({ where: { email } });
+		if (existing) {
+			throw new BadRequestException('Email is already in use');
+		}
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+		const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = this.usersRepo.create({
-            email,
-            displayName,
-            password: hashedPassword
-        });
+		const newUser = this.usersRepo.create({
+			email,
+			displayName,
+			password: hashedPassword
+		});
 
-        return this.usersRepo.save(newUser);
-    }
+		return this.usersRepo.save(newUser);
+	}
 }
