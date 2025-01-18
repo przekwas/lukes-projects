@@ -20,6 +20,14 @@ export class UsersService {
 		return user;
 	}
 
+	async findOneByEmail(email: string): Promise<User> {
+		const user = await this.usersRepo.findOne({ where: { email } });
+		if (!user) {
+			throw new NotFoundException(`Invalid credentials`);
+		}
+		return user;
+	}
+
 	async register(createUserDto: CreateUserDto): Promise<User> {
 		const { email, password, displayName } = createUserDto;
 
