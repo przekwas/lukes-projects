@@ -47,4 +47,31 @@ export class AuthService {
 			refreshToken: refreshTokenStr
 		};
 	}
+
+	async refresh(refreshTokenStr: string) {
+		const tokenEntity = await this.tokenRepo.findOne({
+			where: { token: refreshTokenStr },
+			relations: ['user']
+		});
+
+		if (!tokenEntity) {
+			throw new UnauthorizedException('Invalid refresh token');
+		}
+
+		if (tokenEntity.expiresAt && tokenEntity.expiresAt < new Date()) {
+			throw new UnauthorizedException('Refresh token expired');
+		}
+
+		// TODO
+		// rotate refresh token?
+
+		// new access token
+		const payload = { sub: tokenEntity.user.id, email: tokenEntity.user.email };
+		const newAccessToken = this.jwtService.sign(payload);
+
+		return {
+			accesToken: newAccessToken
+			// new refresh?
+		};
+	}
 }
