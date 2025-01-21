@@ -29,7 +29,10 @@ describe('AuthController', () => {
 				password: 'password'
 			};
 
-			const mockResult = { message: 'Login Success Yo!' };
+			const mockResult = {
+				accessToken: 'fake-access-token',
+				refreshToken: 'fake-refresh-token'
+			};
 
 			(authService.login as jest.Mock).mockResolvedValue(mockResult);
 
