@@ -70,7 +70,7 @@ export class AuthService {
 		const newAccessToken = this.jwtService.sign(payload);
 
 		return {
-			accesToken: newAccessToken
+			accessToken: newAccessToken
 			// new refresh?
 		};
 	}
