@@ -74,4 +74,9 @@ export class AuthService {
 			// new refresh?
 		};
 	}
+
+	async logout(refreshToken: string) {
+		await this.tokenRepo.delete({ token: refreshToken });
+		return { message: 'Logged out successfully' };
+	}
 }
