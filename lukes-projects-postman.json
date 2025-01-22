@@ -12,16 +12,6 @@
 				{
 					"name": "Get all workouts",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -167,11 +157,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('Store access token and refresh token', () => {\r",
-									"    const jsonData = pm.response.json();\r",
-									"    pm.environment.set('accessToken', jsonData.accessToken);\r",
-									"    pm.environment.set('refreshToken', jsonData.refreshToken);\r",
-									"});"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -211,10 +197,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('Store refreshed access token', () => {\r",
-									"    const jsonData = pm.response.json();\r",
-									"    pm.environment.set('accessToken', jsonData.accessToken);\r",
-									"});"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -226,7 +209,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,11 +237,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test('Store access token and refresh token', () => {\r",
-									"    const jsonData = pm.response.json();\r",
-									"    pm.environment.unset('accessToken');\r",
-									"    pm.environment.unset('refreshToken');\r",
-									"});"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -268,15 +247,6 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{base_url}}/api/auth/logout",
 							"host": [
