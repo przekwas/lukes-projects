@@ -5,17 +5,18 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([RefreshToken]),
 		UsersModule,
 		JwtModule.register({
-			secret: 'someSecretKeyREPLACEFROM_ENV_PLZ',
+			secret: process.env.JWT_SECRET || 'someSecretKeyREPLACEFROM_ENV_PLZ',
 			signOptions: { expiresIn: '15m' }
 		})
 	],
-	controllers: [AuthController],
-	providers: [AuthService]
+	providers: [AuthService, JwtStrategy],
+	controllers: [AuthController]
 })
 export class AuthModule {}
