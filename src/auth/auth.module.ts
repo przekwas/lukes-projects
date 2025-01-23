@@ -12,8 +12,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 		TypeOrmModule.forFeature([RefreshToken]),
 		UsersModule,
 		JwtModule.register({
-			// TODO use env config
-			secret: process.env.JWT_SECRET || 'someSecretKeyREPLACEFROM_ENV_PLZ',
+			secret: process.env.JWT_SECRET,
 			signOptions: { expiresIn: '15m' }
 		})
 	],

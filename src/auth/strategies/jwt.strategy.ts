@@ -12,8 +12,7 @@ function cookieExtractor(req: Request) {
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	constructor() {
 		super({
-			// TODO use env config
-			secretOrKey: process.env.JWT_SECRET || 'someSecretKeyREPLACEFROM_ENV_PLZ',
+			secretOrKey: process.env.JWT_SECRET as string,
 			jwtFromRequest: cookieExtractor,
 			ignoreExpiration: false
 		});
