@@ -27,7 +27,7 @@ export class AuthService {
 			throw new UnauthorizedException('Invalid credentials');
 		}
 
-		const payload = { sub: user.id, email: user.email };
+		const payload = { sub: user.id, email: user.email, role: user.role };
 		const accessToken = this.jwtService.sign(payload);
 
 		const refreshTokenStr = crypto.randomBytes(32).toString('hex');
@@ -66,7 +66,7 @@ export class AuthService {
 		// rotate refresh token?
 
 		// new access token
-		const payload = { sub: tokenEntity.user.id, email: tokenEntity.user.email };
+		const payload = { sub: tokenEntity.user.id, email: tokenEntity.user.email, role: tokenEntity.user.role };
 		const newAccessToken = this.jwtService.sign(payload);
 
 		return {
