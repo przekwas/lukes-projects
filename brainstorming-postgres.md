@@ -1,17 +1,3 @@
-**Table: `workout_sessions`**  
-| Column         | Type          | Constraints / Notes                                                                                   |
-|----------------|-------------- |-------------------------------------------------------------------------------------------------------|
-| `id`           | `uuid` (pk)   | Primary key.                                                                                          |
-| `user_id`      | `uuid`        | Foreign key -> `users.id` (ON DELETE SET NULL). The user who did this workout.                        |
-| `session_date` | `timestamp`   | When the workout occurred (date/time).                                                                |
-| `location`     | `varchar`     | Optional text or an enum for e.g. "Planet Fitness," "Home," etc.                                      |
-| `notes`        | `text`        | Any extra notes about the session (optional).                                                         |
-| `created_at`   | `timestamp`   | Defaults to `CURRENT_TIMESTAMP`.                                                                      |
-| `updated_at`   | `timestamp`   | Typically updated by the app.                                                                         |
-| `deleted_at`   | `timestamp`   | Null if not soft-deleted; set when the session is soft-deleted.                                       |
-
----
-
 **Table: `exercises`**  
 | Column        | Type          | Constraints / Notes                                                  |
 |---------------|-------------- |----------------------------------------------------------------------|
