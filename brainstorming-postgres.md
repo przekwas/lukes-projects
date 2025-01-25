@@ -1,15 +1,3 @@
-**Table: `users`**  
-| Column       | Type               | Constraints / Notes                                                                 |
-|--------------|--------------------|-------------------------------------------------------------------------------------|
-| `id`         | `uuid` (pk)        | Primary key (or serial/bigserial).                                                 |
-| `email`      | `varchar`          | Unique, not null.                                                                  |
-| `password`   | `varchar`          | Store a hashed password.                                                           |
-| `created_at` | `timestamp`        | Default `CURRENT_TIMESTAMP`.                                                       |
-| `updated_at` | `timestamp`        | Maintain in app or via trigger.                                                   |
-| `deleted_at` | `timestamp`        | Null if not soft-deleted; set when user is soft-deleted.                           |
-
----
-
 **Table: `workout_sessions`**  
 | Column         | Type          | Constraints / Notes                                                                                   |
 |----------------|-------------- |-------------------------------------------------------------------------------------------------------|
