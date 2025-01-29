@@ -13,13 +13,13 @@ export class WorkoutTrackerController {
 		return this.workoutService.findAll();
 	}
 
-	@Get(':id')
-	getOneWorkout(@Param('id') id: string) {
-		return this.workoutService.findOne(Number(id));
-	}
+	// @Get(':id')
+	// getOneWorkout(@Param('id') id: string) {
+	// 	return this.workoutService.findOne(Number(id));
+	// }
 
-	@Post()
-	createWorkout(@Body() dto: CreateWorkoutDto) {
-		return this.workoutService.create(dto);
-	}
+	// @Post()
+	// createWorkout(@Body() dto: CreateWorkoutDto) {
+	// 	return this.workoutService.create(dto);
+	// }
 }
