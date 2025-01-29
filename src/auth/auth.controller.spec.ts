@@ -3,6 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/auth.dto';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Response } from 'express';
 
 describe('AuthController', () => {
 	let authController: AuthController;
@@ -11,7 +12,7 @@ describe('AuthController', () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [AuthController],
-			providers: [{ provide: AuthService, useValue: { login: jest.fn() } }]
+			providers: [{ provide: AuthService, useValue: { login: jest.fn(), res: jest.fn() } }]
 		}).compile();
 
 		authController = module.get<AuthController>(AuthController);
@@ -29,14 +30,15 @@ describe('AuthController', () => {
 				password: 'password'
 			};
 
-			const mockResult = {
-				accessToken: 'fake-access-token',
-				refreshToken: 'fake-refresh-token'
-			};
+			const mockResult = { message: 'Logged in' };
 
 			(authService.login as jest.Mock).mockResolvedValue(mockResult);
 
-			const result = await authController.login(mockLoginDto);
+			const mockRes = {
+				cookie: jest.fn()
+			} as Partial<Response> as Response;
+
+			const result = await authController.login(mockLoginDto, mockRes);
 
 			expect(authService.login).toHaveBeenCalledWith(
 				mockLoginDto.email,
@@ -55,7 +57,13 @@ describe('AuthController', () => {
 				new UnauthorizedException('Invalid credentials')
 			);
 
-			await expect(authController.login(mockLoginDto)).rejects.toThrow(UnauthorizedException);
+			const mockRes = {
+				cookie: jest.fn()
+			} as Partial<Response> as Response;
+
+			await expect(authController.login(mockLoginDto, mockRes)).rejects.toThrow(
+				UnauthorizedException
+			);
 			expect(authService.login).toHaveBeenCalledWith(
 				mockLoginDto.email,
 				mockLoginDto.password
@@ -72,7 +80,13 @@ describe('AuthController', () => {
 				new NotFoundException('Invalid credentials')
 			);
 
-			await expect(authController.login(mockLoginDto)).rejects.toThrow(NotFoundException);
+			const mockRes = {
+				cookie: jest.fn()
+			} as Partial<Response> as Response;
+
+			await expect(authController.login(mockLoginDto, mockRes)).rejects.toThrow(
+				NotFoundException
+			);
 			expect(authService.login).toHaveBeenCalledWith(
 				mockLoginDto.email,
 				mockLoginDto.password
