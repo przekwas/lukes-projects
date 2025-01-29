@@ -10,7 +10,7 @@ export class WorkoutSessionsService {
 		private readonly workoutSessionsRepo = Repository<WorkoutSession>
 	) {}
 
-    test(): string {
+    createSession(): string {
         return 'test';
     }
 }

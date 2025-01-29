@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { CreateWorkoutDto } from '../dto/create-workout.dto';
 import { WorkoutSessionsService } from '../services/workout-sessions.service';
 
 @Controller('workout-tracker/workout-sessions')
+@UseGuards(AuthGuard('jwt'))
 export class WorkoutSessionsController {
 	constructor(private readonly workoutSessionsService: WorkoutSessionsService) {}
 
-	@Get('test')
-	async test() {
-		return this.workoutSessionsService.test();
+	@Post('create')
+	async createSession(@Body() dto: CreateWorkoutDto, @Req() req: Request) {
+		console.log(req.user);
+		return this.workoutSessionsService.createSession();
 	}
 }
