@@ -10,48 +10,93 @@
 			"name": "workout-tracker",
 			"item": [
 				{
-					"name": "Get all workouts",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/workouts-tracker/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"workouts-tracker",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get one workout",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/workouts-tracker/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"workouts-tracker",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1"
+					"name": "workout-sessions",
+					"item": [
+						{
+							"name": "Create workout session",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sessionDate\": \"2025-02-01T10:00:00Z\",\r\n    \"location\": \"test location\",\r\n    \"notes\": \"test notes\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/workout-sessions/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"workout-sessions",
+										"create"
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Get one workout session",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/workout-sessions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"workout-sessions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8679593b-ff7c-4436-af18-25a166cd519e"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all workout sessions for logged in user",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/workout-sessions/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"workout-sessions",
+										""
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "Create workout",
