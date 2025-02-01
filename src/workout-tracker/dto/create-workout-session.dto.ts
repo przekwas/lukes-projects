@@ -9,7 +9,7 @@ export class CreateWorkoutSessionDto {
 	sessionDate: string;
 
 	/**
-	 * Optional text for location (e.g., "Home", "Gym").
+	 * Optional text for location
 	 */
 	@IsOptional()
 	@IsString()
