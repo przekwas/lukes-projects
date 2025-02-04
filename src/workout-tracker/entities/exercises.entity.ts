@@ -18,7 +18,7 @@ export class Exercise {
 	equipment?: string;
 
 	/**
-	 * An optinal tag for exercise e.g. Push, Pull, Leg, Other
+	 * An optional tag for exercise e.g. Push, Pull, Leg, Other
 	 */
 	@Column({ nullable: true, length: 50 })
 	tag?: string;
