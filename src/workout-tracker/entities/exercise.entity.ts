@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity({ name: 'exercises' })
 export class Exercise {
@@ -23,12 +23,12 @@ export class Exercise {
 	@Column({ nullable: true, length: 50 })
 	tag?: string;
 
-	@Column({ name: 'created_at' })
+	@CreateDateColumn({ name: 'created_at' })
 	createdAt: Date;
 
-	@Column({ name: 'updated_at' })
+	@UpdateDateColumn({ name: 'updated_at' })
 	updatedAt: Date;
 
-	@Column({ name: 'deleted_at', nullable: true })
+	@DeleteDateColumn({ name: 'deleted_at', nullable: true })
 	deletedAt: Date | null;
 }
