@@ -9,8 +9,8 @@ export class ExercisesController {
 	constructor(private readonly exercisesService: ExercisesService) {}
 
 	@Get()
-	async findAll() {
-        return this.exercisesService.findAll();
+	async getAll() {
+        return this.exercisesService.getAll();
     }
 
 	@Get('name/:name')

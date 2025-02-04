@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Exercise } from '../entities/exercise.entity';
 import { CreateExerciseDto } from '../dto/create-exercise.dto';
 import { UpdateExerciseDto } from '../dto/update-exercise.dto';
@@ -12,31 +12,44 @@ export class ExercisesService {
 		private readonly exercisesRepo: Repository<Exercise>
 	) {}
 
-	async findAll() {
-		return 'test0';
+	async getAll(): Promise<Exercise[]> {
+		return this.exercisesRepo.find();
 	}
 
 	async findByName(name: string) {
-		return 'test1 ' + name;
+		return this.exercisesRepo.find({
+			where: { name: ILike(`%${name}%`) }
+		});
 	}
 
 	async findByTag(tag: string) {
-		return 'test2 ' + tag;
+		return this.exercisesRepo.find({
+			where: { tag }
+		});
 	}
 
 	async getOneById(id: string) {
-		return 'test3 ' + id;
+		const exercise = await this.exercisesRepo.findOne({ where: { id } });
+		if (!exercise) throw new NotFoundException(`Exercise not found: ${id}`);
+		return exercise;
 	}
 
-	async createExercise(dto: CreateExerciseDto) {
-		return 'test4 ' + JSON.stringify(dto);
+	async createExercise(dto: CreateExerciseDto): Promise<Exercise> {
+		const exercise = this.exercisesRepo.create(dto);
+		return this.exercisesRepo.save(exercise);
 	}
 
 	async editExercise(id: string, dto: UpdateExerciseDto) {
-		return 'test5 ' + id + ' ' + JSON.stringify(dto);
-    }
+        const exercise = await this.getOneById(id);
+        if (dto.name !== undefined) exercise.name = dto.name;
+        if (dto.equipment !== undefined) exercise.equipment = dto.equipment;
+        if (dto.tag !== undefined) exercise.tag = dto.tag;
+    
+        return this.exercisesRepo.save(exercise);
+	}
 
 	async softDeleteExercise(id: string) {
-		return 'test6 ' + id;
+        const exercise = await this.getOneById(id);
+        return this.exercisesRepo.softRemove(exercise);
 	}
 }
