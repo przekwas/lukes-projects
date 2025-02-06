@@ -1,4 +1,5 @@
 import { IsOptional, IsString, IsDateString } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateWorkoutSessionDto {
 	/**
@@ -13,6 +14,7 @@ export class UpdateWorkoutSessionDto {
 	 */
 	@IsOptional()
 	@IsString()
+	@Transform(({ value }) => value?.toLowerCase())
 	location?: string;
 
 	/**
@@ -20,5 +22,6 @@ export class UpdateWorkoutSessionDto {
 	 */
 	@IsOptional()
 	@IsString()
+	@Transform(({ value }) => value?.toLowerCase())
 	notes?: string;
 }

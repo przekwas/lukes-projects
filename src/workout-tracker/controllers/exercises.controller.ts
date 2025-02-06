@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, UseGuards, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, UseGuards, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ExercisesService } from '../services/exercises.service';
 import { CreateExerciseDto } from '../dto/create-exercise.dto';
@@ -14,17 +14,19 @@ export class ExercisesController {
     }
 
 	@Get('name/:name')
-	async findByName(@Param('name') name: string) {
+	async findByName(@Param('name') rawName: string) {
+        const name = rawName.toLowerCase();
         return this.exercisesService.findByName(name);
     }
 
 	@Get('tag/:tag')
-	async findByTag(@Param('tag') tag: string) {
+	async findByTag(@Param('tag') rawTag: string) {
+        const tag = rawTag.toLowerCase();
         return this.exercisesService.findByTag(tag);
     }
 
 	@Get(':id')
-	async getOneById(@Param('id') id: string) {
+	async getOneById(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.exercisesService.getOneById(id);
     }
 
@@ -36,13 +38,13 @@ export class ExercisesController {
 
 	@Patch(':id')
     @UseGuards(AuthGuard('jwt'))
-	async editExercise(@Param('id') id: string, @Body() dto: UpdateExerciseDto) {
+	async editExercise(@Param('id', new ParseUUIDPipe()) id: string, @Body() dto: UpdateExerciseDto) {
         return this.exercisesService.editExercise(id, dto);
     }
 
 	@Delete(':id')
     @UseGuards(AuthGuard('jwt'))
-	async softDeleteExercise(@Param('id') id: string) {
+	async softDeleteExercise(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.exercisesService.softDeleteExercise(id);
     }
 }
