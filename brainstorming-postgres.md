@@ -1,29 +1,3 @@
-**Table: `exercises`**  
-| Column        | Type          | Constraints / Notes                                                  |
-|---------------|-------------- |----------------------------------------------------------------------|
-| `id`          | `uuid` (pk)   | Primary key.                                                         |
-| `name`        | `varchar`     | E.g., “Bench Press,” “Squat,” “Pull-Up.”                             |
-| `equipment`   | `varchar`     | Optional: e.g., “Barbell,” “Dumbbell,” “Bodyweight.”                 |
-| `created_at`  | `timestamp`   | Defaults to `CURRENT_TIMESTAMP.`                                     |
-| `updated_at`  | `timestamp`   | For updates to exercise info.                                        |
-| `deleted_at`  | `timestamp`   | Null if not soft-deleted; set when the exercise is soft-deleted.     |
-
----
-
-**Table: `session_exercises`**  
-| Column            | Type         | Constraints / Notes                                                                                         |
-|-------------------|------------- |-------------------------------------------------------------------------------------------------------------|
-| `id`              | `uuid` (pk)  | Primary key.                                                                                                |
-| `workout_id`      | `uuid`       | FK -> `workout_sessions.id` (ON DELETE SET NULL).                                                           |
-| `exercise_id`     | `uuid`       | FK -> `exercises.id` (ON DELETE SET NULL).                                                                  |
-| `order_index`     | `int`        | Optional: if you want to store the order of exercises in the session.                                       |
-| `notes`           | `text`       | Any extra notes about this exercise (e.g. “keep elbows in,” etc.).                                          |
-| `created_at`      | `timestamp`  | Defaults to `CURRENT_TIMESTAMP`.                                                                            |
-| `updated_at`      | `timestamp`  | Updated in the app.                                                                                         |
-| `deleted_at`      | `timestamp`  | Null if not soft-deleted; set when the session-exercise record is soft-deleted.                             |
-
----
-
 **Table: `exercise_sets`**  
 | Column                | Type         | Constraints / Notes                                                                                 |
 |-----------------------|------------- |-----------------------------------------------------------------------------------------------------|
