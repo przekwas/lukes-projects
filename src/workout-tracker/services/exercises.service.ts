@@ -40,16 +40,16 @@ export class ExercisesService {
 	}
 
 	async editExercise(id: string, dto: UpdateExerciseDto) {
-        const exercise = await this.getOneById(id);
-        if (dto.name !== undefined) exercise.name = dto.name;
-        if (dto.equipment !== undefined) exercise.equipment = dto.equipment;
-        if (dto.tag !== undefined) exercise.tag = dto.tag;
-    
-        return this.exercisesRepo.save(exercise);
+		const exercise = await this.getOneById(id);
+		if (dto.name !== undefined) exercise.name = dto.name;
+		if (dto.equipment !== undefined) exercise.equipment = dto.equipment;
+		if (dto.tag !== undefined) exercise.tag = dto.tag;
+
+		return this.exercisesRepo.save(exercise);
 	}
 
 	async softDeleteExercise(id: string) {
-        const exercise = await this.getOneById(id);
-        return this.exercisesRepo.softRemove(exercise);
+		const exercise = await this.getOneById(id);
+		return this.exercisesRepo.softRemove(exercise);
 	}
 }

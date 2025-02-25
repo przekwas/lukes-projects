@@ -95,42 +95,258 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Update one workout session",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"location\": \"New Gym Name\",\r\n  \"notes\": \"Updated notes for my session\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/workout-sessions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"workout-sessions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8679593b-ff7c-4436-af18-25a166cd519e"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
-					"name": "Create workout",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "x-my-secret",
-								"value": "supersecret",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Leg Day\",\r\n    \"exercises\": [\r\n        \"Squat\",\r\n        \"Leg Press\"\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "exercises",
+					"item": [
+						{
+							"name": "Get all exercises",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{base_url}}/api/workouts-tracker/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"workouts-tracker",
-								""
-							]
+						{
+							"name": "Find by name",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/name/:name",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "herp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find all by tag",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/tag/:tag",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										"tag",
+										":tag"
+									],
+									"variable": [
+										{
+											"key": "tag",
+											"value": "push"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one by id",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1234"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create exercise",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Bench Press\",\r\n    \"equipment\": \"Smith Machine\",\r\n    \"tag\": \"push\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/create",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit one by id",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Pullup\",\r\n    \"equipment\": \"Bar\",\r\n    \"type\": \"Pull\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1234"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Soft delete one by id",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/workout-tracker/exercises/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"workout-tracker",
+										"exercises",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1234"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
