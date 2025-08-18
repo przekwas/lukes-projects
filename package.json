@@ -8,7 +8,9 @@
 	],
 	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "npm run -ws build",
+		"build:server": "npm run build -w @lukes-projects/server",
+		"dev:server": "npm run dev -w @lukes-projects/server"
 	},
 	"repository": {
 		"type": "git",
