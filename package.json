@@ -1,0 +1,25 @@
+{
+	"name": "lukes-projects",
+	"version": "1.0.0",
+	"main": "index.js",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/przekwas/lukes-projects.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/przekwas/lukes-projects/issues"
+	},
+	"homepage": "https://github.com/przekwas/lukes-projects#readme",
+	"description": ""
+}

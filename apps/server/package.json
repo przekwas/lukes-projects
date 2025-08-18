@@ -1,0 +1,13 @@
+{
+	"name": "@lukes-projects/server",
+	"version": "1.0.0",
+	"main": "dist/main.js",
+	"scripts": {
+		"start": "ts-node src/main.ts",
+		"build": "tsc -p tsconfig.json",
+		"dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+		"test": "jest"
+	},
+	"dependencies": {},
+	"devDependencies": {}
+}
