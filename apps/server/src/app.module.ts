@@ -1,4 +1,8 @@
-// apps/server/src/app.module.ts
 import { Module } from '@nestjs/common';
-@Module({})
+
+@Module({
+	imports: [],
+	controllers: [],
+	providers: []
+})
 export class AppModule {}
