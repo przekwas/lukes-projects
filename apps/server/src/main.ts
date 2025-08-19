@@ -24,18 +24,18 @@ async function bootstrap() {
 		})
 	);
 
-	// security headers
-	//@ts-ignore
-	await app.register(helmet, {
-		contentSecurityPolicy: false
-	});
-
 	// cors
 	//@ts-ignore
 	await app.register(cors, {
 		// TEMP update later when deployed
 		origin: isProd ? ['http://lukes-projects.com'] : true,
 		credentials: true
+	});
+
+	// security headers
+	//@ts-ignore
+	await app.register(helmet, {
+		contentSecurityPolicy: false
 	});
 
 	// cookies
