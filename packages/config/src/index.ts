@@ -1,4 +1,4 @@
-import { cleanEnv, str, port, url } from 'envalid';
+import { cleanEnv, str, port } from 'envalid';
 
 // load and validate process.env
 export const env = cleanEnv(process.env, {

@@ -9,7 +9,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
 
 // TEMP
-// the `as any` type casts are because of version mistmatches between nest and fastify
+// the `@ts-ignore` are because of version mistmatches between nest and fastify
 // oh well lol
 
 async function bootstrap() {
@@ -19,26 +19,36 @@ async function bootstrap() {
 			logger: {
 				level: isProd ? 'info' : 'debug',
 				transport: isProd ? undefined : { target: 'pino-pretty' }
-			}
+			},
+			trustProxy: true
 		})
 	);
 
 	// security headers
-	await app.register(helmet as any, {
+	//@ts-ignore
+	await app.register(helmet, {
 		contentSecurityPolicy: false
 	});
 
 	// cors
-	// TEMP update later when deployed
-	await app.register(cors as any, {
+	//@ts-ignore
+	await app.register(cors, {
+		// TEMP update later when deployed
 		origin: isProd ? ['http://lukes-projects.com'] : true,
 		credentials: true
 	});
 
 	// cookies
-	await app.register(cookie as any, {
+	//@ts-ignore
+	await app.register(cookie, {
 		// set a default secret in dev; override via env in prod
-		secret: env.COOKIE_SECRET
+		secret: env.COOKIE_SECRET,
+		hook: 'onRequest',
+		parseOptions: {
+			sameSite: 'lax',
+			secure: isProd,
+			httpOnly: true
+		}
 	});
 
 	// global validation and transform for dtos
@@ -52,12 +62,19 @@ async function bootstrap() {
 	);
 
 	// api prefix and shutdown hook
-	app.setGlobalPrefix('api');
+	app.setGlobalPrefix('api/v1');
 	app.enableShutdownHooks();
 
-	await app.listen({ port: env.PORT, host: '0.0.0.0' });
 	const fastify = app.getHttpAdapter().getInstance();
-	fastify.log.info(`🚀 API Dog running on http://localhost:${env.PORT}/api`);
+	const onClose = async (signal: string) => {
+		fastify.log.info(`Received ${signal}, shutting down ...`);
+		await app.close();
+		process.exit(0);
+	};
+	['SIGINT', 'SIGTERM'].forEach(sig => process.on(sig as NodeJS.Signals, () => onClose(sig)));
+
+	await app.listen({ port: env.PORT, host: '0.0.0.0' });
+	fastify.log.info(`🚀 API Dog running on http://localhost:${env.PORT}/api/v1`);
 }
 
 bootstrap();
