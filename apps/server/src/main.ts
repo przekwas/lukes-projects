@@ -8,6 +8,9 @@ import cors from '@fastify/cors';
 import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
 
+// TEMP db test
+import { initDb, closeDb } from '@lukes-projects/db';
+
 // TEMP
 // the `@ts-ignore` are because of version mistmatches between nest and fastify
 // oh well lol
@@ -68,10 +71,14 @@ async function bootstrap() {
 	const fastify = app.getHttpAdapter().getInstance();
 	const onClose = async (signal: string) => {
 		fastify.log.info(`Received ${signal}, shutting down ...`);
+		await closeDb(); // TEMP
 		await app.close();
 		process.exit(0);
 	};
 	['SIGINT', 'SIGTERM'].forEach(sig => process.on(sig as NodeJS.Signals, () => onClose(sig)));
+
+	// TEMP db test
+	await initDb();
 
 	await app.listen({ port: env.PORT, host: '0.0.0.0' });
 	fastify.log.info(`🚀 API Dog running on http://localhost:${env.PORT}/api/v1`);

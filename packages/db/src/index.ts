@@ -6,7 +6,7 @@ export const pool = new Pool({
 	connectionString: env.DATABASE_URL
 });
 
-export async function query(text: string, params?: any[]) {
+export async function query<T>(text: string, params?: any[]) {
 	return pool.query(text, params);
 }
 
