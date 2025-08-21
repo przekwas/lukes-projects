@@ -5,5 +5,13 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"@lukes-projects/config": "^1.0.0",
+		"pg": "^8.16.3"
+	},
+	"devDependencies": {
+		"@types/pg": "^8.15.5",
+		"typescript": "^5.9.2"
 	}
 }
