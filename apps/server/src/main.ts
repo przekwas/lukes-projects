@@ -69,6 +69,12 @@ async function bootstrap() {
 	app.enableShutdownHooks();
 
 	const fastify = app.getHttpAdapter().getInstance();
+
+	// TEMP db test
+	await initDb();
+
+	console.log(env)
+
 	const onClose = async (signal: string) => {
 		fastify.log.info(`Received ${signal}, shutting down ...`);
 		await closeDb(); // TEMP
@@ -76,9 +82,6 @@ async function bootstrap() {
 		process.exit(0);
 	};
 	['SIGINT', 'SIGTERM'].forEach(sig => process.on(sig as NodeJS.Signals, () => onClose(sig)));
-
-	// TEMP db test
-	await initDb();
 
 	await app.listen({ port: env.PORT, host: '0.0.0.0' });
 	fastify.log.info(`🚀 API Dog running on http://localhost:${env.PORT}/api/v1`);
