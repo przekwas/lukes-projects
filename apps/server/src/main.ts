@@ -73,8 +73,6 @@ async function bootstrap() {
 	// TEMP db test
 	await initDb();
 
-	console.log(env)
-
 	const onClose = async (signal: string) => {
 		fastify.log.info(`Received ${signal}, shutting down ...`);
 		await closeDb(); // TEMP
