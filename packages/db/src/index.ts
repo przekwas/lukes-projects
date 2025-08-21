@@ -1,12 +1,13 @@
-import { Pool, QueryResultRow } from 'pg';
-import { env } from '@lukes-projects/config';
+import { Pool } from 'pg';
+import { env, isProd} from '@lukes-projects/config';
 
 // TEMP singleton pool for testing on app
 export const pool = new Pool({
-	connectionString: env.DATABASE_URL
+	connectionString: env.DATABASE_URL,
+	ssl: isProd ? true : undefined // TEMP
 });
 
-export async function query<T>(text: string, params?: any[]) {
+export async function query(text: string, params?: any[]) {
 	return pool.query(text, params);
 }
 

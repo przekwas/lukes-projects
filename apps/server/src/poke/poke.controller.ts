@@ -10,7 +10,7 @@ export class PokeController {
 	//     return 'test';
 	// }
 	async list(): Promise<PokeRow[]> {
-		const { rows } = await query<PokeRow>(`
+		const { rows } = await query(`
             SELECT id, msg, created_at
             FROM poke
             ORDER by id DESC
