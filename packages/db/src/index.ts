@@ -5,11 +5,7 @@ import { env, isProd } from '@lukes-projects/config';
 // TEMP singleton pool for testing on app
 export const pool = new Pool({
 	connectionString: env.DATABASE_URL,
-	ssl: isProd
-		? {
-				ca: readFileSync('/etc/ssl/certs/rds-ca-global.pem').toString()
-		  }
-		: undefined
+	ssl: isProd ? true : undefined
 });
 
 export async function query(text: string, params?: any[]) {
