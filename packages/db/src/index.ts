@@ -1,26 +1,32 @@
 import { Pool } from 'pg';
 import { readFileSync, existsSync } from 'fs';
-import { env, isProd } from '@lukes-projects/config';
+import { env } from '@lukes-projects/config';
 
-// Prefer an env-provided CA path (set in prod), otherwise:
-// - if DB_SSL_INSECURE=true → use TLS but skip verification (quick unblock)
-// - else → no ssl option (works for local Postgres)
-function buildSsl() {
-	const caPath = process.env.PGSSLROOTCERT; // e.g. "/etc/ssl/certs/rds-ca-global.pem" on Render
+function wantsSslFromUrl(url: string) {
+	// support both styles: ?sslmode=require and ?ssl=true
+	return /(?:[?&])sslmode=require\b/i.test(url) || /(?:[?&])ssl=true\b/i.test(url);
+}
+
+function buildSsl(url: string) {
+	const caPath = process.env.PGSSLROOTCERT;
 	console.log({ caPath });
 	if (caPath && existsSync(caPath)) {
-		return { ca: readFileSync(caPath, 'utf8') }; // proper verification
+		return { ca: readFileSync(caPath, 'utf8') }; // verify with provided CA
 	}
 	if (process.env.DB_SSL_INSECURE === 'true') {
-		return { rejectUnauthorized: false }; // quick unblock for hosted PG w/ unknown CA
+		return { rejectUnauthorized: false }; // temporary unblock
 	}
-	return undefined; // local dev (no SSL)
+	const envWantsSsl = (process.env.DB_SSL || '').toLowerCase() === 'true';
+	if (envWantsSsl || wantsSslFromUrl(url)) {
+		return true; // enable TLS using system CAs
+	}
+	return undefined; // no TLS (local dev)
 }
 
 // TEMP singleton pool for testing on app
 export const pool = new Pool({
 	connectionString: env.DATABASE_URL,
-	ssl: buildSsl()
+	ssl: buildSsl(env.DATABASE_URL)
 });
 
 export async function query(text: string, params?: any[]) {
