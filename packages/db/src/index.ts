@@ -7,6 +7,7 @@ import { env, isProd } from '@lukes-projects/config';
 // - else → no ssl option (works for local Postgres)
 function buildSsl() {
 	const caPath = process.env.PGSSLROOTCERT; // e.g. "/etc/ssl/certs/rds-ca-global.pem" on Render
+	console.log({ caPath });
 	if (caPath && existsSync(caPath)) {
 		return { ca: readFileSync(caPath, 'utf8') }; // proper verification
 	}
