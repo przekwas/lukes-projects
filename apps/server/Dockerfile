@@ -37,6 +37,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
+# AWS Global RDS bundle (works for Lightsail PG)
+ADD https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem /etc/ssl/certs/rds-ca-global.pem
+
 # Copy node_modules and built artifacts
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/server/dist ./apps/server/dist

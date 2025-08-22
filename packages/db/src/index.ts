@@ -1,10 +1,15 @@
 import { Pool } from 'pg';
-import { env, isProd} from '@lukes-projects/config';
+import { readFileSync } from 'fs';
+import { env, isProd } from '@lukes-projects/config';
 
 // TEMP singleton pool for testing on app
 export const pool = new Pool({
 	connectionString: env.DATABASE_URL,
-	ssl: isProd ? true : undefined // TEMP
+	ssl: isProd
+		? {
+				ca: readFileSync('/etc/ssl/certs/rds-ca-global.pem').toString()
+		  }
+		: undefined
 });
 
 export async function query(text: string, params?: any[]) {
