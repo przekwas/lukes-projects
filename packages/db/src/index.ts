@@ -1,11 +1,25 @@
 import { Pool } from 'pg';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { env, isProd } from '@lukes-projects/config';
+
+// Prefer an env-provided CA path (set in prod), otherwise:
+// - if DB_SSL_INSECURE=true → use TLS but skip verification (quick unblock)
+// - else → no ssl option (works for local Postgres)
+function buildSsl() {
+	const caPath = process.env.PGSSLROOTCERT; // e.g. "/etc/ssl/certs/rds-ca-global.pem" on Render
+	if (caPath && existsSync(caPath)) {
+		return { ca: readFileSync(caPath, 'utf8') }; // proper verification
+	}
+	if (process.env.DB_SSL_INSECURE === 'true') {
+		return { rejectUnauthorized: false }; // quick unblock for hosted PG w/ unknown CA
+	}
+	return undefined; // local dev (no SSL)
+}
 
 // TEMP singleton pool for testing on app
 export const pool = new Pool({
 	connectionString: env.DATABASE_URL,
-	ssl: isProd ? true : undefined
+	ssl: buildSsl()
 });
 
 export async function query(text: string, params?: any[]) {
