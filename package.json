@@ -15,7 +15,10 @@
 	"scripts": {
 		"build": "npm run -ws build",
 		"build:server": "npm run build -w @lukes-projects/server",
-		"dev:server": "npm run dev -w @lukes-projects/server"
+		"dev:server": "npm run dev -w @lukes-projects/server",
+		"drizzle:generate": "drizzle-kit generate --config ./drizzle.config.ts",
+		"drizzle:migrate": "tsx packages/db/src/migrate.ts",
+		"db:push": "npm run drizzle:generate && npm run drizzle:migrate"
 	},
 	"repository": {
 		"type": "git",
