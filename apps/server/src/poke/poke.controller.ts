@@ -1,22 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
-import { query } from '@lukes-projects/db';
-
-type PokeRow = { id: number; msg: string; created_at: string };
+import { db } from '@lukes-projects/db';
 
 @Controller('poke')
 export class PokeController {
 	@Get()
-	// get() {
-	//     return 'test';
-	// }
-	async list(): Promise<PokeRow[]> {
-		const { rows } = await query(`
-            SELECT id, msg, created_at
-            FROM poke
-            ORDER by id DESC
-            LIMIT 10;    
-        `);
-
+	async list() {
+		const rows = await db.query.poke.findMany({
+			orderBy: (t, { desc }) => [desc(t.id)],
+			limit: 10
+		});
 		return rows;
 	}
 }
