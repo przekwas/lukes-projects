@@ -7,9 +7,7 @@ import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
 import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
-
-// TEMP db test
-import { initDb, closeDb } from '@lukes-projects/db';
+import { closeDb } from '@lukes-projects/db';
 
 // TEMP
 // the `@ts-ignore` are because of version mistmatches between nest and fastify
@@ -70,12 +68,9 @@ async function bootstrap() {
 
 	const fastify = app.getHttpAdapter().getInstance();
 
-	// TEMP db test
-	await initDb();
-
 	const onClose = async (signal: string) => {
 		fastify.log.info(`Received ${signal}, shutting down ...`);
-		await closeDb(); // TEMP
+		await closeDb();
 		await app.close();
 		process.exit(0);
 	};
