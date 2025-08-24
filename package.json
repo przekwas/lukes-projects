@@ -13,7 +13,7 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
-		"build": "npm run -ws build",
+		"build": "tsc -b",
 		"build:server": "tsc -p apps/server/tsconfig.build.json",
 		"dev:server": "npm run dev -w @lukes-projects/server",
 		"drizzle:generate": "drizzle-kit generate --config ./drizzle.config.ts",
@@ -31,5 +31,8 @@
 		"url": "https://github.com/przekwas/lukes-projects/issues"
 	},
 	"homepage": "https://github.com/przekwas/lukes-projects#readme",
-	"description": ""
+	"description": "",
+	"devDependencies": {
+		"tsx": "^4.20.4"
+	}
 }
