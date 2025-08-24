@@ -13,6 +13,7 @@
 		"node": ">=20.0.0"
 	},
 	"scripts": {
+		"clean": "git clean -xdf -- dist node_modules \"**/*.tsbuildinfo\" \"**/.tsbuildinfo*\"",
 		"build": "tsc -b",
 		"build:server": "tsc -p apps/server/tsconfig.build.json",
 		"dev:server": "npm run dev -w @lukes-projects/server",

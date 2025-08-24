@@ -7,3 +7,6 @@ coverage
 .env
 # misc
 .DS_Store
+# TS incremental metadata
+**/*.tsbuildinfo
+**/.tsbuildinfo*

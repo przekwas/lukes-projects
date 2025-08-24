@@ -1,5 +1,2 @@
-.git
-node_modules
-**/dist
-.DS_Store
-.env
+**/*.tsbuildinfo
+**/.tsbuildinfo*
