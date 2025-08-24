@@ -16,6 +16,12 @@
 		"strictPropertyInitialization": false,
 
 		"sourceMap": true,
-		"types": ["node"]
+		"types": ["node"],
+
+		"baseUrl": ".",
+		"paths": {
+			"@lukes-projects/db": ["packages/db/src/index.ts"],
+			"@lukes-projects/db/*": ["packages/db/src/*"]
+		}
 	}
 }
