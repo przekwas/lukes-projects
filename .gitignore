@@ -10,3 +10,5 @@ coverage
 # TS incremental metadata
 **/*.tsbuildinfo
 **/.tsbuildinfo*
+# DB Seed
+**/seed.ts

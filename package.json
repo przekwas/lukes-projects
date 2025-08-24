@@ -19,6 +19,7 @@
 		"dev:server": "npm run dev -w @lukes-projects/server",
 		"drizzle:generate": "drizzle-kit generate --config ./drizzle.config.ts",
 		"drizzle:migrate": "tsx packages/db/src/migrate.ts",
+		"drizzle:seed": "tsx packages/db/src/seed.ts",
 		"db:push": "npm run drizzle:generate && npm run drizzle:migrate"
 	},
 	"repository": {
