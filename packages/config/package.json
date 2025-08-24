@@ -1,21 +1,25 @@
 {
-	"name": "@lukes-projects/config",
-	"version": "1.0.0",
-	"type": "module",
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
-	"exports": {
-		".": "./src/index.ts"
-	},
-	"sideEffects": false,
-	"scripts": {
-		"build": "tsc -p tsconfig.json"
-	},
-	"dependencies": {
-		"envalid": "^8.1.0"
-	},
-	"devDependencies": {
-		"@types/node": "^24.3.0",
-		"typescript": "^5.9.2"
-	}
+  "name": "@lukes-projects/config",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "envalid": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  }
 }

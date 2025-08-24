@@ -1,27 +1,25 @@
 {
-	"compilerOptions": {
-		"target": "ES2022",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
-		"strict": true,
-		"declaration": true,
-		"outDir": "dist",
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"allowSyntheticDefaultImports": true,
-
-		// Nest goodies
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"strictPropertyInitialization": false,
-
-		"sourceMap": true,
-		"types": ["node"],
-
-		"baseUrl": ".",
-		"paths": {
-			"@lukes-projects/db": ["packages/db/src/index.ts"],
-			"@lukes-projects/db/*": ["packages/db/src/*"]
-		}
-	}
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "sourceMap": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@lukes-projects/db": ["packages/db/src/index.ts"],
+      "@lukes-projects/db/*": ["packages/db/src/*"],
+      "@lukes-projects/config": ["packages/config/src/index.ts"],
+      "@lukes-projects/config/*": ["packages/config/src/*"]
+    }
+  }
 }
