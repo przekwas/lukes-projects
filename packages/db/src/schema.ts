@@ -52,7 +52,7 @@ export const memberships = pgTable(
 		roleId: integer('role_id')
 			.notNull()
 			.references(() => roles.id, { onDelete: 'restrict' }),
-		createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
 	},
 	t => [primaryKey({ columns: [t.userId, t.appId] })]
 );

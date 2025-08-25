@@ -4,7 +4,7 @@
 		"rootDir": "src",
 		"outDir": "dist",
 		"composite": true,
-		"tsBuildInfoFile": "./.tsbuildinfo/dev.tsbuildinfo"
+		"tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
 	},
 	"references": [{ "path": "../../packages/config" }, { "path": "../../packages/db" }],
 	"include": ["src/**/*.ts"]

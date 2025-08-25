@@ -1,6 +1,8 @@
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { db, closeDb } from './client.js';
 
+import 'dotenv/config';
+
 async function main() {
 	await migrate(db, { migrationsFolder: 'drizzle' });
 	await closeDb();
