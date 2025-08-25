@@ -1,8 +1,9 @@
 {
-  "files": [],
-  "references": [
-    { "path": "packages/config" },
-    { "path": "packages/db" },
-    { "path": "apps/server" }
-  ]
+	"files": [],
+	"references": [
+		{ "path": "packages/config" },
+		{ "path": "packages/db" },
+		{ "path": "packages/auth" },
+		{ "path": "apps/server" }
+	]
 }
