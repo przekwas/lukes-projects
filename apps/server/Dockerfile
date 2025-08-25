@@ -25,6 +25,8 @@ COPY apps/server/src apps/server/src
 COPY packages/config/src packages/config/src
 COPY packages/db/src packages/db/src
 
+COPY drizzle ./drizzle
+
 # Build (uses your root "build": "tsc -b")
 RUN npm run build
 

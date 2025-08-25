@@ -1,16 +1,12 @@
 services:
-  postgres:
-    image: postgres:16
-    container_name: postgres_db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    server:
+        build: ./apps/server
+        environment:
+            DATABASE_URL: postgres://myuser:mypassword@postgres:5432/mydb
+            PORT: 3000
+            MIGRATE_ON_START: 'true'
+        ports: ['3000:3000']
+        depends_on: [postgres]
 
 volumes:
-  pgdata:
+    pgdata:
