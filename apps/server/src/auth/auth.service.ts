@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service.js';
-import { hashPassword, verifyPassword } from 'packages/auth/dist/password.js';
+import { hashPassword, verifyPassword } from '@lukes-projects/auth';
 
 @Injectable()
 export class AuthService {
