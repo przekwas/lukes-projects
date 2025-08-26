@@ -10,6 +10,7 @@ COPY package.json package-lock.json ./
 COPY apps/server/package.json apps/server/
 COPY packages/config/package.json packages/config/
 COPY packages/db/package.json packages/db/
+COPY packages/auth/package.json packages/auth/
 
 # Install all workspace deps (root + targeted workspaces)
 RUN npm ci --workspaces --include-workspace-root
@@ -21,9 +22,11 @@ COPY apps/server/tsconfig.json apps/server/
 COPY apps/server/tsconfig.build.json apps/server/
 COPY packages/config/tsconfig.json packages/config/
 COPY packages/db/tsconfig.json packages/db/
+COPY packages/auth/tsconfig.json packages/auth/
 COPY apps/server/src apps/server/src
 COPY packages/config/src packages/config/src
 COPY packages/db/src packages/db/src
+COPY packages/auth/src packages/auth/src
 
 COPY drizzle ./drizzle
 
@@ -57,6 +60,9 @@ COPY --from=builder /app/packages/config/dist ./packages/config/dist
 
 COPY --from=builder /app/packages/db/package.json ./packages/db/package.json
 COPY --from=builder /app/packages/db/dist ./packages/db/dist
+
+COPY --from=builder /app/packages/auth/package.json ./packages/auth/package.json
+COPY --from=builder /app/packages/auth/dist ./packages/auth/dist
 
 # Include drizzle migrations folder so migrate can run in-container
 COPY --from=builder /app/drizzle ./drizzle

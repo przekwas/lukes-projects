@@ -6,6 +6,10 @@
 		"composite": true,
 		"tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
 	},
-	"references": [{ "path": "../../packages/config" }, { "path": "../../packages/db" }, { "path": "../../packages/auth"}],
+	"references": [
+		{ "path": "../../packages/config" },
+		{ "path": "../../packages/db" },
+		{ "path": "../../packages/auth" }
+	],
 	"include": ["src/**/*.ts"]
 }
