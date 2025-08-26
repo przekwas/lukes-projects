@@ -4,7 +4,7 @@ export const ARGON_OPTS = {
 	memoryCost: 1 << 15,
 	timeCost: 3,
 	parallelism: 1,
-	hasLength: 32,
+	hashLength: 32,
 	type: Algorithm.Argon2id
 } as const;
 
