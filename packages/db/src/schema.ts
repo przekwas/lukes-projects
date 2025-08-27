@@ -7,6 +7,7 @@ import {
 	boolean,
 	integer,
 	uniqueIndex,
+	index,
 	primaryKey
 } from 'drizzle-orm/pg-core';
 
@@ -64,16 +65,19 @@ export const memberships = pgTable(
 	t => [primaryKey({ columns: [t.userId, t.appId] })]
 );
 
-export const sessions = pgTable('sessions', {
-	id: serial('id').primaryKey(),
-	userId: integer('user_id')
-		.notNull()
-		.references(() => users.id, { onDelete: 'cascade' }),
-	tokenHash: varchar('token_hash', { length: 128 }).notNull().unique(),
-	ip: varchar('ip', { length: 64 }),
-	userAgent: varchar('user_agent', { length: 256 }),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-	expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-	revokedAt: timestamp('revoked_at', { withTimezone: true })
-});
-
+export const sessions = pgTable(
+	'sessions',
+	{
+		id: serial('id').primaryKey(),
+		userId: integer('user_id')
+			.notNull()
+			.references(() => users.id, { onDelete: 'cascade' }),
+		tokenHash: varchar('token_hash', { length: 128 }).notNull().unique(),
+		ip: varchar('ip', { length: 64 }),
+		userAgent: varchar('user_agent', { length: 256 }),
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+		expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+		revokedAt: timestamp('revoked_at', { withTimezone: true })
+	},
+	t => [index('sessions_user_idx').on(t.userId)]
+);
