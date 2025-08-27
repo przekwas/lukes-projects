@@ -16,6 +16,8 @@
 		"clean": "git clean -xdf -- dist node_modules \"**/*.tsbuildinfo\" \"**/.tsbuildinfo*\"",
 		"build": "tsc -b",
 		"build:server": "tsc -p apps/server/tsconfig.build.json",
+		"docker:build": "docker build -f apps/server/Dockerfile -t acidtripped/lukes-projects:main .",
+		"docker:push": "docker push acidtripped/lukes-projects:main",
 		"dev:server": "npm run dev -w @lukes-projects/server",
 		"drizzle:generate": "drizzle-kit generate --config ./drizzle.config.ts",
 		"drizzle:migrate": "tsx packages/db/src/migrate.ts",
