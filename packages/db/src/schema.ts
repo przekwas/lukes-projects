@@ -10,6 +10,13 @@ import {
 	primaryKey
 } from 'drizzle-orm/pg-core';
 
+// TEMP table for testing
+export const poke = pgTable('poke', {
+	id: serial('id').primaryKey(),
+	msg: text('msg').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+});
+
 export const users = pgTable('users', {
 	id: serial('id').primaryKey(),
 	email: varchar('email', { length: 255 }).notNull().unique(),
@@ -57,9 +64,16 @@ export const memberships = pgTable(
 	t => [primaryKey({ columns: [t.userId, t.appId] })]
 );
 
-// TEMP table for testing
-export const poke = pgTable('poke', {
+export const sessions = pgTable('sessions', {
 	id: serial('id').primaryKey(),
-	msg: text('msg').notNull(),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+	userId: integer('user_id')
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	tokenHash: varchar('token_hash', { length: 128 }).notNull().unique(),
+	ip: varchar('ip', { length: 64 }),
+	userAgent: varchar('user_agent', { length: 256 }),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+	revokedAt: timestamp('revoked_at', { withTimezone: true })
 });
+

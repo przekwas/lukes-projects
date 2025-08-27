@@ -1,9 +1,7 @@
+import 'dotenv/config';
+
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { db, closeDb } from './client.js';
-
-if (process.env.NODE_ENV !== 'production' && !process.env.DATABASE_URL) {
-  await import('dotenv/config'); // optional, dev only
-}
 
 async function main() {
 	await migrate(db, { migrationsFolder: 'drizzle' });

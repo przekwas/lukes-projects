@@ -5,11 +5,7 @@ export const env = cleanEnv(process.env, {
 	NODE_ENV: str({ choices: ['development', 'test', 'production'], default: 'development' }),
 	PORT: port({ default: 3000 }),
 	COOKIE_SECRET: str({ default: 'dev-cookie-secret', devDefault: 'dev-cookie-secret' }),
-	// TEMP until docker pg is ready
-	DATABASE_URL: str({
-		default: 'postgres://user:pass@localhost:5432/db',
-		devDefault: 'postgres://user:pass@localhost:5432/db'
-	})
+	DATABASE_URL: str()
 });
 
 export const isProd = env.NODE_ENV === 'production';
