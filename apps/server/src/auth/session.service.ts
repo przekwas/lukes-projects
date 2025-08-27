@@ -35,6 +35,7 @@ export class SessionsService {
 				and(eq(sessions.tokenHash, tokenHash), isNull(sessions.revokedAt), gt(sessions.expiresAt, new Date()))
 			)
 			.limit(1);
+			return row ?? null;
 	}
 
 	async revoke(token: string) {
