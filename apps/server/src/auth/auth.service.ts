@@ -15,8 +15,7 @@ export class AuthService {
 
 		if (appKey) await this.users.ensureMembership(u.id, appKey, 'member');
 
-		// TODO: set cookie/jwt later
-		return { ok: true };
+		return { ok: true, userId: u.id };
 	}
 
 	async login(email: string, password: string) {
@@ -26,7 +25,6 @@ export class AuthService {
 		const ok = await verifyPassword(u.passwordHash, password);
 		if (!ok) throw new UnauthorizedException('Invalid credentials');
 
-		// TODO: set cookie/jwt later
-		return { ok: true };
+		return { ok: true, userId: u.id };
 	}
 }
