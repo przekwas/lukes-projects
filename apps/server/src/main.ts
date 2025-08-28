@@ -6,6 +6,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
+import rateLimit, { type RateLimitOptions } from '@fastify/rate-limit';
 import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
 import { closeDb } from '@lukes-projects/db';
@@ -50,6 +51,25 @@ async function bootstrap() {
 			sameSite: 'lax',
 			secure: isProd,
 			httpOnly: true
+		}
+	});
+
+	// rate limit
+	//@ts-ignore
+	await app.register(rateLimit, {
+		max: 5,
+		timeWindow: '1 minute',
+		hook: 'onRequest',
+		keyGenerator: req => req.ip,
+		addHeaders: {
+			'x-ratelimit-limit': true,
+			'x-ratelimit-remaining': true,
+			'x-ratelimit-reset': true,
+			'retry-after': true
+		},
+		allowList: (req /*, key*/) => {
+			const url = req.url || '';
+			return !/^\/api\/v1\/auth\/(login|register)$/.test(url);
 		}
 	});
 
