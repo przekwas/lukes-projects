@@ -29,6 +29,20 @@
       "when": 1756260382373,
       "tag": "0003_careless_tigra",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1756490267087,
+      "tag": "0004_stiff_betty_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1756491428331,
+      "tag": "0005_serious_stranger",
+      "breakpoints": true
     }
   ]
 }
