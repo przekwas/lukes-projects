@@ -31,8 +31,14 @@ async function bootstrap() {
 	//@ts-ignore
 	await app.register(cors, {
 		// TEMP update later when deployed
-		origin: isProd ? ['http://lukes-projects.com'] : true,
-		credentials: true
+		origin: isProd
+			? (process.env.CORS_ORIGINS ?? '')
+					.split(',')
+					.map(s => s.trim())
+					.filter(Boolean)
+			: true,
+		credentials: true,
+		allowedHeaders: ['Content-Type', 'X-CSRF-Token', 'X-App-Key']
 	});
 
 	// security headers
