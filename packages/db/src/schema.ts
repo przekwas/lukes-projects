@@ -48,6 +48,15 @@ export const roles = pgTable(
 	t => [uniqueIndex('roles_app_code_idx').on(t.appId, t.code)]
 );
 
+export const userRoles = pgTable('user_roles', {
+	userId: integer('user_id')
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	roleId: integer('role_id')
+		.notNull()
+		.references(() => roles.id, { onDelete: 'cascade' })
+});
+
 export const memberships = pgTable(
 	'memberships',
 	{
