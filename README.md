@@ -5,6 +5,7 @@
 ## Current Server Todos
 
 -   /auth/me route (quick user fetch using SessionGuard)
+    -   **started**
 -   Session rotation (issue a new token occasionally or on privilege change)
 -   Remember-me: increase maxAge when a flag is passed
 -   input validation for every route
