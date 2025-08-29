@@ -1,2 +1,0 @@
--- baseline: schema already matches ./packages/db/src/schema.ts
--- (leave file empty so it just records as applied)
