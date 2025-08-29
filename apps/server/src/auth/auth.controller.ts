@@ -5,8 +5,15 @@ import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
 import type { FastifyReply } from 'fastify';
 import { isProd } from '@lukes-projects/config';
+import crypto from 'node:crypto';
 
 const COOKIE_NAME = 'auth';
+const CSRF_COOKIE = 'csrf';
+const crossSite = (process.env.CROSS_SITE_COOKIES ?? 'false').toLowerCase() === 'true';
+
+function base64url(buf: Buffer) {
+	return buf.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +21,20 @@ export class AuthController {
 		@Inject(AuthService) private readonly auth: AuthService,
 		@Inject(SessionsService) private readonly sessions: SessionsService
 	) {}
+
+	@Get('csrf')
+	getCsrf(@Res({ passthrough: true }) reply: FastifyReply) {
+		const token = base64url(crypto.randomBytes(32));
+		reply.setCookie(CSRF_COOKIE, token, {
+			path: '/',
+			httpOnly: false,
+			sameSite: crossSite ? 'none' : 'lax',
+			secure: isProd,
+			maxAge: 60 * 60 * 24
+		});
+
+		return { csrfToken: token };
+	}
 
 	@Post('register')
 	async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) reply: FastifyReply) {
@@ -26,7 +47,18 @@ export class AuthController {
 			secure: isProd,
 			expires: expiresAt
 		});
-		return { ok: true };
+
+		// rotate CSRF on auth change
+		const csrfToken = base64url(crypto.randomBytes(32));
+		reply.setCookie(CSRF_COOKIE, token, {
+			path: '/',
+			httpOnly: false,
+			sameSite: crossSite ? 'none' : 'lax',
+			secure: isProd,
+			maxAge: 60 * 60 * 24
+		});
+
+		return { ok: true, csrfToken };
 	}
 
 	@Post('login')
@@ -40,7 +72,18 @@ export class AuthController {
 			secure: isProd,
 			expires: expiresAt
 		});
-		return { ok: true };
+
+		// rotate CSRF on auth change
+		const csrfToken = base64url(crypto.randomBytes(32));
+		reply.setCookie(CSRF_COOKIE, csrfToken, {
+			path: '/',
+			httpOnly: false,
+			sameSite: crossSite ? 'none' : 'lax',
+			secure: isProd,
+			maxAge: 60 * 60 * 24
+		});
+
+		return { ok: true, csrfToken };
 	}
 
 	@Post('logout')
@@ -48,6 +91,7 @@ export class AuthController {
 		const token = reply.request.cookies?.[COOKIE_NAME];
 		if (token) await this.sessions.revoke(token);
 		reply.clearCookie(COOKIE_NAME, { path: '/' });
+		reply.clearCookie(CSRF_COOKIE, { path: '/' });
 		return { ok: true };
 	}
 }
