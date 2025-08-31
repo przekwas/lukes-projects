@@ -4,6 +4,7 @@
 		{ "path": "packages/config" },
 		{ "path": "packages/db" },
 		{ "path": "packages/auth" },
+		{ "path": "packages/shared" },
 		{ "path": "apps/server" }
 	]
 }

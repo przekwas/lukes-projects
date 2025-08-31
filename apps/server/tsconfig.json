@@ -9,7 +9,8 @@
 	"references": [
 		{ "path": "../../packages/config" },
 		{ "path": "../../packages/db" },
-		{ "path": "../../packages/auth" }
+		{ "path": "../../packages/auth" },
+		{ "path": "../../packages/shared" }
 	],
 	"include": ["src/**/*.ts"]
 }

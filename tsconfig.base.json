@@ -21,7 +21,9 @@
 			"@lukes-projects/config": ["packages/config/src/index.ts"],
 			"@lukes-projects/config/*": ["packages/config/src/*"],
 			"@lukes-projects/auth": ["packages/auth/src/index.ts"],
-			"@lukes-projects/auth/*": ["packages/auth/src/*"]
+			"@lukes-projects/auth/*": ["packages/auth/src/*"],
+			"@lukes-projects/shared": ["packages/shared/src/index.ts"],
+			"@lukes-projects/shared/*": ["packages/shared/src/*"]
 		}
 	}
 }
