@@ -5,13 +5,12 @@ import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
 import { SessionGuard } from './session.guard.js';
 import { COOKIE } from '@lukes-projects/auth';
-import { setSessionCookie } from '@lukes-projects/shared';
+import { setSessionCookie, CSRF_COOKIE } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
 import { isProd } from '@lukes-projects/config';
 import crypto from 'node:crypto';
 
 const COOKIE_NAME = COOKIE.auth;
-const CSRF_COOKIE = 'csrf';
 const crossSite = (process.env.CROSS_SITE_COOKIES ?? 'false').toLowerCase() === 'true';
 
 function base64url(buf: Buffer) {
@@ -46,9 +45,11 @@ export class AuthController {
 	}
 
 	@Post('register')
-	async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) reply: FastifyReply) {
+	async register(@Body() dto: RegisterDto, @Req() req: any, @Res({ passthrough: true }) reply: FastifyReply) {
 		const res = await this.auth.register(dto.email, dto.password, dto.displayName, dto.appKey);
-		const { token, expiresAt } = await this.sessions.create(res.userId);
+		const ua = req.headers['user-agent'] ?? undefined;
+		const ip = req.ip;
+		const { token, expiresAt } = await this.sessions.create(res.userId, ip, String(ua));
 		setSessionCookie(reply, token, {
 			name: COOKIE_NAME,
 			crossSite,
@@ -66,6 +67,7 @@ export class AuthController {
 			maxAge: 60 * 60 * 24
 		});
 
+		reply.header('Cache-Control', 'no-store');
 		return { ok: true, csrfToken };
 	}
 
@@ -87,6 +89,7 @@ export class AuthController {
 			maxAge: 60 * 60 * 24
 		});
 
+		reply.header('Cache-Control', 'no-store');
 		return { ok: true, csrfToken };
 	}
 

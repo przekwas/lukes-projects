@@ -1,4 +1,5 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
+import { CSRF_COOKIE } from '@lukes-projects/shared';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 const SAFE = new Set(['GET', 'HEAD', 'OPTIONS']);
@@ -46,7 +47,7 @@ function send403(res: Res, message: string) {
 function readCsrfFromCookieHeader(h?: string): string | undefined {
 	if (!h) return undefined;
 	// match "csrf=<value>" anywhere in the cookie string
-	const m = h.match(/(?:^|;\s*)csrf=([^;]+)/i);
+	const m = h.match(new RegExp(`(?:^|;\\s*)${CSRF_COOKIE}=([^;]+)`, 'i'));
 	return m?.[1];
 }
 

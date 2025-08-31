@@ -1,7 +1,6 @@
-import { CanActivate, ExecutionContext, Injectable, Inject } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { db, apps, memberships, roles } from '@lukes-projects/db';
 import { and, eq } from 'drizzle-orm';
-import { Observable } from 'rxjs';
 
 export function RoleLevelGuard(required: number) {
 	@Injectable()
@@ -11,7 +10,7 @@ export function RoleLevelGuard(required: number) {
 			const userId = req.user?.id;
 			const header = req.headers['x-app-key'];
 			const appKey = Array.isArray(header) ? header[0] : header;
-			if (!userId || !appKey) return false;
+			if (!userId || !appKey) throw new UnauthorizedException();
 
 			const row = await db
 				.select({ level: roles.level })

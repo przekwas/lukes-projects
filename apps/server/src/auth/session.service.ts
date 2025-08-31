@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { db } from '@lukes-projects/db';
-import { sessions, users } from '@lukes-projects/db';
+import { db, sessions, users } from '@lukes-projects/db';
 import { newId, SEVEN_DAYS } from '@lukes-projects/shared';
 import { and, eq, isNull, gt } from 'drizzle-orm';
 import crypto from 'node:crypto';
