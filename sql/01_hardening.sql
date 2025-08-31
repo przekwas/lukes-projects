@@ -35,20 +35,20 @@ BEGIN
   END IF;
 END$$;
 
--- Session token hygiene (32-byte hex = 64 chars)
+-- Session token hash hygiene (64 hex)
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'sessions_token_len') THEN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'sessions_token_hash_hex') THEN
     ALTER TABLE sessions
-      ADD CONSTRAINT sessions_token_len
-      CHECK (length(token) >= 64);
+      ADD CONSTRAINT sessions_token_hash_hex
+      CHECK (token_hash ~ '^[0-9a-f]{64}$');
   END IF;
 END$$;
 
--- Fast lookups for active sessions (no now() in predicate)
+-- Active-session lookup (no now() in predicate; uses revoked_at IS NULL)
 CREATE INDEX IF NOT EXISTS sessions_active_user_idx
   ON sessions (user_id, expires_at)
-  WHERE revoked = false;
+  WHERE revoked_at IS NULL;
 
 -- Expiry sweep
 CREATE INDEX IF NOT EXISTS sessions_expires_at_idx

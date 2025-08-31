@@ -75,15 +75,14 @@ export const memberships = pgTable(
 	})
 );
 
-// ---------- sessions ----------
 export const sessions = pgTable(
 	'sessions',
 	{
-		token: text('token').primaryKey(),
+		id: uuid('id').primaryKey(),
+		tokenHash: varchar('token_hash', { length: 64 }).notNull().unique(),
 		userId: uuid('user_id')
 			.notNull()
 			.references(() => users.id, { onDelete: 'cascade' }),
-		revoked: boolean('revoked').notNull().default(false),
 		ip: varchar('ip', { length: 64 }),
 		userAgent: varchar('user_agent', { length: 256 }),
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
