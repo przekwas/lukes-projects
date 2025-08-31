@@ -9,8 +9,7 @@ import {
 	integer,
 	uniqueIndex,
 	index,
-	primaryKey,
-	foreignKey
+	primaryKey
 } from 'drizzle-orm/pg-core';
 
 // ---------- sample test table ----------

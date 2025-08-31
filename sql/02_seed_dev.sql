@@ -45,4 +45,10 @@ VALUES
  ('33333333-3333-3333-3333-333333333333','cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc','00000000-0000-0000-0000-0000000000a3', now() + interval '7 days')
 ON CONFLICT DO NOTHING;
 
+INSERT INTO poke (id, msg) VALUES
+  ('7f2b2f9e-1f79-47e1-9d51-5e2cf7a1c3a0', 'Poke #1 – hello world 👋'),
+  ('3c4a6a60-9f1f-4c66-9a2c-9a3f63b6d3b7', 'Poke #2 – testing secure route'),
+  ('b6d3f7ea-7d2f-4d3c-8b4a-9c0e1e8f2a11', 'Poke #3 – last one');
+
+
 COMMIT;

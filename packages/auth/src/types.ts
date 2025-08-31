@@ -1,10 +1,10 @@
 export type AuthUser = {
-  id: number;
+  id: string;
   email: string;
   displayName: string;
 };
 
 export type SessionData = {
-  userId: number;
+  userId: string;
   issuedAt: number;
 };

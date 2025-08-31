@@ -3,11 +3,13 @@ import { AuthService } from './auth.service.js';
 import { RegisterDto } from './register.dto.js';
 import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
+import { COOKIE } from '@lukes-projects/auth';
+import { setSessionCookie } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
 import { isProd } from '@lukes-projects/config';
 import crypto from 'node:crypto';
 
-const COOKIE_NAME = 'auth';
+const COOKIE_NAME = COOKIE.auth;
 const CSRF_COOKIE = 'csrf';
 const crossSite = (process.env.CROSS_SITE_COOKIES ?? 'false').toLowerCase() === 'true';
 
