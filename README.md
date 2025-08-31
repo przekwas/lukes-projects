@@ -32,3 +32,26 @@
 -   admin tools
 -   pagination/filters
 -   rate limits
+-
+
+## Database bootstrap (no drizzle migrator)
+
+We manage the initial schema and hardening with plain SQL. No extensions, no enums. I had too many issue and stopped caring between local and prod DB's. App code generates UUIDs and normalizes emails.
+
+### 0) Create DB (example)
+
+createdb mydb
+
+### 1) Apply initial schema
+
+psql "$DATABASE_URL" -f sql/00_init.sql
+
+### 2) Apply hardening (constraints + indexes)
+
+psql "$DATABASE_URL" -f sql/01_hardening.sql
+
+### App expectations
+
+-   IDs: generated in code via `crypto.randomUUID()`
+-   Emails: `email = email.trim().toLowerCase()` before insert/login
+-   Session tokens: `randomBytes(32).toString('hex')` (64+ chars); cookie is httpOnly, secure in prod

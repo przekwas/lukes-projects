@@ -1,4 +1,7 @@
+BEGIN;
+
 -- Case-insensitive unique email (column is plain varchar)
+-- Make sure you normalize in code too: email = lower(trim(email))
 CREATE UNIQUE INDEX IF NOT EXISTS users_email_lower_idx
   ON users (lower(email));
 
@@ -42,11 +45,31 @@ BEGIN
   END IF;
 END$$;
 
--- ✅ Replace the old failing index (no now() in predicate)
+-- Fast lookups for active sessions (no now() in predicate)
 CREATE INDEX IF NOT EXISTS sessions_active_user_idx
   ON sessions (user_id, expires_at)
   WHERE revoked = false;
 
--- Sweep by expiry
+-- Expiry sweep
 CREATE INDEX IF NOT EXISTS sessions_expires_at_idx
   ON sessions (expires_at);
+
+-- OPTIONAL: stronger integrity so memberships.role_id must belong to memberships.app_id
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'roles_app_id_id_unique') THEN
+    ALTER TABLE roles
+      ADD CONSTRAINT roles_app_id_id_unique UNIQUE (app_id, id);
+  END IF;
+END$$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'memberships_app_role_fk') THEN
+    ALTER TABLE memberships
+      ADD CONSTRAINT memberships_app_role_fk
+      FOREIGN KEY (app_id, role_id) REFERENCES roles(app_id, id) ON DELETE RESTRICT;
+  END IF;
+END$$;
+
+COMMIT;
