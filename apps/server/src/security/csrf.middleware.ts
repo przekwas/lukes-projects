@@ -69,7 +69,7 @@ export class CsrfMiddleware implements NestMiddleware {
 		}
 
 		// double submit token, cookie value must match header value
-		const cookieToken = req.cookies?.csrf ?? readCsrfFromCookieHeader(headerValue(req.headers.cookie));
+		const cookieToken = req.cookies?.[CSRF_COOKIE] ?? readCsrfFromCookieHeader(headerValue(req.headers.cookie));
 		const headerToken = headerValue(req.headers['x-csrf-token']) ?? headerValue(req.headers['csrf-token']);
 
 		if (!cookieToken || !headerToken || cookieToken !== headerToken) {
