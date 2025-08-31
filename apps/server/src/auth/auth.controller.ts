@@ -1,8 +1,9 @@
-import { Body, Controller, Inject, Post, Res, Get } from '@nestjs/common';
+import { UseGuards, Body, Controller, Inject, Post, Res, Req, Get } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './register.dto.js';
 import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
+import { SessionGuard } from './session.guard.js';
 import { COOKIE } from '@lukes-projects/auth';
 import { setSessionCookie } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
@@ -24,6 +25,12 @@ export class AuthController {
 		@Inject(SessionsService) private readonly sessions: SessionsService
 	) {}
 
+	@UseGuards(SessionGuard)
+	@Get('me')
+	me(@Req() req: any) {
+		return { ok: true, user: req.user };
+	}
+
 	@Get('csrf')
 	getCsrf(@Res({ passthrough: true }) reply: FastifyReply) {
 		const token = base64url(crypto.randomBytes(32));
@@ -42,17 +49,11 @@ export class AuthController {
 	async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) reply: FastifyReply) {
 		const res = await this.auth.register(dto.email, dto.password, dto.displayName, dto.appKey);
 		const { token, expiresAt } = await this.sessions.create(res.userId);
-		reply.setCookie(COOKIE_NAME, token, {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'lax',
-			secure: isProd,
-			expires: expiresAt
-		});
+		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7 });
 
 		// rotate CSRF on auth change
 		const csrfToken = base64url(crypto.randomBytes(32));
-		reply.setCookie(CSRF_COOKIE, token, {
+		reply.setCookie(CSRF_COOKIE, csrfToken, {
 			path: '/',
 			httpOnly: false,
 			sameSite: crossSite ? 'none' : 'lax',
@@ -67,13 +68,7 @@ export class AuthController {
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) reply: FastifyReply) {
 		const res = await this.auth.login(dto.email, dto.password);
 		const { token, expiresAt } = await this.sessions.create(res.userId);
-		reply.setCookie(COOKIE_NAME, token, {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'lax',
-			secure: isProd,
-			expires: expiresAt
-		});
+		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7 });
 
 		// rotate CSRF on auth change
 		const csrfToken = base64url(crypto.randomBytes(32));

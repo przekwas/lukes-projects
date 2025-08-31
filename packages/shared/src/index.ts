@@ -17,7 +17,11 @@ export function newSessionToken(bytes = 32): string {
 
 // Simple guard that mirrors the DB token length check
 export function isTokenValid(token: string): boolean {
-	return typeof token === 'string' && token.length >= 64;
+	if (typeof token !== 'string') return false;
+	// 32 bytes base64url often 43 or 44 chars
+	const base64urlLenOk = token.length >= 43;
+	const hex64 = /^[0-9a-f]{64}$/i.test(token);
+	return base64urlLenOk || hex64;
 }
 
 // Compute an expiry Date from now (seconds)
@@ -32,12 +36,13 @@ export const SEVEN_DAYS = 60 * 60 * 24 * 7;
 export function setSessionCookie(
 	reply: { setCookie: (name: string, value: string, opts: Record<string, any>) => void },
 	token: string,
-	opts?: { crossSite?: boolean; maxAgeSec?: number }
+	opts?: { name?: string; crossSite?: boolean; maxAgeSec?: number }
 ) {
+	const name = opts?.name ?? 'auth';
 	const crossSite = opts?.crossSite ?? false;
 	const maxAge = opts?.maxAgeSec ?? SEVEN_DAYS;
 
-	reply.setCookie('session', token, {
+	reply.setCookie(name, token, {
 		httpOnly: true,
 		sameSite: crossSite ? 'none' : 'lax',
 		secure: crossSite,

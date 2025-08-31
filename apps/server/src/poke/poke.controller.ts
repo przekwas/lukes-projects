@@ -9,7 +9,7 @@ export class PokeController {
 	@Get()
 	async list() {
 		const rows = await db.query.poke.findMany({
-			orderBy: (t, { desc }) => [desc(t.id)],
+			orderBy: (t, { desc }) => [desc(t.createdAt)],
 			limit: 10
 		});
 		return rows;
