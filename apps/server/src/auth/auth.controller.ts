@@ -49,7 +49,12 @@ export class AuthController {
 	async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) reply: FastifyReply) {
 		const res = await this.auth.register(dto.email, dto.password, dto.displayName, dto.appKey);
 		const { token, expiresAt } = await this.sessions.create(res.userId);
-		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7 });
+		setSessionCookie(reply, token, {
+			name: COOKIE_NAME,
+			crossSite,
+			maxAgeSec: 60 * 60 * 24 * 7,
+			secure: isProd
+		});
 
 		// rotate CSRF on auth change
 		const csrfToken = base64url(crypto.randomBytes(32));
@@ -65,10 +70,12 @@ export class AuthController {
 	}
 
 	@Post('login')
-	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) reply: FastifyReply) {
+	async login(@Body() dto: LoginDto, @Req() req: any, @Res({ passthrough: true }) reply: FastifyReply) {
 		const res = await this.auth.login(dto.email, dto.password);
-		const { token, expiresAt } = await this.sessions.create(res.userId);
-		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7 });
+		const ua = req.headers['user-agent'] ?? undefined;
+		const ip = req.ip;
+		const { token, expiresAt } = await this.sessions.create(res.userId, ip, String(ua));
+		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7, secure: isProd });
 
 		// rotate CSRF on auth change
 		const csrfToken = base64url(crypto.randomBytes(32));
@@ -87,8 +94,16 @@ export class AuthController {
 	async logout(@Res({ passthrough: true }) reply: FastifyReply) {
 		const token = reply.request.cookies?.[COOKIE_NAME];
 		if (token) await this.sessions.revoke(token);
-		reply.clearCookie(COOKIE_NAME, { path: '/' });
-		reply.clearCookie(CSRF_COOKIE, { path: '/' });
+		reply.clearCookie(COOKIE_NAME, {
+			path: '/',
+			sameSite: crossSite ? 'none' : 'lax',
+			secure: isProd
+		});
+		reply.clearCookie(CSRF_COOKIE, {
+			path: '/',
+			sameSite: crossSite ? 'none' : 'lax',
+			secure: isProd
+		});
 		return { ok: true };
 	}
 }

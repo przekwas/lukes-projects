@@ -12,5 +12,5 @@
 		{ "path": "../../packages/auth" },
 		{ "path": "../../packages/shared" }
 	],
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts", "src/types/fastify.d.ts"]
 }

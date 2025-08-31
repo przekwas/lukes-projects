@@ -9,7 +9,8 @@ export function RoleLevelGuard(required: number) {
 		async canActivate(ctx: ExecutionContext) {
 			const req = ctx.switchToHttp().getRequest();
 			const userId = req.user?.id;
-			const appKey = req.headers['x-app-key'];
+			const header = req.headers['x-app-key'];
+			const appKey = Array.isArray(header) ? header[0] : header;
 			if (!userId || !appKey) return false;
 
 			const row = await db
