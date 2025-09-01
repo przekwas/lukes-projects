@@ -1,4 +1,70 @@
-# Comments
+# Mega Server Monorepo
+
+This repository is the home of my personal **Mega Server** project, a TypeScript monorepo that is my command center for multiple backend applications. It is designed as a learning playground, portfolio piece, and practical backend for apps I build for myself and friends.
+
+---
+
+## Tech Stack
+
+-   **Language:** TypeScript
+-   **Runtime:** Node.js
+-   **Framework:** Fastify
+-   **Database:** PostgreSQL
+-   **ORM/Querying:** Drizzle ORM + raw SQL bootstrap
+-   **Auth:** Cookie-based session tokens with guards
+-   **Deployment:** Docker + Render (prod), Docker + WSL2 (local dev)
+
+---
+
+## Project Structure
+
+./
+├── apps
+│ └── server
+│ ├── src
+│ │ ├── auth/ # Authentication & session guards
+│ │ ├── health/ # Health checks
+│ │ ├── poke/ # Test/demo endpoints
+│ │ └── ...
+│ ├── sql/ # Bootstrap schema & hardening
+│ └── ...
+├── packages
+│ ├── config/ # Shared env/config utils
+│ └── db/ # Drizzle schema & query utils
+
+-   `apps/server` → the main API server (Fastify, modular feature folders).
+-   `packages/config` → environment variables and config loader.
+-   `packages/db` → Drizzle schema, migrations, and query wrappers.
+
+---
+
+## Features
+
+-   Modular **auth system** with:
+    -   Cookie-based session tokens.
+    -   `SessionGuard` for route protection.
+    -   `RoleLevelGuard` for per-app role/permission enforcement.
+-   **CSRF protection** with optional skip for future webhooks.
+-   **Rate limiting** (login/register) to slow down password spraying.
+-   **CORS + security headers** prepared for future frontends.
+-   **Database bootstrap** with plain SQL:
+    -   Drizzle generate and migrate
+    -   `sql/01_hardening.sql` > constraints and indexes
+    -   `sql/0[2-9]_seed_(dev|prod).sql` > seeding some data for testing
+-   Session service handles creation, validation, and expiration.
+-   Health check + poke endpoints for testing.
+-   App-specific roles system.
+
+---
+
+## Current Apps
+
+-   **Workout Tracker** > simple CRUD fitness tracker (in progress).
+-   **NFL Pick League** > friends-only league for weekly NFL game picks (in progress).
+
+---
+
+## Comments
 
 `// TEMP` and `// TODO` and `// DEBUG` are searchable for features till I get a kanban board up in GitHub.
 
@@ -32,23 +98,6 @@
 -   admin tools
 -   pagination/filters
 -   rate limits
--
-
-## Database bootstrap (no drizzle migrator)
-
-We manage the initial schema and hardening with plain SQL. No extensions, no enums. I had too many issue and stopped caring between local and prod DB's. App code generates UUIDs and normalizes emails.
-
-### 0) Create DB (example)
-
-createdb mydb
-
-### 1) Apply initial schema
-
-psql "$DATABASE_URL" -f sql/00_init.sql
-
-### 2) Apply hardening (constraints + indexes)
-
-psql "$DATABASE_URL" -f sql/01_hardening.sql
 
 ### App expectations
 
