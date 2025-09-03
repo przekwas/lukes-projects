@@ -1,22 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { db, sessions, users } from '@lukes-projects/db';
-import { newId, SEVEN_DAYS } from '@lukes-projects/shared';
+import { newId, SEVEN_DAYS, base64url, sha256Hex } from '@lukes-projects/shared';
 import { and, eq, isNull, gt } from 'drizzle-orm';
 import crypto from 'node:crypto';
-
-function base64url(buf: Buffer) {
-	return buf.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-
-function sha256(str: string) {
-	return crypto.createHash('sha256').update(str, 'utf8').digest('hex');
-}
 
 @Injectable()
 export class SessionsService {
 	async create(userId: string, ip?: string, userAgent?: string, maxAgeSec = SEVEN_DAYS) {
 		const token = base64url(crypto.randomBytes(32));
-		const tokenHash = sha256(token);
+		const tokenHash = sha256Hex(token);
 		const expiresAt = new Date(Date.now() + maxAgeSec * 1000);
 
 		await db.insert(sessions).values({ id: newId(), userId, tokenHash, ip, userAgent, expiresAt });
@@ -24,7 +16,7 @@ export class SessionsService {
 	}
 
 	async getUserByToken(token: string) {
-		const tokenHash = sha256(token);
+		const tokenHash = sha256Hex(token);
 		const [row] = await db
 			.select({ id: users.id, email: users.email, displayName: users.displayName })
 			.from(sessions)
@@ -37,7 +29,7 @@ export class SessionsService {
 	}
 
 	async revoke(token: string) {
-		const tokenHash = sha256(token);
+		const tokenHash = sha256Hex(token);
 		await db.update(sessions).set({ revokedAt: new Date() }).where(eq(sessions.tokenHash, tokenHash));
 	}
 }

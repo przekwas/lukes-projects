@@ -5,17 +5,12 @@ import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
 import { SessionGuard } from './session.guard.js';
 import { COOKIE } from '@lukes-projects/auth';
-import { setSessionCookie, CSRF_COOKIE } from '@lukes-projects/shared';
+import { setSessionCookie, CSRF_COOKIE, newOpaqueToken } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
 import { isProd } from '@lukes-projects/config';
-import crypto from 'node:crypto';
 
 const COOKIE_NAME = COOKIE.auth;
 const crossSite = (process.env.CROSS_SITE_COOKIES ?? 'false').toLowerCase() === 'true';
-
-function base64url(buf: Buffer) {
-	return buf.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
 
 @Controller('auth')
 export class AuthController {
@@ -32,7 +27,7 @@ export class AuthController {
 
 	@Get('csrf')
 	getCsrf(@Res({ passthrough: true }) reply: FastifyReply) {
-		const token = base64url(crypto.randomBytes(32));
+		const token = newOpaqueToken();
 		reply.setCookie(CSRF_COOKIE, token, {
 			path: '/',
 			httpOnly: false,
@@ -58,7 +53,7 @@ export class AuthController {
 		});
 
 		// rotate CSRF on auth change
-		const csrfToken = base64url(crypto.randomBytes(32));
+		const csrfToken = newOpaqueToken();
 		reply.setCookie(CSRF_COOKIE, csrfToken, {
 			path: '/',
 			httpOnly: false,
@@ -80,7 +75,7 @@ export class AuthController {
 		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7, secure: isProd });
 
 		// rotate CSRF on auth change
-		const csrfToken = base64url(crypto.randomBytes(32));
+		const csrfToken = newOpaqueToken();
 		reply.setCookie(CSRF_COOKIE, csrfToken, {
 			path: '/',
 			httpOnly: false,

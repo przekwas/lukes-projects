@@ -1,4 +1,4 @@
-import { randomUUID, randomBytes } from 'crypto';
+import { randomUUID, randomBytes, createHash } from 'crypto';
 
 // Stable way to create UUIDs app-side
 export function newId(): string {
@@ -27,6 +27,18 @@ export function isTokenValid(token: string): boolean {
 // Compute an expiry Date from now (seconds)
 export function expiryIn(seconds: number): Date {
 	return new Date(Date.now() + seconds * 1000);
+}
+
+export function base64url(buf: Buffer) {
+	return buf.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+export function sha256Hex(str: string) {
+	return createHash('sha256').update(str, 'utf8').digest('hex');
+}
+
+export function newOpaqueToken(bytes = 32): string {
+	return base64url(randomBytes(bytes)); // URL-safe, ~43 chars
 }
 
 // 7d helper commonly used for sessions
