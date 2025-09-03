@@ -1,19 +1,12 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { CSRF_COOKIE } from '@lukes-projects/shared';
+import { CSRF_COOKIE, parseOriginList, isAllowedOrigin } from '@lukes-projects/shared';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 const SAFE = new Set(['GET', 'HEAD', 'OPTIONS']);
-
-// cache/normalize the allowlist once
-const ALLOWLIST = new Set(
-	(process.env.CORS_ORIGINS ?? '')
-		.split(',')
-		.map(s => s.trim().toLowerCase())
-		.filter(Boolean)
-);
+const ALLOW = parseOriginList(process.env.CORS_ORIGINS);
 
 type Req = IncomingMessage & {
-	cookies?: Record<string, string>; // present if fastify-cookie decorated the request
+	cookies?: Record<string, string>;
 	headers: IncomingMessage['headers'] & {
 		'x-csrf-token'?: string | string[];
 		'csrf-token'?: string | string[];
@@ -22,58 +15,36 @@ type Req = IncomingMessage & {
 	url?: string;
 };
 
-type Res = ServerResponse & {
-	statusCode: number;
-};
-
-function isAllowedOrigin(url?: string): boolean {
-	// dev-permissive if no allowlist configured
-	if (!ALLOWLIST.size || !url) return true;
-	try {
-		const u = new URL(url);
-		const origin = `${u.protocol}//${u.host}`.toLowerCase();
-		return ALLOWLIST.has(origin);
-	} catch {
-		return false;
-	}
-}
-
-function send403(res: Res, message: string) {
-	res.statusCode = 403;
-	res.setHeader('content-type', 'application/json; charset=utf-8');
-	res.end(JSON.stringify({ ok: false, error: message }));
-}
-
-function readCsrfFromCookieHeader(h?: string): string | undefined {
-	if (!h) return undefined;
-	// match "csrf=<value>" anywhere in the cookie string
-	const m = h.match(new RegExp(`(?:^|;\\s*)${CSRF_COOKIE}=([^;]+)`, 'i'));
-	return m?.[1];
-}
-
-function headerValue(h?: string | string[]): string | undefined {
-	if (!h) return undefined;
+function hv(h?: string | string[]) {
 	return Array.isArray(h) ? h[0] : h;
+}
+
+function send(res: ServerResponse, status: number, msg: string) {
+	res.statusCode = status;
+	res.setHeader('content-type', 'application/json; charset=utf-8');
+	res.end(JSON.stringify({ ok: false, error: msg }));
 }
 
 @Injectable()
 export class CsrfMiddleware implements NestMiddleware {
-	use(req: Req, res: Res, next: (err?: any) => void) {
+	use(req: Req, res: ServerResponse, next: (err?: any) => void) {
 		const method = (req.method || 'GET').toUpperCase();
 		if (SAFE.has(method)) return next();
 
-		// origin/referer allowlist for samesite=none
-		const origin = headerValue(req.headers.origin) ?? headerValue(req.headers.referer);
-		if (!isAllowedOrigin(origin)) {
-			return send403(res, 'Origin not allowed');
+		const origin = hv(req.headers.origin) ?? hv(req.headers.referer);
+		if (!isAllowedOrigin(origin, ALLOW)) {
+			return send(res, 403, 'Origin not allowed');
 		}
 
-		// double submit token, cookie value must match header value
-		const cookieToken = req.cookies?.[CSRF_COOKIE] ?? readCsrfFromCookieHeader(headerValue(req.headers.cookie));
-		const headerToken = headerValue(req.headers['x-csrf-token']) ?? headerValue(req.headers['csrf-token']);
+		const cookieHeader = hv(req.headers.cookie);
+		const cookieToken =
+			req.cookies?.[CSRF_COOKIE] ??
+			cookieHeader?.match(new RegExp(`(?:^|;\\s*)${CSRF_COOKIE}=([^;]+)`, 'i'))?.[1];
+
+		const headerToken = hv(req.headers['x-csrf-token']) ?? hv(req.headers['csrf-token']);
 
 		if (!cookieToken || !headerToken || cookieToken !== headerToken) {
-			return send403(res, 'CSRF token missing or invalid');
+			return send(res, 403, 'CSRF token missing or invalid');
 		}
 
 		next();
