@@ -6,10 +6,11 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import cookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import cors from '@fastify/cors';
-import rateLimit, { type RateLimitOptions } from '@fastify/rate-limit';
+import rateLimit from '@fastify/rate-limit';
 import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
 import { closeDb } from '@lukes-projects/db';
+import { JsonErrorFilter } from './common/http-exception.filter.js';
 
 // TEMP
 // the `@ts-ignore` are because of version mistmatches between nest and fastify
@@ -88,6 +89,9 @@ async function bootstrap() {
 			transformOptions: { enableImplicitConversion: true }
 		})
 	);
+
+	// standardized error filter
+	app.useGlobalFilters(new JsonErrorFilter());
 
 	// api prefix and shutdown hook
 	app.setGlobalPrefix('api/v1');
