@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { db, sessions, users } from '@lukes-projects/db';
-import { newId, SEVEN_DAYS, base64url, sha256Hex } from '@lukes-projects/shared';
+import { newId, SEVEN_DAYS, newOpaqueToken, sha256Hex } from '@lukes-projects/shared';
 import { and, eq, isNull, gt } from 'drizzle-orm';
-import crypto from 'node:crypto';
 
 @Injectable()
 export class SessionsService {
 	async create(userId: string, ip?: string, userAgent?: string, maxAgeSec = SEVEN_DAYS) {
-		const token = base64url(crypto.randomBytes(32));
+		const token = newOpaqueToken();
 		const tokenHash = sha256Hex(token);
 		const expiresAt = new Date(Date.now() + maxAgeSec * 1000);
 
