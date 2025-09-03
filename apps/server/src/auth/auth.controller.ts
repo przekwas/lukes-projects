@@ -5,12 +5,9 @@ import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
 import { SessionGuard } from './session.guard.js';
 import { COOKIE } from '@lukes-projects/auth';
-import { setSessionCookie, CSRF_COOKIE, newOpaqueToken } from '@lukes-projects/shared';
+import { setSessionCookie, setCsrfCookie, clearCookie, newOpaqueToken } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
-import { isProd } from '@lukes-projects/config';
-
-const COOKIE_NAME = COOKIE.auth;
-const crossSite = (process.env.CROSS_SITE_COOKIES ?? 'false').toLowerCase() === 'true';
+import { crossSite, isProd } from '@lukes-projects/config';
 
 @Controller('auth')
 export class AuthController {
@@ -28,14 +25,7 @@ export class AuthController {
 	@Get('csrf')
 	getCsrf(@Res({ passthrough: true }) reply: FastifyReply) {
 		const token = newOpaqueToken();
-		reply.setCookie(CSRF_COOKIE, token, {
-			path: '/',
-			httpOnly: false,
-			sameSite: crossSite ? 'none' : 'lax',
-			secure: isProd,
-			maxAge: 60 * 60 * 24
-		});
-
+		setCsrfCookie(reply, token, { crossSite, secure: isProd, maxAgeSec: 60 * 60 * 24 });
 		return { csrfToken: token };
 	}
 
@@ -44,9 +34,11 @@ export class AuthController {
 		const res = await this.auth.register(dto.email, dto.password, dto.displayName, dto.appKey);
 		const ua = req.headers['user-agent'] ?? undefined;
 		const ip = req.ip;
-		const { token, expiresAt } = await this.sessions.create(res.userId, ip, String(ua));
+
+		const { token } = await this.sessions.create(res.userId, ip, String(ua));
+
 		setSessionCookie(reply, token, {
-			name: COOKIE_NAME,
+			name: COOKIE.auth,
 			crossSite,
 			maxAgeSec: 60 * 60 * 24 * 7,
 			secure: isProd
@@ -54,13 +46,7 @@ export class AuthController {
 
 		// rotate CSRF on auth change
 		const csrfToken = newOpaqueToken();
-		reply.setCookie(CSRF_COOKIE, csrfToken, {
-			path: '/',
-			httpOnly: false,
-			sameSite: crossSite ? 'none' : 'lax',
-			secure: isProd,
-			maxAge: 60 * 60 * 24
-		});
+		setCsrfCookie(reply, csrfToken, { crossSite, secure: isProd, maxAgeSec: 60 * 60 * 24 });
 
 		reply.header('Cache-Control', 'no-store');
 		return { ok: true, csrfToken };
@@ -71,18 +57,18 @@ export class AuthController {
 		const res = await this.auth.login(dto.email, dto.password);
 		const ua = req.headers['user-agent'] ?? undefined;
 		const ip = req.ip;
-		const { token, expiresAt } = await this.sessions.create(res.userId, ip, String(ua));
-		setSessionCookie(reply, token, { name: COOKIE_NAME, crossSite, maxAgeSec: 60 * 60 * 24 * 7, secure: isProd });
+
+		const { token } = await this.sessions.create(res.userId, ip, String(ua));
+		setSessionCookie(reply, token, {
+			name: COOKIE.auth,
+			crossSite,
+			maxAgeSec: 60 * 60 * 24 * 7,
+			secure: isProd
+		});
 
 		// rotate CSRF on auth change
 		const csrfToken = newOpaqueToken();
-		reply.setCookie(CSRF_COOKIE, csrfToken, {
-			path: '/',
-			httpOnly: false,
-			sameSite: crossSite ? 'none' : 'lax',
-			secure: isProd,
-			maxAge: 60 * 60 * 24
-		});
+		setCsrfCookie(reply, csrfToken, { crossSite, secure: isProd, maxAgeSec: 60 * 60 * 24 });
 
 		reply.header('Cache-Control', 'no-store');
 		return { ok: true, csrfToken };
@@ -90,18 +76,10 @@ export class AuthController {
 
 	@Post('logout')
 	async logout(@Res({ passthrough: true }) reply: FastifyReply) {
-		const token = reply.request.cookies?.[COOKIE_NAME];
+		const token = reply.request.cookies?.[COOKIE.auth];
 		if (token) await this.sessions.revoke(token);
-		reply.clearCookie(COOKIE_NAME, {
-			path: '/',
-			sameSite: crossSite ? 'none' : 'lax',
-			secure: isProd
-		});
-		reply.clearCookie(CSRF_COOKIE, {
-			path: '/',
-			sameSite: crossSite ? 'none' : 'lax',
-			secure: isProd
-		});
+		clearCookie(reply, COOKIE.auth, crossSite, isProd);
+		clearCookie(reply, 'csrf', crossSite, isProd);
 		return { ok: true };
 	}
 }
