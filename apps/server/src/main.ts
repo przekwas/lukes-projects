@@ -10,7 +10,10 @@ import rateLimit from '@fastify/rate-limit';
 import { ValidationPipe } from '@nestjs/common';
 import { env, isProd } from '@lukes-projects/config';
 import { closeDb } from '@lukes-projects/db';
+import { parseOriginList } from '@lukes-projects/shared';
 import { JsonErrorFilter } from './common/http-exception.filter.js';
+
+const allowOrigins = Array.from(parseOriginList(env.CORS_ORIGINS));
 
 // TEMP
 // the `@ts-ignore` are because of version mistmatches between nest and fastify
@@ -32,12 +35,7 @@ async function bootstrap() {
 	//@ts-ignore
 	await app.register(cors, {
 		// TEMP update later when deployed
-		origin: isProd
-			? (process.env.CORS_ORIGINS ?? '')
-					.split(',')
-					.map(s => s.trim())
-					.filter(Boolean)
-			: true,
+		origin: isProd ? allowOrigins : true,
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'X-CSRF-Token', 'X-App-Key']
 	});
@@ -64,8 +62,8 @@ async function bootstrap() {
 	// rate limit
 	//@ts-ignore
 	await app.register(rateLimit, {
-		max: 5,
-		timeWindow: '1 minute',
+		max: env.RATE_LIMIT_MAX,
+		timeWindow: env.RATE_LIMIT_WINDOW,
 		hook: 'onRequest',
 		keyGenerator: req => req.ip,
 		addHeaders: {
@@ -74,7 +72,7 @@ async function bootstrap() {
 			'x-ratelimit-reset': true,
 			'retry-after': true
 		},
-		allowList: (req /*, key*/) => {
+		allowList: req => {
 			const url = req.url || '';
 			return !/^\/api\/v1\/auth\/(login|register)$/.test(url);
 		}
