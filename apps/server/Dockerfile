@@ -24,6 +24,7 @@ COPY apps/server/tsconfig.build.json apps/server/
 COPY packages/config/tsconfig.json packages/config/
 COPY packages/db/tsconfig.json packages/db/
 COPY packages/auth/tsconfig.json packages/auth/
+COPY packages/shared/tsconfig.json packages/shared/
 COPY apps/server/src apps/server/src
 COPY packages/config/src packages/config/src
 COPY packages/db/src packages/db/src

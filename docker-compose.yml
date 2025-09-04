@@ -13,7 +13,9 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   server:
-    build: ./apps/server
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
     environment:
       DATABASE_URL: postgres://myuser:mypassword@postgres:5433/mydb 
       PORT: 3000
