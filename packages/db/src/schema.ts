@@ -20,14 +20,18 @@ export const poke = pgTable('poke', {
 });
 
 // ---------- core auth ----------
-export const users = pgTable('users', {
-	id: uuid('id').primaryKey(),
-	email: varchar('email', { length: 255 }).notNull(),
-	passwordHash: text('password_hash').notNull(),
-	displayName: varchar('display_name', { length: 120 }).notNull(),
-	isActive: boolean('is_active').notNull().default(true),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
-});
+export const users = pgTable(
+	'users',
+	{
+		id: uuid('id').primaryKey(),
+		email: varchar('email', { length: 255 }).notNull(),
+		passwordHash: text('password_hash').notNull(),
+		displayName: varchar('display_name', { length: 120 }).notNull(),
+		isActive: boolean('is_active').notNull().default(true),
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+	},
+	t => [uniqueIndex('users_email_unique_idx').on(t.email)]
+);
 
 export const apps = pgTable('apps', {
 	id: uuid('id').primaryKey(),

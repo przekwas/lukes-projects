@@ -1,7 +1,7 @@
-import type { AuthUser } from '@lukes-projects/auth';
+import type { SessionUser } from '../types/session-user';
 
 declare module 'fastify' {
 	interface FastifyRequest {
-		user?: AuthUser;
+		user?: SessionUser;
 	}
 }

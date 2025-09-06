@@ -18,7 +18,8 @@ export class AuthController {
 
 	@UseGuards(SessionGuard)
 	@Get('me')
-	me(@Req() req: any) {
+	me(@Req() req: any, @Res({ passthrough: true }) reply: FastifyReply) {
+		reply.header('Cache-Control', 'no-store');
 		return { ok: true, user: req.user };
 	}
 

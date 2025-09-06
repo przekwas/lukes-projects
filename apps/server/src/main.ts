@@ -74,7 +74,9 @@ async function bootstrap() {
 		},
 		allowList: req => {
 			const url = req.url || '';
-			return !/^\/api\/v1\/auth\/(login|register)$/.test(url);
+			// false => apply rate limit
+			const protectedAuth = /^\/api\/v1\/auth\/(login|register|forgot|reset|change-password)$/;
+			return !protectedAuth.test(url);
 		}
 	});
 
