@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { db, sessions, users, roles, apps, memberships } from '@lukes-projects/db';
-import { newId, SEVEN_DAYS, newOpaqueToken, sha256Hex } from '@lukes-projects/shared';
+import { newId, THIRTY_DAYS, newOpaqueToken, sha256Hex } from '@lukes-projects/shared';
 import { and, eq, isNull, gt } from 'drizzle-orm';
 
 @Injectable()
 export class SessionsService {
-	async create(userId: string, ip?: string, userAgent?: string, maxAgeSec = SEVEN_DAYS) {
+	async create(userId: string, ip?: string, userAgent?: string, maxAgeSec = THIRTY_DAYS) {
 		const token = newOpaqueToken();
 		const tokenHash = sha256Hex(token);
 		const expiresAt = new Date(Date.now() + maxAgeSec * 1000);

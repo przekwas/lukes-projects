@@ -41,6 +41,6 @@ export function newOpaqueToken(bytes = 32): string {
 	return base64url(randomBytes(bytes)); // URL-safe, ~43 chars
 }
 
-// 7d helper commonly used for sessions
 export const SEVEN_DAYS = 60 * 60 * 24 * 7;
+export const THIRTY_DAYS = 60 * 60 * 24 * 30;
 export const CSRF_COOKIE = 'csrf';
