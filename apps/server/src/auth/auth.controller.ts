@@ -1,4 +1,4 @@
-import { UseGuards, Body, Controller, Inject, Post, Res, Req, Get } from '@nestjs/common';
+import { UseGuards, Body, Controller, Inject, Post, Res, Req, Get, Param } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './register.dto.js';
 import { LoginDto } from './login.dto.js';
@@ -21,6 +21,20 @@ export class AuthController {
 	me(@Req() req: any, @Res({ passthrough: true }) reply: FastifyReply) {
 		reply.header('Cache-Control', 'no-store');
 		return { ok: true, user: req.user };
+	}
+
+	@UseGuards(SessionGuard)
+	@Get('sessions')
+	async sessionsList(@Req() req: any) {
+		// const rows = await this.sessions.listForUser(req.user.id);
+		// return { ok: true, sessions: rows };
+	}
+
+	@UseGuards(SessionGuard)
+	@Post('sessions/revoke/:id')
+	async sessionsRevoke(@Req() req: any, @Param('id') id: string) {
+		// await this.sessions.revokeById(req.user.id, id);
+		// return { ok: true };
 	}
 
 	@Get('csrf')
