@@ -8,6 +8,13 @@
       "when": 1756608626919,
       "tag": "0000_demonic_star_brand",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757210819397,
+      "tag": "0001_wild_nuke",
+      "breakpoints": true
     }
   ]
 }
