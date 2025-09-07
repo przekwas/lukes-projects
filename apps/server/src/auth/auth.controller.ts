@@ -5,7 +5,7 @@ import { LoginDto } from './login.dto.js';
 import { SessionsService } from './session.service.js';
 import { SessionGuard } from './session.guard.js';
 import { COOKIE } from '@lukes-projects/auth';
-import { setSessionCookie, setCsrfCookie, clearCookie, newOpaqueToken } from '@lukes-projects/shared';
+import { setSessionCookie, setCsrfCookie, clearCookie, newOpaqueToken, THIRTY_DAYS } from '@lukes-projects/shared';
 import type { FastifyReply } from 'fastify';
 import { crossSite, isProd } from '@lukes-projects/config';
 
@@ -36,14 +36,8 @@ export class AuthController {
 		const ua = req.headers['user-agent'] ?? undefined;
 		const ip = req.ip;
 
-		const { token } = await this.sessions.create(res.userId, ip, String(ua));
-
-		setSessionCookie(reply, token, {
-			name: COOKIE.auth,
-			crossSite,
-			maxAgeSec: 60 * 60 * 24 * 7,
-			secure: isProd
-		});
+		const { token } = await this.sessions.create(res.userId, ip, String(ua), THIRTY_DAYS);
+		setSessionCookie(reply, token, { name: COOKIE.auth, crossSite, secure: isProd, maxAgeSec: THIRTY_DAYS });
 
 		// rotate CSRF on auth change
 		const csrfToken = newOpaqueToken();
@@ -59,13 +53,8 @@ export class AuthController {
 		const ua = req.headers['user-agent'] ?? undefined;
 		const ip = req.ip;
 
-		const { token } = await this.sessions.create(res.userId, ip, String(ua));
-		setSessionCookie(reply, token, {
-			name: COOKIE.auth,
-			crossSite,
-			maxAgeSec: 60 * 60 * 24 * 7,
-			secure: isProd
-		});
+		const { token } = await this.sessions.create(res.userId, ip, String(ua), THIRTY_DAYS);
+		setSessionCookie(reply, token, { name: COOKIE.auth, crossSite, secure: isProd, maxAgeSec: THIRTY_DAYS });
 
 		// rotate CSRF on auth change
 		const csrfToken = newOpaqueToken();
