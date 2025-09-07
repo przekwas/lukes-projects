@@ -39,8 +39,10 @@ export class PasswordResetService {
 		});
 
 		// dev sends token instead of email
-		const dev = process.env.NODE_ENV !== 'production' ? { devToken: token } : {};
-		return { ok: true, ...dev } as const;
+		return {
+			ok: true,
+			devToken: process.env.NODE_ENV !== 'production' ? token : undefined
+		};
 	}
 
 	/**
