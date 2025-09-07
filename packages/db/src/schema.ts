@@ -33,6 +33,24 @@ export const users = pgTable(
 	t => [uniqueIndex('users_email_unique_idx').on(t.email)]
 );
 
+// ---------- password reset ----------
+export const passwordResets = pgTable(
+	'password_resets',
+	{
+		id: uuid('id').primaryKey(),
+		userId: uuid('user_id')
+			.notNull()
+			.references(() => users.id, { onDelete: 'cascade' }),
+		tokenHash: varchar('token_hash', { length: 64 }).notNull().unique(),
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+		expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+		usedAt: timestamp('used_at', { withTimezone: true }),
+		ip: varchar('ip', { length: 64 }),
+		userAgent: varchar('user_agent', { length: 256 })
+	},
+	t => [index('pwresets_user_idx').on(t.userId)]
+);
+
 export const apps = pgTable('apps', {
 	id: uuid('id').primaryKey(),
 	key: varchar('key', { length: 64 }).notNull().unique(),
