@@ -15,6 +15,13 @@
       "when": 1757210819397,
       "tag": "0001_wild_nuke",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757213342401,
+      "tag": "0002_mushy_thing",
+      "breakpoints": true
     }
   ]
 }
